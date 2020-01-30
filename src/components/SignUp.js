@@ -54,9 +54,9 @@ class SignUp extends React.Component {
           </div>
           {/* {error && error.response && <div> {error.response.data} </div>} */}
         </form>
-        <button id="google" href="/auth/google">
+        {/* <button id="google" href="/auth/google">
           Sign Up with Google
-        </button>
+        </button> */}
         <Link to="/login">Already a member? Login.</Link>
       </div>
     );

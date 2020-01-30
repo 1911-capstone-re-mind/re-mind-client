@@ -38,9 +38,9 @@ class Login extends React.Component {
           </div>
           {/* {error && error.response && <div> {error.response.data} </div>} */}
         </form>
-        <button id="google" href="/auth/google">
+        {/* <button id="google" onClick={() => window.open("https://google.com")}>
           Login with Google
-        </button>
+        </button> */}
         <div>
           <Link to="/signup">Don't have an account? Sign up.</Link>
         </div>
