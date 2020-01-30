@@ -8,7 +8,6 @@ function Test() {
       <div>
         test
       </div>
-      <Link to="/dashboard">GO</Link>
     </div>
   );
 }
