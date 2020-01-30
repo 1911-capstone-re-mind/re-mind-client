@@ -17,12 +17,7 @@ export const auth = (data, method) => async dispatch => {
   let res;
   try {
     //TO DO : Add Heroku hosted server address
-    res = await axios.post(
-      process.env.NODE_ENV === "dev"
-        ? `http://localhost:8080`
-        : `http://` + `/auth/${method}`,
-      data
-    );
+    res = await axios.post(`http://localhost:8080/auth/${method}`, data);
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }

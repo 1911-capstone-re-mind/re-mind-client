@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { auth } from "../store/reducers/userReducer";
 
 class SignUp extends React.Component {
-  constructor() {
-    super();
-    this.handleSubmit.bind(this);
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(evt) {
@@ -16,6 +16,8 @@ class SignUp extends React.Component {
     const password = evt.target.password.value;
     const firstName = evt.target.firstName.value;
     const lastName = evt.target.lastName.value;
+    console.log(this.props);
+
     this.props.auth({ email, password, firstName, lastName }, formName);
   }
 

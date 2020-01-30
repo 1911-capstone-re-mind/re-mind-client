@@ -6,7 +6,7 @@ import { auth } from "../store/reducers/userReducer";
 class Login extends React.Component {
   constructor() {
     super();
-    this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(evt) {
