@@ -36,6 +36,7 @@ class DailyDashboard extends React.Component {
             { x: " 80% completed", y: 80 },
             { x: "20% ignored", y: 20 },
           ]}
+          width={300}
         />
 
       </div>

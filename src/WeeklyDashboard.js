@@ -36,6 +36,7 @@ class WeeklyDashboard extends React.Component {
             { x: "70% completed", y: 70 },
             { x: "30% ignored", y: 30 },
           ]}
+          width={200}
         />
       </div>
     )

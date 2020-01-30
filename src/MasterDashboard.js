@@ -28,11 +28,13 @@ class MasterDashboard extends React.Component {
     }
     return (
       <div className="dashboard">
-        <div>
+        <div className="dashboard-navigation">
           <button onClick={this.handleSwitch} value="daily">Daily View</button>
           <button onClick={this.handleSwitch} value="weekly">Weekly View</button>
         </div>
-        {viewSelection}
+        <div className="dashboard-view" style={{margin: '100px'}}>
+          {viewSelection}
+        </div>
       </div>
     )
   }
