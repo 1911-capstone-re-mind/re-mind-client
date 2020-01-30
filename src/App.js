@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { withRouter, Route, HashRouter, Switch } from "react-router-dom";
+import "./App.css";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import Hello from "./components/Hello";
 
 function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>I did the thing!</p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* <Navbar /> */}
+
+      <HashRouter>
+        <Route exact path="/" component={Hello} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={SignUp} />
+      </HashRouter>
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);
