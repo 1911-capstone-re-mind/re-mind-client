@@ -3,11 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import {withRouter, Route, Switch} from 'react-router-dom'
 import MasterDashboard from './MasterDashboard'
-import Test from './Test'
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Hello from "./components/Hello";
-import Test from './Test';
 import Nav from './Nav';
 
 function App() {

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { VictoryChart, VictoryBar, VictoryPie } from 'victory'
+import { sendSettingsToMain, sendDelayToMain } from './dataToMainProcess'
 
 class DailyDashboard extends React.Component {
   constructor(props) {
@@ -10,12 +11,22 @@ class DailyDashboard extends React.Component {
     };
   }
 
+  handleSendSettings() {
+    sendSettingsToMain('settings')
+  }
+
+  handleSendDelay() {
+    sendDelayToMain('delay')
+  }
+
   render() {
     return (
       <div className="daily-dashboard">
         <div className="daily-dashboard-header">
           Your daily report
         </div>
+        <button onClick={this.handleSendSettings}>go</button>
+        <button onClick={this.handleSendDelay}>go</button>
         <VictoryChart
           domainPadding={20}
         >

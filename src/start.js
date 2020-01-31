@@ -1,6 +1,7 @@
 const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const ipcMain  = electron.ipcMain
 
 const path = require("path");
 const url = require("url");
@@ -8,7 +9,13 @@ const url = require("url");
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
 
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
@@ -37,3 +44,17 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+ipcMain.on('change-settings', (event, arg) => {
+  console.log(arg)
+  event.reply('settings-change-success', arg) // or event.reply('settings-change-failure)
+  //update info on local storage
+  //put request to database
+})
+
+ipcMain.on('set-delay', (event, arg) => {
+  console.log(arg)
+  event.reply('delay-success', arg) // or event.reply('delay-failure)
+  //update info on local storage
+  //put request to database
+})
