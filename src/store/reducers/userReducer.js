@@ -24,7 +24,11 @@ export const auth = (data, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data));
-    history.push("/dashboard");
+    if (method === "signup") {
+      history.push("/new-user");
+    } else {
+      history.push("/dashboard");
+    }
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }
