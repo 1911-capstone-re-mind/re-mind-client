@@ -32,7 +32,7 @@ class WeeklyDashboard extends React.Component {
             { x: "30% ignored", y: 30 }
           ]}
           width={200}
-        />
+        />        
       </div>
     );
   }
