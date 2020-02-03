@@ -6,12 +6,12 @@ module.exports = {
     // 30 * 60000
   },
   movement: {
-    duration: 5000,//5 * 60000,
-    frequency: 5000//60 * 60000
+    duration: 5 * 60000,
+    frequency: 60 * 60000
   },
   vision: {
-    duration: 20000,
-    frequency: 20 * 60000
+    duration: 5000,//20000,
+    frequency: 5000//20 * 60000
   },
   hydration: {
     duration: 5000,
@@ -19,8 +19,7 @@ module.exports = {
   },
   mindfulness: {
     duration: 15000,//10 * 60000,
-    frequency: 5000
-    //240 * 60000
+    frequency: 240 * 60000
   }
 }
 
