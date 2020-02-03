@@ -18,6 +18,7 @@ console.log("TCL: currentUserSettings", currentUserSettings._defaultValues)
 let mainWindow;
 let mindWindow;
 let moveWindow;
+let visionWindow;
 // let postureFreq = 15000//20 * 60000;
 // let movementFreq = 60000//60 * 60000;
 // let lookFreq = 20000//20 * 60000;
@@ -29,7 +30,7 @@ let moveWindow;
 
   let pstTime = new Scheduler(now+currentUserSettings._defaultValues.posture.frequency, currentUserSettings._defaultValues.posture.frequency, currentUserSettings._defaultValues.posture.duration, true);
   let moveTime = new Scheduler(now+currentUserSettings._defaultValues.movement.frequency, currentUserSettings._defaultValues.movement.frequency, currentUserSettings._defaultValues.movement.duration, true );
-  let lookTime = new Scheduler(now+currentUserSettings._defaultValues.vision.frequency, currentUserSettings._defaultValues.vision.frequency, currentUserSettings._defaultValues.vision.duration, true);
+  let visionTime = new Scheduler(now+currentUserSettings._defaultValues.vision.frequency, currentUserSettings._defaultValues.vision.frequency, currentUserSettings._defaultValues.vision.duration, true);
   let hydroTime = new Scheduler(now+currentUserSettings._defaultValues.hydration.frequency, currentUserSettings._defaultValues.hydration.frequency, currentUserSettings._defaultValues.hydration.duration, true);
   let mindTime = new Scheduler(now+currentUserSettings._defaultValues.mindfulness.frequency, currentUserSettings._defaultValues.mindfulness.frequency, currentUserSettings._defaultValues.mindfulness.duration, true);
 
@@ -95,11 +96,11 @@ function startTimer() {
       moveTime.disable()
     }
 
-    if (now >= lookTime.trigger && lookTime.active) {
+    if (now >= visionTime.trigger && visionTime.active) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-      sendNotification('Take care of your eyes!', 'Look at an object at least 20 ft away for 20 seconds.')
+      openVisionModal('vision')
       console.log(`Notification for 20/20/20 sent at ${time}`)
-      lookTime.disable()
+      visionTime.disable()
     }
 
     if (now >= mindTime.trigger && mindTime.active) {
@@ -150,6 +151,23 @@ function openMoveModal(activity) {
   console.log('url', theUrl);
 
   moveWindow.loadFile(theUrl);
+}
+
+function openVisionModal(activity) {
+  visionWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {nodeIntegration:true}
+  })
+  visionWindow.webContents.openDevTools()
+  visionWindow.on('closed', () => {
+    visionWindow = null
+  })
+
+  var theUrl = path.join(__dirname, `/modals/${activity}.html`)
+  console.log('url', theUrl);
+
+  visionWindow.loadFile(theUrl);
 }
 
 app.on("ready", createWindow);
@@ -206,6 +224,28 @@ ipcMain.on('movement-delayed', () => {
   moveWindow.close()
   moveTime.setDelay(60000 * 5)
 })
+//end movement IPC
+
+//vision IPC
+ipcMain.on('vision-accepted', (event) => {
+  event.reply('vision-start-counter', visionTime.duration )
+})
+
+ipcMain.on('vision-finished', () => {
+  visionWindow.close()
+  visionTime.restart()
+})
+
+ipcMain.on('vision-rejected', () => {
+  visionWindow.close()
+  visionTime.restart()
+})
+
+ipcMain.on('vision-delayed', () => {
+  visionWindow.close()
+  visionTime.setDelay(60000 * 5)
+})
+//end vision IPC
 
 //change settings IPC
 ipcMain.on('change-settings', (event, arg) => {
