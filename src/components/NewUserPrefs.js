@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateUserActivities } from "../store/reducers/userActivitiesReducer";
+import { updateUserPreferences } from "../store/reducers/userPreferencesReducer";
 
 class NewUserPrefs extends React.Component {
   constructor() {
@@ -30,7 +30,7 @@ class NewUserPrefs extends React.Component {
         updateObj[evt.target.name] =
           evt.target.name === "duration"
             ? Number(evt.target.value)
-            : evt.target.name === "time_preference"
+            : evt.target.name === "frequency"
             ? Number(evt.target.value)
             : evt.target.value;
     });
@@ -45,7 +45,7 @@ class NewUserPrefs extends React.Component {
       .filter(activity => delete activity.include)
       .filter(activity => (activity["userId"] = this.props.user.id));
 
-    this.props.updateUserActivities(activities, this.props.user.id);
+    this.props.updateUserPreferences(activities, this.props.user.id);
   };
   render() {
     return (
@@ -55,7 +55,7 @@ class NewUserPrefs extends React.Component {
         <form name="preferences" onSubmit={this.handleSubmit}>
           {this.props.activities.map(activity => {
             return (
-              <div>
+              <div key={activity.id}>
                 <input
                   onChange={this.handleCheck}
                   name="include"
@@ -63,7 +63,7 @@ class NewUserPrefs extends React.Component {
                   id={activity.id}
                   value={activity.name}
                 />
-                <label for={activity.id}>{activity.name}</label>
+                <label htmlFor={activity.id}>{activity.name}</label>
                 {activity.duration > 0 && (
                   <>
                     <h5>duration:</h5>
@@ -81,7 +81,7 @@ class NewUserPrefs extends React.Component {
                   onChange={this.handleChange}
                   type="number"
                   id={activity.id}
-                  name="time_preference"
+                  name="frequency"
                   placeholder={activity.frequency}
                 />
               </div>
@@ -98,14 +98,15 @@ class NewUserPrefs extends React.Component {
 const mapState = state => {
   return {
     activities: state.activities,
-    user: state.user
+    user: state.user,
+    userPreferences: state.userPreferences
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    updateUserActivities: (activities, userId) =>
-      dispatch(updateUserActivities(activities, userId))
+    updateUserPreferences: (activities, userId) =>
+      dispatch(updateUserPreferences(activities, userId))
   };
 };
 

@@ -22,7 +22,7 @@ function App(props) {
         <Route exact path="/new-user" component={NewUser} />
         <Route exact path="/new-user-prefs" component={NewUserPrefs} />
         {props.isLoggedIn && (
-          <Route path="/dashboard" component={MasterDashboard} />
+          <Route exact path="/dashboard" component={MasterDashboard} />
         )}
         <Route component={Hello} />
       </Switch>

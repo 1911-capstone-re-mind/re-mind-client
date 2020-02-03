@@ -4,12 +4,12 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import userReducer from "./reducers/userReducer";
 import activitiesReducer from "./reducers/activities";
-import userActivitiesReducer from "./reducers/userActivitiesReducer";
+import userPreferencesReducer from "./reducers/userPreferencesReducer";
 
 const reducer = combineReducers({
   user: userReducer,
   activities: activitiesReducer,
-  userActivities: userActivitiesReducer
+  userPreferences: userPreferencesReducer
 });
 
 const middleware = applyMiddleware(

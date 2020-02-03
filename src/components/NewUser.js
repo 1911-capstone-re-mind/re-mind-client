@@ -8,7 +8,7 @@ const NewUser = props => {
       <h1>Welcome to re:mind, your personal workplace wellness tracker.</h1>
       <p>This app will help you focus on:</p>
       {props.activities.map(activity => (
-        <div>
+        <div key={activity.id}>
           <h5>{activity.name}</h5>
           <p>{activity.description}</p>
         </div>
