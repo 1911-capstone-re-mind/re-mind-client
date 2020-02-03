@@ -1,28 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {withRouter, Route, Switch} from 'react-router-dom'
-import MasterDashboard from './MasterDashboard'
-import Test from './Test'
+import React from "react";
+import logo from "./logo.svg";
+import { connect } from "react-redux";
+import { withRouter, Route, Switch } from "react-router-dom";
+import MasterDashboard from "./components/MasterDashboard";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Hello from "./components/Hello";
-import Test from './Test';
-import Nav from './Nav';
+import NewUser from "./components/NewUser";
+import NewUserPrefs from "./components/NewUserPrefs";
+import Test from "./Test";
+import Nav from "./Nav";
 
-function App() {
+function App(props) {
   return (
-    <div className='App'>
-      <Nav />
+    <div>
+      {props.isLoggedIn && <Nav />}
       <Switch>
         <Route exact path="/" component={Hello} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
-        <Route path="/dashboard" component={MasterDashboard}/>
-        <Route component={Hello}/>
+        <Route exact path="/new-user" component={NewUser} />
+        <Route exact path="/new-user-prefs" component={NewUserPrefs} />
+        {props.isLoggedIn && (
+          <Route exact path="/dashboard" component={MasterDashboard} />
+        )}
+        <Route component={Hello} />
       </Switch>
     </div>
   );
 }
 
-export default withRouter(App);
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id,
+    user: state.user
+  };
+};
+
+export default withRouter(connect(mapState)(App));

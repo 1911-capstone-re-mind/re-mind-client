@@ -16,8 +16,6 @@ class SignUp extends React.Component {
     const password = evt.target.password.value;
     const firstName = evt.target.firstName.value;
     const lastName = evt.target.lastName.value;
-    console.log(this.props);
-
     this.props.auth({ email, password, firstName, lastName }, formName);
   }
 

@@ -1,6 +1,5 @@
-import React from 'react';
-import './App.css';
-import { VictoryChart, VictoryBar, VictoryPie } from 'victory'
+import React from "react";
+import { VictoryChart, VictoryBar, VictoryPie } from "victory";
 
 class WeeklyDashboard extends React.Component {
   constructor(props) {
@@ -13,14 +12,10 @@ class WeeklyDashboard extends React.Component {
   render() {
     return (
       <div className="weekly-dashboard">
-        <div className="weekly-dashboard-header">
-          Your weekly report
-        </div>
-        <VictoryChart
-          domainPadding={20}
-        >
+        <div className="weekly-dashboard-header">Your weekly report</div>
+        <VictoryChart domainPadding={20}>
           <VictoryBar
-            style={{ data: {fill: "blue"} }}
+            style={{ data: { fill: "blue" } }}
             data={[
               { x: 1, y: 6 },
               { x: 2, y: 3 },
@@ -34,12 +29,12 @@ class WeeklyDashboard extends React.Component {
           colorScale={["orange", "cyan"]}
           data={[
             { x: "70% completed", y: 70 },
-            { x: "30% ignored", y: 30 },
+            { x: "30% ignored", y: 30 }
           ]}
           width={200}
         />
       </div>
-    )
+    );
   }
 }
 
