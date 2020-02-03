@@ -1,6 +1,7 @@
 import React from "react";
 import DailyDashboard from "./DailyDashboard";
 import WeeklyDashboard from "./WeeklyDashboard";
+import DashPreferences from "./DashPreferences";
 
 class MasterDashboard extends React.Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class MasterDashboard extends React.Component {
         <div className="dashboard-view" style={{ margin: "100px" }}>
           {viewSelection}
         </div>
+        <DashPreferences />
       </div>
     );
   }

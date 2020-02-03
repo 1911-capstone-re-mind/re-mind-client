@@ -17,6 +17,7 @@ console.log("TCL: currentUserSettings", currentUserSettings._defaultValues)
 
 let mainWindow;
 let mindWindow;
+let moveWindow;
 // let postureFreq = 15000//20 * 60000;
 // let movementFreq = 60000//60 * 60000;
 // let lookFreq = 20000//20 * 60000;
@@ -89,16 +90,16 @@ function startTimer() {
     // modal screen
     if (now >= moveTime.trigger && moveTime.active) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-      sendNotification('Time to move!!!', 'Step away from your desk! No, seriously, just go!')
+      openMoveModal('movement')
       console.log(`Notification for movement sent at ${time}`)
-      moveTime.setNextNotif()
+      moveTime.disable()
     }
 
     if (now >= lookTime.trigger && lookTime.active) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
       sendNotification('Take care of your eyes!', 'Look at an object at least 20 ft away for 20 seconds.')
       console.log(`Notification for 20/20/20 sent at ${time}`)
-      lookTime.setNextNotif()
+      lookTime.disable()
     }
 
     if (now >= mindTime.trigger && mindTime.active) {
@@ -132,6 +133,23 @@ function openMindModal(activity) {
   console.log('url', theUrl);
 
   mindWindow.loadFile(theUrl);
+}
+
+function openMoveModal(activity) {
+  moveWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {nodeIntegration:true}
+  })
+  moveWindow.webContents.openDevTools()
+  moveWindow.on('closed', () => {
+    moveWindow = null
+  })
+
+  var theUrl = path.join(__dirname, `/modals/${activity}.html`)
+  console.log('url', theUrl);
+
+  moveWindow.loadFile(theUrl);
 }
 
 app.on("ready", createWindow);
@@ -169,6 +187,27 @@ ipcMain.on('mindfulness-delayed', () => {
   mindTime.setDelay(15000)
 })
 // END MINDFULNESS EVENTS
+//movement IPC
+ipcMain.on('movement-accepted', (event) => {
+  event.reply('movement-start-counter', moveTime.duration )
+})
+
+ipcMain.on('movement-finished', () => {
+  moveWindow.close()
+  moveTime.restart()
+})
+
+ipcMain.on('movement-rejected', () => {
+  moveWindow.close()
+  moveTime.restart()
+})
+
+ipcMain.on('movement-delayed', () => {
+  moveWindow.close()
+  moveTime.setDelay(60000 * 5)
+})
+
+//change settings IPC
 ipcMain.on('change-settings', (event, arg) => {
   console.log(arg)
   event.reply('settings-change-success', arg) // or event.reply('settings-change-failure)

@@ -6,8 +6,8 @@ module.exports = {
     // 30 * 60000
   },
   movement: {
-    duration: 5 * 60000,
-    frequency: 60 * 60000
+    duration: 5000,//5 * 60000,
+    frequency: 5000//60 * 60000
   },
   vision: {
     duration: 20000,
