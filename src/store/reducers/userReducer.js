@@ -24,7 +24,11 @@ export const auth = (data, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data));
-    history.push("/");
+    if (method === "signup") {
+      history.push("/new-user");
+    } else {
+      history.push("/dashboard");
+    }
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }
@@ -32,11 +36,8 @@ export const auth = (data, method) => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
-    await axios.post(
-      process.env.NODE_ENV === "dev"
-        ? `http://localhost:8080`
-        : `http://` + `/auth/logout`
-    );
+    //TO DO : Add Heroku hosted server address
+    await axios.post(`http://localhost:8080/auth/logout`);
     dispatch(removeUser());
     history.push("/");
   } catch (err) {

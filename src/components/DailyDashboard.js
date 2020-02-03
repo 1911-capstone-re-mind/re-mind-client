@@ -31,7 +31,7 @@ class DailyDashboard extends React.Component {
           domainPadding={20}
         >
           <VictoryBar
-            style={{ data: {fill: "blue"} }}
+            style={{ data: { fill: "blue" } }}
             data={[
               { x: 1, y: 2 },
               { x: 2, y: 3 },
@@ -45,13 +45,12 @@ class DailyDashboard extends React.Component {
           colorScale={["orange", "cyan"]}
           data={[
             { x: " 80% completed", y: 80 },
-            { x: "20% ignored", y: 20 },
+            { x: "20% ignored", y: 20 }
           ]}
           width={300}
         />
-
       </div>
-    )
+    );
   }
 }
 
