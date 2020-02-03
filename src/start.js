@@ -2,11 +2,24 @@ const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const ipcMain  = electron.ipcMain
+const differrenceInMinutes = require('date-fns/differenceInMinutes');
+const differenceInSeconds = require('date-fns/differenceInSeconds');
+const Notification = electron.Notification
+const Store = require('electron-store')
+
 
 const path = require("path");
 const url = require("url");
+const defaults = require('./utils/defaultSettings')
+let currentUserSettings = new Store({defaults})
+console.log("TCL: currentUserSettings", currentUserSettings._defaultValues)
 
 let mainWindow;
+let postureFreq = 15000//20 * 60000;
+let movementFreq = 60000//60 * 60000;
+let lookFreq = 20000//20 * 60000;
+let hydrationFreq = 60 * 60000;
+let mindfullFreq = 240 * 60000; // every 4 hrs???
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -31,7 +44,74 @@ function createWindow() {
   });
 }
 
+function startTimer() {
+  const now = new Date().getTime();
+  let pstTime = now + postureFreq;
+  let moveTime = now + movementFreq;
+  let lookTime = now + lookFreq;
+  let hydroTime = now + hydrationFreq;
+  let mindTime = now + mindfullFreq;
+
+  // let test9Sec = now + 60000;
+
+  setInterval(() => {
+    const now = new Date().getTime();
+
+    // if (differenceInSeconds(now, test9Sec) > 9) {
+    //   console.log(new Date().getSeconds());
+    //   sendNotification('60 seconds', 'test mess');
+    //   test9Sec += 60000;
+    // }
+
+    if (differenceInSeconds(now, pstTime) > 15) {
+    // if (differrenceInMinutes(now, pstTime) > 20) {
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+      sendNotification('Posture', 'What sort of sitting is that?')
+      console.log(`Notification for posture sent at ${time}`)
+      pstTime += postureFreq + currentUserSettings._defaultValues.posture.duration
+    }
+
+    if (differenceInSeconds(now, moveTime) > 60) {
+    // if (differrenceInMinutes(now, moveTime) > 60) {
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+      sendNotification('Time to move!!!', 'Step away from your desk! No, seriously, just go!')
+      console.log(`Notification for movement sent at ${time}`)
+      moveTime += movementFreq + currentUserSettings._defaultValues.movement.duration
+    }
+
+    if (differenceInSeconds(now, lookTime) > 20) {
+    // if (differrenceInMinutes(now, lookTime) > 20) {
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
+      sendNotification('Take care of your eyes!', 'Look at an object at least 20 ft away for 20 seconds.')
+      console.log(`Notification for 20/20/20 sent at ${time}`)
+      lookTime += lookFreq + currentUserSettings._defaultValues.eyeStrain.duration
+    }
+
+    if (differrenceInMinutes(now, hydroTime) > 60) {
+      sendNotification('Thirsty?', 'Drink some H2O.')
+      console.log(`Notification for ${activity} sent`)
+      hydroTime += hydrationFreq
+    }
+
+    if (differrenceInMinutes(now, mindTime) > 60) {
+      sendNotification('Mind...', '...games')
+      console.log(`Notification for min sent`)
+      mindTime = mindfullFreq
+    }
+  }, 1000);
+}
+
+function sendNotification(title, message) {
+  const notif = new Notification({
+    title: title,
+    body: message,
+  });
+  notif.show();
+}
+
 app.on("ready", createWindow);
+
+app.on("ready", startTimer)
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

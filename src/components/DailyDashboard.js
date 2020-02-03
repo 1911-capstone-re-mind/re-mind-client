@@ -1,7 +1,6 @@
 import React from 'react';
-import './App.css';
-import { VictoryChart, VictoryBar, VictoryPie } from 'victory'
-import { sendSettingsToMain, sendDelayToMain } from './dataToMainProcess'
+import { VictoryChart, VictoryBar, VictoryPie } from "victory"
+import { sendSettingsToMain, sendDelayToMain } from '../dataToMainProcess'
 
 class DailyDashboard extends React.Component {
   constructor(props) {
