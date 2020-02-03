@@ -56,10 +56,7 @@ let mindWindow;
 }
 
 function startTimer() {
-
-
   // let test9Sec = now + 60000;
-
   setInterval(() => {
     const now = new Date().getTime();
     let time;
@@ -104,10 +101,9 @@ function startTimer() {
       lookTime.setNextNotif()
     }
 
-
     if (now >= mindTime.trigger && mindTime.active) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-      openModal('mindfulness')
+      openMindModal('mindfulness')
       console.log(`Notification for mindfulness sent at ${time}`)
       mindTime.disable()
     }
@@ -122,7 +118,7 @@ function sendNotification(title, message) {
   notif.show();
 }
 
-function openModal(activity) {
+function openMindModal(activity) {
   mindWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -153,16 +149,26 @@ app.on("activate", () => {
     createWindow();
   }
 });
-
-ipcMain.on('mindfulness-accept', (event) => {
-  event.reply('start-counter', mindTime.duration )
+// MINDFULNESS EVENTS
+ipcMain.on('mindfulness-accepted', (event) => {
+  event.reply('mindfulness-start-counter', mindTime.duration )
 })
 
-ipcMain.on('finish-mindfulness', () => {
+ipcMain.on('mindfulness-finished', () => {
   mindWindow.close()
   mindTime.restart()
 })
 
+ipcMain.on('mindfulness-rejected', () => {
+  mindWindow.close()
+  mindTime.restart()
+})
+
+ipcMain.on('mindfulness-delayed', () => {
+  mindWindow.close()
+  mindTime.setDelay(15000)
+})
+// END MINDFULNESS EVENTS
 ipcMain.on('change-settings', (event, arg) => {
   console.log(arg)
   event.reply('settings-change-success', arg) // or event.reply('settings-change-failure)

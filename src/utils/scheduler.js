@@ -16,6 +16,7 @@ class Scheduler {
   }
   //time in milliseconds
   setDelay(time) {
+    this.active = true
     this.trigger = new Date().getTime() + time
   }
 

@@ -3,23 +3,24 @@ const { ipcRenderer } = require('electron')
 const yes = document.getElementById('yes')
 const no = document.getElementById('no')
 const delay = document.getElementById('delay')
+
 const mindfulness = document.getElementById('mindfulness')
 
 
 
 yes.addEventListener('click', () => {
-  ipcRenderer.send('mindfulness-accept')
+  ipcRenderer.send('mindfulness-accepted')
 })
 
 no.addEventListener('click', () => {
-  ipcRenderer.send('mindfulness-reject')
+  ipcRenderer.send('mindfulness-rejected')
 })
 
 delay.addEventListener('click', () => {
-  ipcRenderer.send('mindfulness-delay')
+  ipcRenderer.send('mindfulness-delayed')
 })
 
-ipcRenderer.on('start-counter', (event, duration) => {
+ipcRenderer.on('mindfulness-start-counter', (event, duration) => {
   const counter = document.createElement("DIV")
   const prompt = document.getElementById('prompt')
   prompt.style.display = "none"
@@ -29,7 +30,7 @@ ipcRenderer.on('start-counter', (event, duration) => {
   const intervalId = setInterval(() => {
     if (durationToSeconds <= 0) {
       clearInterval(intervalId)
-      ipcRenderer.send('finish-mindfulness')
+      ipcRenderer.send('mindfulness-finished')
     }
     counter.innerHTML = durationToSeconds
     durationToSeconds--
