@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import './App.css';
 import { VictoryChart, VictoryBar, VictoryPie } from "victory"
 import { sendSettingsToMain, sendDelayToMain } from './dataToMainProcess'
