@@ -5,11 +5,13 @@ import thunkMiddleware from "redux-thunk";
 import userReducer from "./reducers/userReducer";
 import activitiesReducer from "./reducers/activities";
 import userPreferencesReducer from "./reducers/userPreferencesReducer";
+import activityLogReducer from "./reducers/activityLogReducer";
 
 const reducer = combineReducers({
   user: userReducer,
   activities: activitiesReducer,
-  userPreferences: userPreferencesReducer
+  userPreferences: userPreferencesReducer,
+  activityLog: activityLogReducer
 });
 
 const middleware = applyMiddleware(

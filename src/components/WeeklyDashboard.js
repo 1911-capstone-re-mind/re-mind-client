@@ -17,11 +17,11 @@ class WeeklyDashboard extends React.Component {
           <VictoryBar
             style={{ data: { fill: "blue" } }}
             data={[
-              { x: 1, y: 6 },
-              { x: 2, y: 3 },
-              { x: 3, y: 5 },
-              { x: 4, y: 4 },
-              { x: 5, y: 4 }
+              { x: "Mon", y: 6 },
+              { x: "Tue", y: 3 },
+              { x: "Wed", y: 5 },
+              { x: "Thu", y: 4 },
+              { x: "Fri", y: 4 }
             ]}
           />
         </VictoryChart>
