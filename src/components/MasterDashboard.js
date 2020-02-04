@@ -5,6 +5,7 @@ import WeeklyDashboard from "./WeeklyDashboard";
 import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
 import { fetchLog } from "../store/reducers/activityLogReducer";
 import { initTimer } from "../dataToMainProcess";
+import DashPreferences from "./DashPreferences";
 
 class MasterDashboard extends React.Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class MasterDashboard extends React.Component {
         <div className="dashboard-view" style={{ margin: "100px" }}>
           {viewSelection}
         </div>
+        <DashPreferences />
       </div>
     );
   }
