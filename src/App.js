@@ -10,6 +10,7 @@ import NewUser from "./components/NewUser";
 import NewUserPrefs from "./components/NewUserPrefs";
 import Test from "./Test";
 import Nav from "./Nav";
+import UpdatePreferences from "./components/UpdatePreferences";
 
 function App(props) {
   return (
@@ -21,6 +22,7 @@ function App(props) {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/new-user" component={NewUser} />
         <Route exact path="/new-user-prefs" component={NewUserPrefs} />
+        <Route exact path="/update-preferences" component={UpdatePreferences} />
         {props.isLoggedIn && (
           <Route exact path="/dashboard" component={MasterDashboard} />
         )}
