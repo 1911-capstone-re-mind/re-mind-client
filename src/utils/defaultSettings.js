@@ -2,16 +2,17 @@
 module.exports = {
   posture: {
     duration: 5000,
-    frequency: 15000
-    // 30 * 60000
+    frequency: 30 * 60000
   },
   movement: {
     duration: 5 * 60000,
     frequency: 60 * 60000
   },
   vision: {
-    duration: 5000, //20000,
-    frequency: 5000 //20 * 60000
+
+    duration: 5000,//20000,
+    frequency: 40000//20 * 60000
+
   },
   hydration: {
     duration: 5000,
