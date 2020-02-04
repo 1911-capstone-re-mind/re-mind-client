@@ -10,17 +10,29 @@ module.exports = {
     frequency: 60 * 60000
   },
   vision: {
-    duration: 5000,//20000,
-    frequency: 5000//20 * 60000
+    duration: 5000, //20000,
+    frequency: 5000 //20 * 60000
   },
   hydration: {
     duration: 5000,
     frequency: 60 * 60000
   },
   mindfulness: {
-    duration: 15000,//10 * 60000,
+    duration: 15000, //10 * 60000,
     frequency: 240 * 60000
-  }
-}
-
-
+  },
+  user: {
+    id: null,
+    email: "",
+    firstName: "",
+    lastName: ""
+  },
+  log: [
+    {
+      userPreferenceId: null,
+      month: null,
+      date: "",
+      completed_sessions: null
+    }
+  ]
+};
