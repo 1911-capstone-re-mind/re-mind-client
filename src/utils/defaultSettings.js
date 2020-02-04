@@ -19,7 +19,6 @@ module.exports = {
   mindfulness: {
     duration: 10 * 60000,
     frequency: 240 * 60000
-  }
-}
-
-
+  },
+  log: []
+};

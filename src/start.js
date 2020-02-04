@@ -149,10 +149,16 @@ ipcMain.on("get-preferences", (event, arg) => {
   // make axios call to grab info for user
   // compare to the local store preferences (date modified?)
   // send back whichever is the more recent.
-  event.reply("set-preferences", currentUserSettings);
+  event.reply("set-preferences", currentUserSettings.get());
 });
 
 ipcMain.on("main-app-init", (event, arg) => {
   // start the timer
   startTimer();
+});
+
+ipcMain.on("save-log", (event, arg) => {
+  // set the user settings log with the array 'arg'
+  currentUserSettings.set("log", arg);
+  event.reply("log-saved", currentUserSettings.get());
 });

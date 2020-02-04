@@ -48,3 +48,7 @@ export const sendCancelToMain = settings => {
 export const initTimer = () => {
   ipcRenderer.send("main-app-init");
 };
+
+export const saveLog = log => {
+  ipcRenderer.send("save-log", log);
+};
