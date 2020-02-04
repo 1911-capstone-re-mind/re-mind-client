@@ -2,6 +2,7 @@ import React from "react";
 import DailyDashboard from "./DailyDashboard";
 import WeeklyDashboard from "./WeeklyDashboard";
 import DashPreferences from "./DashPreferences";
+import Chatbot from "./Chatbot";
 
 class MasterDashboard extends React.Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class MasterDashboard extends React.Component {
           {viewSelection}
         </div>
         <DashPreferences />
+        <Chatbot />
       </div>
     );
   }
