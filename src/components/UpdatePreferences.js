@@ -30,9 +30,7 @@ class UpdatePreferences extends Component {
     this.updates.map(updateObj => {
       if (updateObj.activityId === Number(evt.target.id))
         updateObj[evt.target.name] =
-          evt.target.name === "duration"
-            ? Number(evt.target.value)
-            : evt.target.name === "frequency"
+          evt.target.name === "duration" || evt.target.name === "frequency"
             ? Number(evt.target.value)
             : evt.target.value;
     });
