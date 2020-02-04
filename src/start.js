@@ -8,6 +8,7 @@ const differenceInSeconds = require('date-fns/differenceInSeconds');
 const Notification = electron.Notification
 const Store = require('electron-store')
 const Scheduler = require('./utils/scheduler')
+const axios = require('axios');
 
 const path = require("path");
 const url = require("url");
@@ -59,6 +60,9 @@ let visionWindow;
 
 function startTimer() {
   // let test9Sec = now + 60000;
+  let moveHeadsUp = false
+  let visionHeadsUp = false
+  let mindHeadsUp = false
   setInterval(() => {
     const now = new Date().getTime();
     let time;
@@ -94,6 +98,10 @@ function startTimer() {
       openMoveModal('movement')
       console.log(`Notification for movement sent at ${time}`)
       moveTime.disable()
+      moveHeadsUp = false
+    } else if (now >= moveTime.trigger - 30000 && moveTime.active && !moveHeadsUp) {
+      sendNotification('Movement Break', 'Your movement break is coming up in 30 seconds')
+      moveHeadsUp = true
     }
 
     if (now >= visionTime.trigger && visionTime.active) {
@@ -101,15 +109,31 @@ function startTimer() {
       openVisionModal('vision')
       console.log(`Notification for 20/20/20 sent at ${time}`)
       visionTime.disable()
+      visionHeadsUp = false
+    } else if (now >= visionTime.trigger - 30000 && visionTime.active && !visionHeadsUp) {
+      sendNotification('Vision Break', 'Your vision break is coming up in 30 seconds')
+      visionHeadsUp = true
     }
 
-    if (now >= mindTime.trigger && mindTime.active) {
+    if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
       openMindModal('mindfulness')
       console.log(`Notification for mindfulness sent at ${time}`)
       mindTime.disable()
+      mindHeadsUp = false
+    } else if (now >= mindTime.trigger - 30000 && mindTime.active && !mindHeadsUp) {
+      sendNotification('Mindfulness Break', 'Your mind break is coming up in 30 seconds')
+      mindHeadsUp = true
     }
   }, 1000);
+}
+
+function startSyncTimer() {
+  setInterval( async () => {
+    await axios.put("http://localhost:8080/api/log/",
+    //local storage data, array of items
+    )
+  }, 60000 * 15)
 }
 
 function sendNotification(title, message) {
