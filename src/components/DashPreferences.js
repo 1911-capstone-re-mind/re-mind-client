@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
+import { Link } from "react-router-dom";
 
 class DashPreferences extends Component {
   componentDidMount() {
@@ -35,6 +36,7 @@ class DashPreferences extends Component {
           Mindfulness:{" "}
           {pref[4] ? `${pref[4]} minute intervals` : "No preference set"}
         </p>
+        <Link to={"/update-preferences"}>Update Preferences</Link>
       </div>
     );
   }
