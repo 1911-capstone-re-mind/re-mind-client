@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateUserPreferences } from "../store/reducers/userPreferencesReducer";
+import {
+  updateUserPreferences,
+  getUserPreferences
+} from "../store/reducers/userPreferencesReducer";
 
 class UpdatePreferences extends Component {
   constructor() {
@@ -80,7 +83,7 @@ class UpdatePreferences extends Component {
                   type="number"
                   id={activity.id}
                   name="frequency"
-                  placeholder={activity.frequency}
+                  placeholder={activity.frequency + " minutes"}
                 />
               </div>
             );
@@ -104,7 +107,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     updateUserPreferences: (activities, userId) =>
-      dispatch(updateUserPreferences(activities, userId))
+      dispatch(updateUserPreferences(activities, userId)),
+    getUserPreferences: userId => dispatch(getUserPreferences(userId))
   };
 };
 
