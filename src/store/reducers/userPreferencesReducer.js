@@ -1,6 +1,6 @@
 import axios from "axios";
 import history from "../../history";
-
+import { savePreferences } from "../../dataToMainProcess";
 const { ipcRenderer } = window.require("electron");
 
 // action types
@@ -11,29 +11,18 @@ const UPDATE_PREFS = "UPDATE_PREFS";
 const getPrefs = activities => ({ type: GET_PREFS, activities });
 const updatePrefs = activities => ({ type: UPDATE_PREFS, activities });
 
-// ipcRenderer messages to dispatch actions
-
-const requestPreferences = () => {
-  ipcRenderer.send("get-preferences");
-};
-
 // thunks for userPreferences
 export const getUserPreferences = userId => {
   return async dispatch => {
-    // getting preferences from local storage...
-    // TO DO: add comparison between the local store and db versions
-
-    // requestPreferences();
-    // ipcRenderer.on("set-preferences", (event, message) => {
-    //   console.log("USER DEFAULTS FROM LOCAL STORE", message._defaultValues);
-    //   dispatch(getPrefs(message._defaultValues));
-    // });
-
     try {
       const res = await axios.get(
         `http://localhost:8080/api/activities/${userId}`
       );
       dispatch(getPrefs(res.data));
+      savePreferences(res.data);
+      ipcRenderer.on("preferences-saved", (event, message) => {
+        console.log("USER PREFERENCES", message);
+      });
     } catch (error) {
       console.log(error);
     }

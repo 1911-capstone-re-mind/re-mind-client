@@ -3,14 +3,13 @@ const { remote } = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-const ipcMain  = electron.ipcMain
-const differrenceInMinutes = require('date-fns/differenceInMinutes');
-const differenceInSeconds = require('date-fns/differenceInSeconds');
-const Notification = electron.Notification
-const Store = require('electron-store')
-const Scheduler = require('./utils/scheduler')
-const axios = require('axios');
-
+const ipcMain = electron.ipcMain;
+const differrenceInMinutes = require("date-fns/differenceInMinutes");
+const differenceInSeconds = require("date-fns/differenceInSeconds");
+const Notification = electron.Notification;
+const Store = require("electron-store");
+const Scheduler = require("./utils/scheduler");
+const axios = require("axios");
 
 const path = require("path");
 const url = require("url");
@@ -31,34 +30,52 @@ let visionWindow;
 //timers
 const now = new Date().getTime();
 
+// get settings from local storage for schedulers
+const getSetting = settingName => {
+  let preferences = {};
+  currentUserSettings._defaultValues.userPreferences.map(pref => {
+    if (pref.activity.name === settingName) {
+      preferences["frequency"] = pref.frequency;
+      preferences["duration"] = pref.duration;
+    }
+  });
+  return preferences;
+};
+
+const posturePref = getSetting("posture");
+const movePref = getSetting("movement");
+const visionPref = getSetting("eye strain");
+const hydrationPref = getSetting("hydration");
+const mindfulPref = getSetting("mindfulness");
+
 let pstTime = new Scheduler(
-  now + currentUserSettings._defaultValues.posture.frequency,
-  currentUserSettings._defaultValues.posture.frequency,
-  currentUserSettings._defaultValues.posture.duration,
+  now + posturePref.frequency,
+  posturePref.frequency,
+  posturePref.duration,
   true
 );
 let moveTime = new Scheduler(
-  now + currentUserSettings._defaultValues.movement.frequency,
-  currentUserSettings._defaultValues.movement.frequency,
-  currentUserSettings._defaultValues.movement.duration,
+  now + movePref.frequency,
+  movePref.frequency,
+  movePref.duration,
   true
 );
 let visionTime = new Scheduler(
-  now + currentUserSettings._defaultValues.vision.frequency,
-  currentUserSettings._defaultValues.vision.frequency,
-  currentUserSettings._defaultValues.vision.duration,
+  now + visionPref.frequency,
+  visionPref.frequency,
+  visionPref.duration,
   true
 );
 let hydroTime = new Scheduler(
-  now + currentUserSettings._defaultValues.hydration.frequency,
-  currentUserSettings._defaultValues.hydration.frequency,
-  currentUserSettings._defaultValues.hydration.duration,
+  now + hydrationPref.frequency,
+  hydrationPref.frequency,
+  hydrationPref.duration,
   true
 );
 let mindTime = new Scheduler(
-  now + currentUserSettings._defaultValues.mindfulness.frequency,
-  currentUserSettings._defaultValues.mindfulness.frequency,
-  currentUserSettings._defaultValues.mindfulness.duration,
+  now + mindfulPref.frequency,
+  mindfulPref.frequency,
+  mindfulPref.duration,
   true
 );
 
@@ -87,9 +104,9 @@ function createWindow() {
 
 function startTimer() {
   // let test9Sec = now + 60000;
-  let moveHeadsUp = false
-  let visionHeadsUp = false
-  let mindHeadsUp = false
+  let moveHeadsUp = false;
+  let visionHeadsUp = false;
+  let mindHeadsUp = false;
   setInterval(() => {
     const now = new Date().getTime();
     let time;
@@ -121,48 +138,68 @@ function startTimer() {
 
     // modal screen
     if (now >= moveTime.trigger && moveTime.active) {
-
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-      openMoveModal('movement')
-      console.log(`Notification for movement sent at ${time}`)
-      moveTime.disable()
-      moveHeadsUp = false
-    } else if (now >= moveTime.trigger - 30000 && moveTime.active && !moveHeadsUp) {
-      sendNotification('Movement Break', 'Your movement break is coming up in 30 seconds')
-      moveHeadsUp = true
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+      openMoveModal("movement");
+      console.log(`Notification for movement sent at ${time}`);
+      moveTime.disable();
+      moveHeadsUp = false;
+    } else if (
+      now >= moveTime.trigger - 30000 &&
+      moveTime.active &&
+      !moveHeadsUp
+    ) {
+      sendNotification(
+        "Movement Break",
+        "Your movement break is coming up in 30 seconds"
+      );
+      moveHeadsUp = true;
     }
 
     if (now >= visionTime.trigger && visionTime.active) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-      openVisionModal('vision')
-      console.log(`Notification for 20/20/20 sent at ${time}`)
-      visionTime.disable()
-      visionHeadsUp = false
-    } else if (now >= visionTime.trigger - 30000 && visionTime.active && !visionHeadsUp) {
-      sendNotification('Vision Break', 'Your vision break is coming up in 30 seconds')
-      visionHeadsUp = true
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+      openVisionModal("vision");
+      console.log(`Notification for 20/20/20 sent at ${time}`);
+      visionTime.disable();
+      visionHeadsUp = false;
+    } else if (
+      now >= visionTime.trigger - 30000 &&
+      visionTime.active &&
+      !visionHeadsUp
+    ) {
+      sendNotification(
+        "Vision Break",
+        "Your vision break is coming up in 30 seconds"
+      );
+      visionHeadsUp = true;
     }
 
     if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
-      openMindModal('mindfulness')
-      console.log(`Notification for mindfulness sent at ${time}`)
-      mindTime.disable()
-      mindHeadsUp = false
-    } else if (now >= mindTime.trigger - 30000 && mindTime.active && !mindHeadsUp) {
-      sendNotification('Mindfulness Break', 'Your mind break is coming up in 30 seconds')
-      mindHeadsUp = true
-
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+      openMindModal("mindfulness");
+      console.log(`Notification for mindfulness sent at ${time}`);
+      mindTime.disable();
+      mindHeadsUp = false;
+    } else if (
+      now >= mindTime.trigger - 30000 &&
+      mindTime.active &&
+      !mindHeadsUp
+    ) {
+      sendNotification(
+        "Mindfulness Break",
+        "Your mind break is coming up in 30 seconds"
+      );
+      mindHeadsUp = true;
     }
   }, 1000);
 }
 
 function startSyncTimer() {
-  setInterval( async () => {
-    await axios.put("http://localhost:8080/api/log/",
-    //local storage data, array of items
-    )
-  }, 60000 * 15)
+  setInterval(async () => {
+    await axios.put(
+      "http://localhost:8080/api/log/"
+      //local storage data, array of items
+    );
+  }, 60000 * 15);
 }
 
 function sendNotification(title, message) {
@@ -324,10 +361,16 @@ ipcMain.on("get-preferences", (event, arg) => {
 ipcMain.on("main-app-init", (event, arg) => {
   // start the timer
   startTimer();
+  startSyncTimer();
 });
 
 ipcMain.on("save-log", (event, arg) => {
   // set the user settings log with the array 'arg'
   currentUserSettings.set("log", arg);
   event.reply("log-saved", currentUserSettings.get());
+});
+
+ipcMain.on("save-preferences", (event, arg) => {
+  currentUserSettings.set("userPreferences", arg);
+  event.reply("preferences-saved", currentUserSettings._defaultValues);
 });

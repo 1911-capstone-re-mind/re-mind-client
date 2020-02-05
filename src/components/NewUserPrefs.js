@@ -6,11 +6,11 @@ class NewUserPrefs extends React.Component {
   constructor() {
     super();
     this.updates = [
-      { activityId: 0 },
       { activityId: 1 },
       { activityId: 2 },
       { activityId: 3 },
-      { activityId: 4 }
+      { activityId: 4 },
+      { activityId: 5 }
     ];
   }
 
@@ -18,8 +18,8 @@ class NewUserPrefs extends React.Component {
     this.updates.map(updateObj => {
       if (updateObj.activityId === Number(evt.target.id)) {
         evt.target.checked
-          ? (updateObj["include"] = true)
-          : (updateObj["include"] = false);
+          ? (updateObj["active"] = true)
+          : (updateObj["active"] = false);
       }
     });
   };
@@ -28,22 +28,17 @@ class NewUserPrefs extends React.Component {
     this.updates.map(updateObj => {
       if (updateObj.activityId === Number(evt.target.id))
         updateObj[evt.target.name] =
-          evt.target.name === "duration"
-            ? Number(evt.target.value)
-            : evt.target.name === "frequency"
-            ? Number(evt.target.value)
+          evt.target.name === "duration" || evt.target.name === "frequency"
+            ? Number(evt.target.value) * 60000
             : evt.target.value;
     });
   };
 
   handleSubmit = evt => {
     evt.preventDefault();
-    const activities = this.updates
-      .filter(update => {
-        return update.include === true;
-      })
-      .filter(activity => delete activity.include)
-      .filter(activity => (activity["userId"] = this.props.user.id));
+    const activities = this.updates.filter(
+      activity => (activity["userId"] = this.props.user.id)
+    );
 
     this.props.updateUserPreferences(activities, this.props.user.id);
   };
@@ -58,7 +53,7 @@ class NewUserPrefs extends React.Component {
               <div key={activity.id}>
                 <input
                   onChange={this.handleCheck}
-                  name="include"
+                  name="active"
                   type="checkbox"
                   id={activity.id}
                   value={activity.name}
@@ -72,7 +67,7 @@ class NewUserPrefs extends React.Component {
                       type="number"
                       id={activity.id}
                       name="duration"
-                      placeholder={activity.duration}
+                      placeholder={activity.duration / 60000}
                     />
                   </>
                 )}
@@ -82,7 +77,7 @@ class NewUserPrefs extends React.Component {
                   type="number"
                   id={activity.id}
                   name="frequency"
-                  placeholder={activity.frequency}
+                  placeholder={activity.frequency / 60000}
                 />
               </div>
             );
