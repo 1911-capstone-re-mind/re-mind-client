@@ -12,7 +12,6 @@ const path = require("path");
 const url = require("url");
 const defaults = require("./utils/defaultSettings");
 let currentUserSettings = new Store({ defaults });
-console.log("TCL: currentUserSettings", currentUserSettings._defaultValues);
 
 // init html file views
 let mainWindow;
@@ -64,7 +63,7 @@ function createWindow() {
 }
 
 function startTimer() {
-  // settings heads up for modal windows
+  // 30 seconds heads up triggers for modals
   let moveHeadsUp = false;
   let visionHeadsUp = false;
   let mindHeadsUp = false;
@@ -114,12 +113,12 @@ function startTimer() {
 
     //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
-      sendNotification("Posture", "What sort of sitting is that?");
+      sendNotification("Posture", "How's your posture? Make sure you're sitting correctly");
       pstTime.setNextNotif();
     }
 
     if (now >= hydroTime.trigger && hydroTime.active) {
-      sendNotification("Thirsty?", "Drink some H2O.");
+      sendNotification("Hydration", "Have you been drinking water? Stay hydrated");
       hydroTime.setNextNotif();
     }
 
@@ -206,7 +205,6 @@ function openMindModal() {
   });
 
   var theUrl = path.join(__dirname, '/modals/mindfulness.html');
-  console.log("url", theUrl);
 
   mindWindow.loadFile(theUrl);
 }
@@ -223,7 +221,6 @@ function openMoveModal() {
   });
 
   var theUrl = path.join(__dirname, '/modals/movement.html');
-  console.log("url", theUrl);
 
   moveWindow.loadFile(theUrl);
 }
@@ -240,7 +237,6 @@ function openVisionModal() {
   });
 
   var theUrl = path.join(__dirname, '/modals/vision.html');
-  console.log("url", theUrl);
 
   visionWindow.loadFile(theUrl);
 }
@@ -322,14 +318,12 @@ ipcMain.on("vision-delayed", () => {
 
 //change settings IPC
 ipcMain.on("change-settings", (event, arg) => {
-  console.log(arg);
   event.reply("settings-change-success", arg); // or event.reply('settings-change-failure)
   //update info on local storage
   //put request to database
 });
 
 ipcMain.on("set-delay", (event, arg) => {
-  console.log(arg);
   event.reply("delay-success", arg); // or event.reply('delay-failure)
   //update info on local storage
   //put request to database
