@@ -18,14 +18,18 @@ export const auth = (data, method) => async dispatch => {
   try {
     //TO DO : Add Heroku hosted server address
     res = await axios.post(`http://localhost:8080/auth/${method}`, data);
+    console.log("TCL: res", res)
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
 
   try {
-    dispatch(getUser(res.data));
+    const test = dispatch(getUser(res.data));
     if (method === "signup") {
       history.push("/new-user");
+    } else if (method === "me") {
+
+      console.log("TCL: test", test)
     } else {
       history.push("/dashboard");
     }

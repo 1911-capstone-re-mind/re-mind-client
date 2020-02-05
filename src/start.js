@@ -1,17 +1,16 @@
 const electron = require("electron");
-const { remote } = require("electron");
+const { remote, session } = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const ipcMain  = electron.ipcMain
-const differrenceInMinutes = require('date-fns/differenceInMinutes');
-const differenceInSeconds = require('date-fns/differenceInSeconds');
 const Notification = electron.Notification
 const Store = require('electron-store')
 const Scheduler = require('./utils/scheduler')
 const axios = require('axios');
 
 
+const uuidv1 = require('uuid/v1')
 const path = require("path");
 const url = require("url");
 const defaults = require("./utils/defaultSettings");
@@ -64,8 +63,10 @@ let mindTime = new Scheduler(
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 250,
+    x: 300,
+    y: 200,
     webPreferences: {
       nodeIntegration: true
     }
@@ -224,7 +225,25 @@ function openVisionModal(activity) {
   visionWindow.loadFile(theUrl);
 }
 
-app.on("ready", createWindow);
+app.on("ready", async () => {
+  try {
+    const { data } = await axios.get('http://localhost:8080/auth/me')
+    const createWindowCookie = {
+      url: 'http://localhost:8080',
+      name: 'newUser',
+      value: data,
+      expirationDate: 100003424232
+    }
+    console.log(`TCL: data from auth/me ${new Date()}`, data)
+    await session.defaultSession.cookies.set(createWindowCookie)
+    const cookies = await session.defaultSession.cookies.get({})
+    console.log("TCL: get cookie (by createWindow)", cookies)
+
+  } catch (error) {
+    console.log('cookie error:', error)
+  }
+  createWindow()
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
