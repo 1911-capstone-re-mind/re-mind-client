@@ -117,12 +117,6 @@ function startTimer() {
 
   setInterval(() => {
     const now = new Date().getTime();
-<<<<<<< HEAD
-=======
-
-    let time;
-    console.log("TCL: now", new Date().getSeconds());
->>>>>>> master
 
     //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
@@ -153,21 +147,10 @@ function startTimer() {
       moveHeadsUp = true;
     }
 
-<<<<<<< HEAD
     if (now >= visionTime.trigger && visionTime.active && !visionTime.inProgress) {
       openVisionModal();
       visionTime.inProgress = true
-=======
-    if (
-      now >= visionTime.trigger &&
-      visionTime.active &&
-      !visionTime.inProgress
-    ) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      openVisionModal("vision");
-      console.log(`Notification for 20/20/20 sent at ${time}`);
-      visionTime.inProgress = true;
->>>>>>> master
+
       visionHeadsUp = false;
     } else if (
       now >= visionTime.trigger - 30000 &&
@@ -182,20 +165,10 @@ function startTimer() {
       visionHeadsUp = true;
     }
 
-<<<<<<< HEAD
+
     if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp && !mindTime.inProgress) {
       openMindModal();
-=======
-    if (
-      now >= mindTime.trigger &&
-      mindTime.active &&
-      !mindHeadsUp &&
-      !mindTime.inProgress
-    ) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      openMindModal("mindfulness");
-      console.log(`Notification for mindfulness sent at ${time}`);
->>>>>>> master
+
       mindTime.inProgress = true;
       mindHeadsUp = false;
     } else if (
