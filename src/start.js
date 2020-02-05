@@ -66,11 +66,8 @@ function createWindow() {
 function startTimer() {
   // settings heads up for modal windows
   let moveHeadsUp = false;
-  let moveInProgress = false;
   let visionHeadsUp = false;
-  let visionInProgress = false;
   let mindHeadsUp = false;
-  let mindInProgress = false;
 
   //frequency and duration preferences for user
   const posturePref = getSetting("posture");
@@ -144,7 +141,7 @@ function startTimer() {
     // modal screen
     if (now >= moveTime.trigger && moveTime.active && !moveTime.inProgress) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      openMoveModal("movement");
+      openMoveModal();
       console.log(`Notification for movement sent at ${time}`);
       moveTime.inProgress = true;
       moveHeadsUp = false;
@@ -163,7 +160,7 @@ function startTimer() {
 
     if (now >= visionTime.trigger && visionTime.active && !visionTime.inProgress) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      openVisionModal("vision");
+      openVisionModal();
       console.log(`Notification for 20/20/20 sent at ${time}`);
       visionTime.inProgress = true
       visionHeadsUp = false;
@@ -182,7 +179,7 @@ function startTimer() {
 
     if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp && !mindTime.inProgress) {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      openMindModal("mindfulness");
+      openMindModal();
       console.log(`Notification for mindfulness sent at ${time}`);
       mindTime.inProgress = true;
       mindHeadsUp = false;
@@ -218,10 +215,10 @@ function sendNotification(title, message) {
   notif.show();
 }
 
-function openMindModal(activity) {
+function openMindModal() {
   mindWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 400,
     webPreferences: { nodeIntegration: true }
   });
   mindWindow.webContents.openDevTools();
@@ -229,16 +226,16 @@ function openMindModal(activity) {
     mindWindow = null;
   });
 
-  var theUrl = path.join(__dirname, `/modals/${activity}.html`);
+  var theUrl = path.join(__dirname, '/modals/mindfulness.html');
   console.log("url", theUrl);
 
   mindWindow.loadFile(theUrl);
 }
 
-function openMoveModal(activity) {
+function openMoveModal() {
   moveWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 400,
     webPreferences: { nodeIntegration: true }
   });
   moveWindow.webContents.openDevTools();
@@ -246,16 +243,16 @@ function openMoveModal(activity) {
     moveWindow = null;
   });
 
-  var theUrl = path.join(__dirname, `/modals/${activity}.html`);
+  var theUrl = path.join(__dirname, '/modals/movement.html');
   console.log("url", theUrl);
 
   moveWindow.loadFile(theUrl);
 }
 
-function openVisionModal(activity) {
+function openVisionModal() {
   visionWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 400,
     webPreferences: { nodeIntegration: true }
   });
   visionWindow.webContents.openDevTools();
@@ -263,7 +260,7 @@ function openVisionModal(activity) {
     visionWindow = null;
   });
 
-  var theUrl = path.join(__dirname, `/modals/${activity}.html`);
+  var theUrl = path.join(__dirname, '/modals/vision.html');
   console.log("url", theUrl);
 
   visionWindow.loadFile(theUrl);
