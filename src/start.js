@@ -27,6 +27,10 @@ let visionTime;
 let hydroTime;
 let mindTime;
 
+// init date variables
+const month = new Date().getMonth() + 1;
+const date = new Date().getDate();
+
 // get settings from local storage for schedulers
 const getSetting = settingName => {
   let preferences = {};
@@ -83,6 +87,7 @@ function startTimer() {
 
   //scheduler objects that track when to trigger a notificaiton
   const now = new Date().getTime();
+
   pstTime = new Scheduler(
     now + posturePref.frequency,
     posturePref.frequency,
@@ -116,6 +121,7 @@ function startTimer() {
 
   setInterval(() => {
     const now = new Date().getTime();
+
     let time;
     console.log("TCL: now", new Date().getSeconds());
 
@@ -213,11 +219,14 @@ function startTimer() {
 }
 
 function startSyncTimer() {
+  const log = currentUserSettings.get("log");
+  let req = [];
+  for (let activity in log) {
+    req.push(log[activity]);
+  }
+
   setInterval(async () => {
-    await axios.put(
-      "http://localhost:8080/api/log/"
-      //local storage data, array of items
-    );
+    await axios.put("http://localhost:8080/api/activity-log/log/", req);
   }, 60000 * 15);
 }
 
@@ -413,13 +422,14 @@ ipcMain.on("main-app-init", (event, arg) => {
     hydrationPref,
     mindfulPref
   ];
-
+  // clear previous log
+  currentUserSettings.delete("log");
   // initialize the log with null values
   activities.forEach(activity => {
     currentUserSettings.set(`log.${activity.name}`, {
       userPreferenceId: activity.userPreferenceId,
-      month: null,
-      date: null,
+      month: month,
+      date: date,
       completed_sessions: 0
     });
   });
