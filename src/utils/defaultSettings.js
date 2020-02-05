@@ -16,7 +16,7 @@ module.exports = {
       }
     },
     {
-      frequency: 60 * 60000,
+      frequency: 60000,
       duration: 5 * 60000,
       active: true,
       userId: 1,
@@ -78,12 +78,12 @@ module.exports = {
     firstName: "",
     lastName: ""
   },
-  log: [
-    {
-      userPreferenceId: null,
-      month: null,
-      date: "",
-      completed_sessions: null
-    }
-  ]
+  log: {
+    posture: {},
+    movement: {},
+    "eye strain": {},
+    hydration: {},
+    mindfulness: {}
+  },
+  activityBackLog: []
 };

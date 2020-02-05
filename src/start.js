@@ -33,8 +33,10 @@ const now = new Date().getTime();
 // get settings from local storage for schedulers
 const getSetting = settingName => {
   let preferences = {};
-  currentUserSettings._defaultValues.userPreferences.map(pref => {
+  currentUserSettings.get("userPreferences").map(pref => {
     if (pref.activity.name === settingName) {
+      preferences["name"] = pref.activity.name;
+      preferences["userPreferenceId"] = pref.id;
       preferences["frequency"] = pref.frequency;
       preferences["duration"] = pref.duration;
     }
@@ -301,6 +303,10 @@ ipcMain.on("movement-accepted", event => {
 
 ipcMain.on("movement-finished", () => {
   moveWindow.close();
+  let currentSessions = currentUserSettings.get(
+    "log.movement.completed_sessions"
+  );
+  currentUserSettings.set("log.movement.completed_sessions", currentSessions++);
   moveTime.restart();
 });
 
@@ -364,13 +370,33 @@ ipcMain.on("main-app-init", (event, arg) => {
   startSyncTimer();
 });
 
+// called on main app mount
 ipcMain.on("save-log", (event, arg) => {
-  // set the user settings log with the array 'arg'
-  currentUserSettings.set("log", arg);
+  // set the user's activity log  in loca storage with the server activity log
+  currentUserSettings.set("activityBackLog", arg);
+  const activities = [
+    posturePref,
+    movePref,
+    visionPref,
+    hydrationPref,
+    mindfulPref
+  ];
+
+  // initialize the log with null values
+  activities.forEach(activity => {
+    currentUserSettings.set(`log.${activity.name}`, {
+      userPreferenceId: activity.userPreferenceId,
+      month: null,
+      date: null,
+      completed_sessions: 0
+    });
+  });
+
   event.reply("log-saved", currentUserSettings.get());
 });
 
 ipcMain.on("save-preferences", (event, arg) => {
-  currentUserSettings.set("userPreferences", arg);
-  event.reply("preferences-saved", currentUserSettings._defaultValues);
+  const userPreferences = arg;
+  currentUserSettings.set("userPreferences", userPreferences);
+  event.reply("preferences-saved", currentUserSettings.get());
 });
