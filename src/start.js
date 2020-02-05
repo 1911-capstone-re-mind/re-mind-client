@@ -12,7 +12,6 @@ const path = require("path");
 const url = require("url");
 const defaults = require("./utils/defaultSettings");
 let currentUserSettings = new Store({ defaults });
-console.log("TCL: currentUserSettings", currentUserSettings._defaultValues);
 
 // init html file views
 let mainWindow;
@@ -70,13 +69,10 @@ function createWindow() {
 }
 
 function startTimer() {
-  // settings heads up for modal windows
+  // 30 seconds heads up triggers for modals
   let moveHeadsUp = false;
-  let moveInProgress = false;
   let visionHeadsUp = false;
-  let visionInProgress = false;
   let mindHeadsUp = false;
-  let mindInProgress = false;
 
   //frequency and duration preferences for user
   const posturePref = getSetting("posture");
@@ -121,39 +117,27 @@ function startTimer() {
 
   setInterval(() => {
     const now = new Date().getTime();
+<<<<<<< HEAD
+=======
 
     let time;
     console.log("TCL: now", new Date().getSeconds());
+>>>>>>> master
 
-    // if (differenceInSeconds(now, test9Sec) > 9) {
-    //   console.log(new Date().getSeconds());
-    //   sendNotification('60 seconds', 'test mess');
-    //   test9Sec += 60000;
-    // }
-    console.log("TCL: pstTime", pstTime);
-
-    // notifications only
+    //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
-      // if (differrenceInMinutes(now, pstTime) > 20) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      console.log("TCL: time", time);
-      sendNotification("Posture", "What sort of sitting is that?");
-      console.log(`Notification for posture sent at ${time}`);
+      sendNotification("Posture", "How's your posture? Make sure you're sitting correctly");
       pstTime.setNextNotif();
     }
 
     if (now >= hydroTime.trigger && hydroTime.active) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      sendNotification("Thirsty?", "Drink some H2O.");
-      console.log(`Notification for hydration sent at ${time}`);
+      sendNotification("Hydration", "Have you been drinking water? Stay hydrated");
       hydroTime.setNextNotif();
     }
 
-    // modal screen
+    // notifications that require pop up windows
     if (now >= moveTime.trigger && moveTime.active && !moveTime.inProgress) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      openMoveModal("movement");
-      console.log(`Notification for movement sent at ${time}`);
+      openMoveModal();
       moveTime.inProgress = true;
       moveHeadsUp = false;
     } else if (
@@ -164,11 +148,16 @@ function startTimer() {
     ) {
       sendNotification(
         "Movement Break",
-        "Your movement break is coming up in 30 seconds"
+        "It's almost time to stretch your legs"
       );
       moveHeadsUp = true;
     }
 
+<<<<<<< HEAD
+    if (now >= visionTime.trigger && visionTime.active && !visionTime.inProgress) {
+      openVisionModal();
+      visionTime.inProgress = true
+=======
     if (
       now >= visionTime.trigger &&
       visionTime.active &&
@@ -178,6 +167,7 @@ function startTimer() {
       openVisionModal("vision");
       console.log(`Notification for 20/20/20 sent at ${time}`);
       visionTime.inProgress = true;
+>>>>>>> master
       visionHeadsUp = false;
     } else if (
       now >= visionTime.trigger - 30000 &&
@@ -187,11 +177,15 @@ function startTimer() {
     ) {
       sendNotification(
         "Vision Break",
-        "Your vision break is coming up in 30 seconds"
+        "It's almost time to look away from your screen"
       );
       visionHeadsUp = true;
     }
 
+<<<<<<< HEAD
+    if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp && !mindTime.inProgress) {
+      openMindModal();
+=======
     if (
       now >= mindTime.trigger &&
       mindTime.active &&
@@ -201,6 +195,7 @@ function startTimer() {
       time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
       openMindModal("mindfulness");
       console.log(`Notification for mindfulness sent at ${time}`);
+>>>>>>> master
       mindTime.inProgress = true;
       mindHeadsUp = false;
     } else if (
@@ -211,7 +206,7 @@ function startTimer() {
     ) {
       sendNotification(
         "Mindfulness Break",
-        "Your mind break is coming up in 30 seconds"
+        "It's almost time to calm your mind"
       );
       mindHeadsUp = true;
     }
@@ -238,53 +233,50 @@ function sendNotification(title, message) {
   notif.show();
 }
 
-function openMindModal(activity) {
+function openMindModal() {
   mindWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 400,
+    frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  mindWindow.webContents.openDevTools();
   mindWindow.on("closed", () => {
     mindWindow = null;
   });
 
-  var theUrl = path.join(__dirname, `/modals/${activity}.html`);
-  console.log("url", theUrl);
+  var theUrl = path.join(__dirname, '/modals/mindfulness.html');
 
   mindWindow.loadFile(theUrl);
 }
 
-function openMoveModal(activity) {
+function openMoveModal() {
   moveWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 400,
+    frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  moveWindow.webContents.openDevTools();
   moveWindow.on("closed", () => {
     moveWindow = null;
   });
 
-  var theUrl = path.join(__dirname, `/modals/${activity}.html`);
-  console.log("url", theUrl);
+  var theUrl = path.join(__dirname, '/modals/movement.html');
 
   moveWindow.loadFile(theUrl);
 }
 
-function openVisionModal(activity) {
+function openVisionModal() {
   visionWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 400,
+    height: 400,
+    frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  visionWindow.webContents.openDevTools();
   visionWindow.on("closed", () => {
     visionWindow = null;
   });
 
-  var theUrl = path.join(__dirname, `/modals/${activity}.html`);
-  console.log("url", theUrl);
+  var theUrl = path.join(__dirname, '/modals/vision.html');
 
   visionWindow.loadFile(theUrl);
 }
@@ -384,14 +376,12 @@ ipcMain.on("vision-delayed", () => {
 
 //change settings IPC
 ipcMain.on("change-settings", (event, arg) => {
-  console.log(arg);
   event.reply("settings-change-success", arg); // or event.reply('settings-change-failure)
   //update info on local storage
   //put request to database
 });
 
 ipcMain.on("set-delay", (event, arg) => {
-  console.log(arg);
   event.reply("delay-success", arg); // or event.reply('delay-failure)
   //update info on local storage
   //put request to database

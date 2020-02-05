@@ -15,7 +15,7 @@ class DashPreferences extends Component {
     const pref = this.props.userPreferences.map(pref => pref.frequency);
     return (
       <div>
-        User Preferences
+        Your Preferences
         <p>
           Posture:{" "}
           {pref[0] ? `${pref[0]} minute intervals` : "No preference set"}

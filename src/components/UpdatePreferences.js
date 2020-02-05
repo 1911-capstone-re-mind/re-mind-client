@@ -88,7 +88,7 @@ class UpdatePreferences extends Component {
             );
           })}
 
-          <button type="submit">Submit</button>
+          <button type="submit">Updates Complete</button>
         </form>
       </div>
     );
