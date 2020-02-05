@@ -20,17 +20,23 @@ let moveWindow;
 let visionWindow;
 
 // init scheduler variables
-let pstTime
-let moveTime
-let visionTime
-let hydroTime
-let mindTime
+let pstTime;
+let moveTime;
+let visionTime;
+let hydroTime;
+let mindTime;
+
+// init date variables
+const month = new Date().getMonth() + 1;
+const date = new Date().getDate();
 
 // get settings from local storage for schedulers
 const getSetting = settingName => {
   let preferences = {};
   currentUserSettings.get("userPreferences").forEach(pref => {
     if (pref.activity.name === settingName) {
+      preferences["name"] = pref.activity.name;
+      preferences["userPreferenceId"] = pref.id;
       preferences["frequency"] = pref.frequency;
       preferences["duration"] = pref.duration;
       preferences["active"] = pref.active;
@@ -71,12 +77,13 @@ function startTimer() {
   //frequency and duration preferences for user
   const posturePref = getSetting("posture");
   const movePref = getSetting("movement");
-  const visionPref = getSetting("eye strain");
+  const visionPref = getSetting("vision");
   const hydrationPref = getSetting("hydration");
   const mindfulPref = getSetting("mindfulness");
 
   //scheduler objects that track when to trigger a notificaiton
   const now = new Date().getTime();
+
   pstTime = new Scheduler(
     now + posturePref.frequency,
     posturePref.frequency,
@@ -87,7 +94,7 @@ function startTimer() {
     now + movePref.frequency,
     movePref.frequency,
     movePref.duration,
-    movePref.active,
+    movePref.active
   );
   visionTime = new Scheduler(
     now + visionPref.frequency,
@@ -99,7 +106,7 @@ function startTimer() {
     now + hydrationPref.frequency,
     hydrationPref.frequency,
     hydrationPref.duration,
-    hydrationPref.active,
+    hydrationPref.active
   );
   mindTime = new Scheduler(
     now + mindfulPref.frequency,
@@ -110,6 +117,12 @@ function startTimer() {
 
   setInterval(() => {
     const now = new Date().getTime();
+<<<<<<< HEAD
+=======
+
+    let time;
+    console.log("TCL: now", new Date().getSeconds());
+>>>>>>> master
 
     //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
@@ -140,9 +153,21 @@ function startTimer() {
       moveHeadsUp = true;
     }
 
+<<<<<<< HEAD
     if (now >= visionTime.trigger && visionTime.active && !visionTime.inProgress) {
       openVisionModal();
       visionTime.inProgress = true
+=======
+    if (
+      now >= visionTime.trigger &&
+      visionTime.active &&
+      !visionTime.inProgress
+    ) {
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+      openVisionModal("vision");
+      console.log(`Notification for 20/20/20 sent at ${time}`);
+      visionTime.inProgress = true;
+>>>>>>> master
       visionHeadsUp = false;
     } else if (
       now >= visionTime.trigger - 30000 &&
@@ -157,8 +182,20 @@ function startTimer() {
       visionHeadsUp = true;
     }
 
+<<<<<<< HEAD
     if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp && !mindTime.inProgress) {
       openMindModal();
+=======
+    if (
+      now >= mindTime.trigger &&
+      mindTime.active &&
+      !mindHeadsUp &&
+      !mindTime.inProgress
+    ) {
+      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+      openMindModal("mindfulness");
+      console.log(`Notification for mindfulness sent at ${time}`);
+>>>>>>> master
       mindTime.inProgress = true;
       mindHeadsUp = false;
     } else if (
@@ -177,11 +214,14 @@ function startTimer() {
 }
 
 function startSyncTimer() {
+  const log = currentUserSettings.get("log");
+  let req = [];
+  for (let activity in log) {
+    req.push(log[activity]);
+  }
+
   setInterval(async () => {
-    await axios.put(
-      "http://localhost:8080/api/log/"
-      //local storage data, array of items
-    );
+    await axios.put("http://localhost:8080/api/activity-log/log/", req);
   }, 60000 * 15);
 }
 
@@ -261,6 +301,13 @@ ipcMain.on("mindfulness-accepted", event => {
 
 ipcMain.on("mindfulness-finished", () => {
   mindWindow.close();
+  let currentSessions = currentUserSettings.get(
+    "log.mindfulness.completed_sessions"
+  );
+  currentUserSettings.set(
+    "log.mindfulness.completed_sessions",
+    currentSessions + 1
+  );
   mindTime.restart();
 });
 
@@ -281,6 +328,13 @@ ipcMain.on("movement-accepted", event => {
 
 ipcMain.on("movement-finished", () => {
   moveWindow.close();
+  let currentSessions = currentUserSettings.get(
+    "log.movement.completed_sessions"
+  );
+  currentUserSettings.set(
+    "log.movement.completed_sessions",
+    currentSessions + 1
+  );
   moveTime.restart();
 });
 
@@ -302,6 +356,10 @@ ipcMain.on("vision-accepted", event => {
 
 ipcMain.on("vision-finished", () => {
   visionWindow.close();
+  let currentSessions = currentUserSettings.get(
+    "log.vision.completed_sessions"
+  );
+  currentUserSettings.set("log.vision.completed_sessions", currentSessions + 1);
   visionTime.restart();
 });
 
@@ -340,11 +398,37 @@ ipcMain.on("main-app-init", (event, arg) => {
   // start the timer
   startTimer();
   startSyncTimer();
+
+  const posturePref = getSetting("posture");
+  const movePref = getSetting("movement");
+  const visionPref = getSetting("vision");
+  const hydrationPref = getSetting("hydration");
+  const mindfulPref = getSetting("mindfulness");
+
+  const activities = [
+    posturePref,
+    movePref,
+    visionPref,
+    hydrationPref,
+    mindfulPref
+  ];
+  // clear previous log
+  currentUserSettings.delete("log");
+  // initialize the log with null values
+  activities.forEach(activity => {
+    currentUserSettings.set(`log.${activity.name}`, {
+      userPreferenceId: activity.userPreferenceId,
+      month: month,
+      date: date,
+      completed_sessions: 0
+    });
+  });
 });
 
+// called on main app mount
 ipcMain.on("save-log", (event, arg) => {
-  // set the user settings log with the array 'arg'
-  currentUserSettings.set("log", arg);
+  // set the user's activity log  in loca storage with the server activity log
+  currentUserSettings.set("activityBackLog", arg);
   event.reply("log-saved", currentUserSettings.get());
 });
 
@@ -352,29 +436,29 @@ ipcMain.on("save-preferences", (event, arg) => {
   currentUserSettings.set("userPreferences", arg);
   const posturePref = getSetting("posture");
   const movePref = getSetting("movement");
-  const visionPref = getSetting("eye strain");
+  const visionPref = getSetting("vision");
   const hydrationPref = getSetting("hydration");
   const mindfulPref = getSetting("mindfulness");
 
-  pstTime.frequency = posturePref.frequency
-  pstTime.duration = posturePref.duration
-  pstTime.active = posturePref.active
+  pstTime.frequency = posturePref.frequency;
+  pstTime.duration = posturePref.duration;
+  pstTime.active = posturePref.active;
 
-  moveTime.frequency = movePref.frequency
-  moveTime.duration = movePref.duration
-  moveTime.active = movePref.active
+  moveTime.frequency = movePref.frequency;
+  moveTime.duration = movePref.duration;
+  moveTime.active = movePref.active;
 
-  visionTime.frequency = visionPref.frequency
-  visionTime.duration = visionPref.duration
-  visionTime.active = visionPref.active
+  visionTime.frequency = visionPref.frequency;
+  visionTime.duration = visionPref.duration;
+  visionTime.active = visionPref.active;
 
-  hydroTime.frequency = hydrationPref.frequency
-  hydroTime.duration = hydrationPref.duration
-  hydroTime.active = hydrationPref.active
+  hydroTime.frequency = hydrationPref.frequency;
+  hydroTime.duration = hydrationPref.duration;
+  hydroTime.active = hydrationPref.active;
 
-  mindTime.frequency = mindfulPref.frequency
-  mindTime.duration = mindfulPref.duration
-  mindTime.active = mindfulPref.active
+  mindTime.frequency = mindfulPref.frequency;
+  mindTime.duration = mindfulPref.duration;
+  mindTime.active = mindfulPref.active;
 
-  event.reply("preferences-saved", currentUserSettings._defaultValues);
+  event.reply("preferences-saved", currentUserSettings.get());
 });
