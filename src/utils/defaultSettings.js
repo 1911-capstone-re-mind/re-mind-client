@@ -4,6 +4,7 @@ module.exports = {
     {
       frequency: 15000, // for testing
       duration: 5000, // for testing
+      active: true,
       userId: 1,
       activityId: 1,
       activity: {
@@ -17,6 +18,7 @@ module.exports = {
     {
       frequency: 60 * 60000,
       duration: 5 * 60000,
+      active: true,
       userId: 1,
       activityId: 2,
       activity: {
@@ -30,6 +32,7 @@ module.exports = {
     {
       frequency: 5000,
       duration: 5000,
+      active: true,
       userId: 1,
       activityId: 3,
       activity: {
@@ -43,6 +46,7 @@ module.exports = {
     {
       frequency: 60 * 60000,
       duration: 5000,
+      active: true,
       userId: 1,
       activityId: 4,
       activity: {
@@ -56,6 +60,7 @@ module.exports = {
     {
       frequency: 14400000,
       duration: 600000,
+      active: true,
       userId: 1,
       activityId: 5,
       activity: {

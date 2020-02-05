@@ -369,3 +369,8 @@ ipcMain.on("save-log", (event, arg) => {
   currentUserSettings.set("log", arg);
   event.reply("log-saved", currentUserSettings.get());
 });
+
+ipcMain.on("save-preferences", (event, arg) => {
+  currentUserSettings.set("userPreferences", arg);
+  event.reply("preferences-saved", currentUserSettings._defaultValues);
+});
