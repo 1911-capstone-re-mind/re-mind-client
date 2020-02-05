@@ -36,7 +36,7 @@ module.exports = {
       userId: 1,
       activityId: 3,
       activity: {
-        name: "eye strain",
+        name: "vision",
         description:
           "Every 20 minutes, look at something 20 feet away for 20 seconds. The 20/20/20 rule was popularized by Dr. Jeff Anshell, a specialist in “vision ergonomics.”",
         frequency: 1200000,
@@ -81,7 +81,7 @@ module.exports = {
   log: {
     posture: {},
     movement: {},
-    "eye strain": {},
+    vision: {},
     hydration: {},
     mindfulness: {}
   },

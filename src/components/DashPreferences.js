@@ -36,17 +36,18 @@ class DashPreferences extends Component {
           Mindfulness:{" "}
           {pref[4] ? `${pref[4]} minute intervals` : "No preference set"}
         </p>
-        <Link to={"/update-preferences"}>Update Preferences</Link>
+        <button onClick={this.props.toggleUpdatePage}>Update Preferences</button>
       </div>
     );
   }
 }
 
-const mapState = state => {
+const mapState = (state, ownProps) => {
   return {
     activities: state.activities,
     user: state.user,
-    userPreferences: state.userPreferences
+    userPreferences: state.userPreferences,
+    toggleUpdatePage: ownProps.toggleUpdatePage
   };
 };
 

@@ -9,6 +9,7 @@ class Scheduler {
     this.frequency = frequency
     this.duration = duration
     this.active = active
+    this.inProgress = false
   }
 
   setNextNotif() {
@@ -16,18 +17,20 @@ class Scheduler {
   }
   //time in milliseconds
   setDelay(time) {
-    this.active = true
+    this.inProgress = false
     this.trigger = new Date().getTime() + time
   }
 
   restart() {
-    this.active = true
+    this.inProgress = false
     this.trigger = new Date().getTime() + this.frequency
   }
 
   disable() {
     this.active = false
+    this.inProgress = false
   }
+
 }
 
 module.exports = Scheduler
