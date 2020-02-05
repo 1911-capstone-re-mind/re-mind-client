@@ -111,38 +111,21 @@ function startTimer() {
 
   setInterval(() => {
     const now = new Date().getTime();
-    let time;
-    console.log("TCL: now", new Date().getSeconds());
 
-    // if (differenceInSeconds(now, test9Sec) > 9) {
-    //   console.log(new Date().getSeconds());
-    //   sendNotification('60 seconds', 'test mess');
-    //   test9Sec += 60000;
-    // }
-    console.log("TCL: pstTime", pstTime);
-
-    // notifications only
+    //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
-      // if (differrenceInMinutes(now, pstTime) > 20) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
-      console.log("TCL: time", time);
       sendNotification("Posture", "What sort of sitting is that?");
-      console.log(`Notification for posture sent at ${time}`);
       pstTime.setNextNotif();
     }
 
     if (now >= hydroTime.trigger && hydroTime.active) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
       sendNotification("Thirsty?", "Drink some H2O.");
-      console.log(`Notification for hydration sent at ${time}`);
       hydroTime.setNextNotif();
     }
 
-    // modal screen
+    // notifications that require pop up windows
     if (now >= moveTime.trigger && moveTime.active && !moveTime.inProgress) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
       openMoveModal();
-      console.log(`Notification for movement sent at ${time}`);
       moveTime.inProgress = true;
       moveHeadsUp = false;
     } else if (
@@ -153,15 +136,13 @@ function startTimer() {
     ) {
       sendNotification(
         "Movement Break",
-        "Your movement break is coming up in 30 seconds"
+        "It's almost time to stretch your legs"
       );
       moveHeadsUp = true;
     }
 
     if (now >= visionTime.trigger && visionTime.active && !visionTime.inProgress) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
       openVisionModal();
-      console.log(`Notification for 20/20/20 sent at ${time}`);
       visionTime.inProgress = true
       visionHeadsUp = false;
     } else if (
@@ -172,15 +153,13 @@ function startTimer() {
     ) {
       sendNotification(
         "Vision Break",
-        "Your vision break is coming up in 30 seconds"
+        "It's almost time to look away from your screen"
       );
       visionHeadsUp = true;
     }
 
     if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp && !mindTime.inProgress) {
-      time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
       openMindModal();
-      console.log(`Notification for mindfulness sent at ${time}`);
       mindTime.inProgress = true;
       mindHeadsUp = false;
     } else if (
@@ -191,7 +170,7 @@ function startTimer() {
     ) {
       sendNotification(
         "Mindfulness Break",
-        "Your mind break is coming up in 30 seconds"
+        "It's almost time to calm your mind"
       );
       mindHeadsUp = true;
     }
@@ -219,9 +198,9 @@ function openMindModal() {
   mindWindow = new BrowserWindow({
     width: 400,
     height: 400,
+    frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  mindWindow.webContents.openDevTools();
   mindWindow.on("closed", () => {
     mindWindow = null;
   });
@@ -236,9 +215,9 @@ function openMoveModal() {
   moveWindow = new BrowserWindow({
     width: 400,
     height: 400,
+    frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  moveWindow.webContents.openDevTools();
   moveWindow.on("closed", () => {
     moveWindow = null;
   });
@@ -253,9 +232,9 @@ function openVisionModal() {
   visionWindow = new BrowserWindow({
     width: 400,
     height: 400,
+    frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  visionWindow.webContents.openDevTools();
   visionWindow.on("closed", () => {
     visionWindow = null;
   });
