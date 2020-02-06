@@ -1,47 +1,77 @@
 import React from "react";
 import { connect } from "react-redux";
 import { updateUserPreferences } from "../store/reducers/userPreferencesReducer";
+import history from "../history";
 
 class NewUserPrefs extends React.Component {
   constructor() {
     super();
-    this.updates = [
-      { activityId: 1 },
-      { activityId: 2 },
-      { activityId: 3 },
-      { activityId: 4 },
-      { activityId: 5 }
-    ];
+    this.state = {
+      preferences: [
+        {
+          activityId: 1,
+          active: false,
+        },
+        {
+          activityId: 2,
+          active: false
+        },
+        {
+          activityId: 3,
+          active: false
+        },
+        {
+          activityId: 4,
+          active: false
+        },
+        {
+          activityId: 5,
+          active: false
+        }
+      ]
+    };
   }
 
   handleCheck = evt => {
-    this.updates.map(updateObj => {
-      if (updateObj.activityId === Number(evt.target.id)) {
-        evt.target.checked
-          ? (updateObj["active"] = true)
-          : (updateObj["active"] = false);
+    let newPreferences = this.state.preferences.map(pref => {
+      if (pref.activityId === Number(evt.target.id)) {
+        return (
+          {...pref, active: evt.target.checked ? true :  false}
+        )
+      } else {
+        return pref;
       }
     });
+    this.setState(() => ({
+      preferences: newPreferences
+    }))
   };
 
   handleChange = evt => {
-    this.updates.map(updateObj => {
-      if (updateObj.activityId === Number(evt.target.id))
-        updateObj[evt.target.name] =
-          evt.target.name === "duration" || evt.target.name === "frequency"
-            ? Number(evt.target.value) * 60000
-            : evt.target.value;
+    let newPreferences = this.state.preferences.map(pref => {
+      if (pref.activityId === Number(evt.target.id)) {
+        return (
+          {...pref, [evt.target.name]: Number(evt.target.value) * 60000}
+        ) ;
+      } else {
+        return pref;
+      }
     });
+    this.setState(() => ({
+      preferences: newPreferences
+    }))
   };
 
-  handleSubmit = evt => {
+  handleSubmit = async evt => {
     evt.preventDefault();
-    const activities = this.updates.filter(
-      activity => (activity["userId"] = this.props.user.id)
-    );
-
-    this.props.updateUserPreferences(activities, this.props.user.id);
+    try {
+      await this.props.updateUserPreferences(this.state.preferences, this.props.user.id);
+      history.push("/dashboard")
+    } catch (err) {
+      console.log(err)
+    }
   };
+
   render() {
     return (
       <div>

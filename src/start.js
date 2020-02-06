@@ -405,8 +405,13 @@ ipcMain.on("save-log", (event, arg) => {
   event.reply("log-saved", currentUserSettings.get());
 });
 
-ipcMain.on("save-preferences", (event, arg) => {
+ipcMain.on("set-preferences", (event, arg) => {
   currentUserSettings.set("userPreferences", arg);
+})
+
+
+//soemthjing else
+ipcMain.on("save-preferences", (event, arg) => {
   const posturePref = getSetting("posture");
   const movePref = getSetting("movement");
   const visionPref = getSetting("vision");
