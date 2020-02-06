@@ -34,21 +34,9 @@ class DailyDashboard extends React.Component {
   }
 
   render() {
-    // let sessArr = this.props.activityLog.map(log => {
-    //   if (log.date === 2) {
-    //     return log.completed_sessions;
-    //   }
-    // });
-    // sessArr = sessArr.filter(function(element) {
-    //   return element !== undefined;
-    // });
     const log = this.props.activityLog;
-    // log.filter(d => {
-    //   if (d.date === 3) {
-    //     return d;
-    //   }
-    // });
-    console.log("props", this.props);
+
+    console.log("props", log);
     return (
       <div className="daily-dashboard">
         <div className="daily-dashboard-header">Your daily report</div>
@@ -82,12 +70,13 @@ class DailyDashboard extends React.Component {
           />
         </VictoryChart>
         <VictoryPie
-          colorScale={["orange", "cyan"]}
+          colorScale={["orange", "cyan", "red"]}
           data={[
-            { x: " 80% completed", y: 80 },
-            { x: "20% ignored", y: 20 }
+            { x: " 80 minutes", y: 30 },
+            { x: "20 minutes", y: 20 },
+            { x: "50 minutes", y: 50 }
           ]}
-          width={300}
+          width={500}
         />
       </div>
     );
