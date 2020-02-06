@@ -18,12 +18,6 @@ export const getUserPreferences = userId => {
         `http://localhost:8080/api/activities/${userId}`
       );
       dispatch(getPrefs(res.data));
-      // if (res.data.length) {
-      //   savePreferences(res.data);
-      //   ipcRenderer.on("preferences-saved", (event, message) => {
-      //     console.log("USER PREFERENCES", message);
-      //   });
-      // }
     } catch (error) {
       throw new Error('error fetching preferences')
     }

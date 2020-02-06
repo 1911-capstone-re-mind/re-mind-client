@@ -347,19 +347,6 @@ ipcMain.on("vision-delayed", () => {
 });
 //end vision IPC
 
-//change settings IPC
-ipcMain.on("change-settings", (event, arg) => {
-  event.reply("settings-change-success", arg); // or event.reply('settings-change-failure)
-  //update info on local storage
-  //put request to database
-});
-
-ipcMain.on("set-delay", (event, arg) => {
-  event.reply("delay-success", arg); // or event.reply('delay-failure)
-  //update info on local storage
-  //put request to database
-});
-
 ipcMain.on("get-preferences", (event, arg) => {
   // make axios call to grab info for user
   // compare to the local store preferences (date modified?)

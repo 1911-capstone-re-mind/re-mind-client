@@ -9,24 +9,32 @@ class NewUserPrefs extends React.Component {
     this.state = {
       preferences: [
         {
-          activityId: 1,
+          activityId: 1, //posture
           active: false,
+          frequency: 0,
         },
         {
-          activityId: 2,
-          active: false
+          activityId: 2, //movement
+          active: false,
+          frequency: 0,
+          duration: 0
         },
         {
-          activityId: 3,
-          active: false
+          activityId: 3, //vision
+          active: false,
+          frequency: 0,
+          duration: 0
         },
         {
-          activityId: 4,
-          active: false
+          activityId: 4, //hydration
+          active: false,
+          frequency: 0
         },
         {
-          activityId: 5,
-          active: false
+          activityId: 5, //mindfulness
+          active: false,
+          frequency: 0,
+          duration: 0
         }
       ]
     };
@@ -78,7 +86,7 @@ class NewUserPrefs extends React.Component {
         <p onClick={() => this.props.history.push("/new-user")}>Back</p>
         <h1>Set your preferences</h1>
         <form name="preferences" onSubmit={this.handleSubmit}>
-          {this.props.activities.map(activity => {
+          {this.props.activities.map((activity, idx) => {
             return (
               <div key={activity.id}>
                 <input
@@ -98,6 +106,7 @@ class NewUserPrefs extends React.Component {
                       id={activity.id}
                       name="duration"
                       placeholder={activity.duration / 60000}
+                      value={this.state.preferences[idx].duration}
                     />
                   </>
                 )}
@@ -108,11 +117,11 @@ class NewUserPrefs extends React.Component {
                   id={activity.id}
                   name="frequency"
                   placeholder={activity.frequency / 60000}
+                  value={this.state.preferences[idx].frequency}
                 />
               </div>
             );
           })}
-
           <button type="submit">Submit</button>
         </form>
       </div>
