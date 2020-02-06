@@ -22,7 +22,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        {/* {props.isLoggedIn && <Nav />} unused now*/}
         <Switch>
           <Route exact path="/" component={Hello} />
           <Route exact path="/login" component={Login} />

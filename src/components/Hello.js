@@ -8,10 +8,4 @@ class Hello extends React.Component {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    fetchActivities: () => dispatch(fetchActivities())
-  };
-};
-
 export default connect(null, mapDispatch)(Hello);
