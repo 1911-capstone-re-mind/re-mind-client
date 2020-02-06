@@ -35,7 +35,8 @@ class DailyDashboard extends React.Component {
 
   render() {
     const log = this.props.activityLog;
-
+    const min = d =>
+      (d.completed_sessions * d.user_preference.duration) / 60000;
     console.log(
       "props",
       log
@@ -81,8 +82,6 @@ class DailyDashboard extends React.Component {
         </VictoryChart>
         <VictoryPie
           colorScale={["orange", "cyan", "red"]}
-          tickValues={[1, 2, 3]}
-          tickFormat={["Movement", "Eye Strain", "Mindfulness"]}
           data={log
             .filter(d => d.date === 3)
             .filter(
