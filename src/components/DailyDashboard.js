@@ -35,19 +35,17 @@ class DailyDashboard extends React.Component {
 
   render() {
     const log = this.props.activityLog;
-    const min = d =>
-      (d.completed_sessions * d.user_preference.duration) / 60000;
-    console.log(
-      "props",
-      log
-        .filter(d => d.date === 3)
-        .filter(
-          x =>
-            (x.userPreferenceId === 2) +
-            (x.userPreferenceId === 3) +
-            (x.userPreferenceId === 5)
-        )
-    );
+    // console.log(
+    //   "props",
+    //   log
+    //     .filter(d => d.date === 3)
+    //     .filter(
+    //       x =>
+    //         (x.userPreferenceId === 2) +
+    //         (x.userPreferenceId === 3) +
+    //         (x.userPreferenceId === 5)
+    //     )
+    // );
     return (
       <div className="daily-dashboard">
         <div className="daily-dashboard-header">Your daily report</div>

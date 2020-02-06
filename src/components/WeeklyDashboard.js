@@ -45,8 +45,8 @@ class WeeklyDashboard extends React.Component {
       if (!this[id]) result2.push((this[id] = obj));
       else this[id].completed_sessions += obj.completed_sessions;
     }, Object.create(null));
-    console.log("weeklyProps", result2);
-    console.log("filtered log", result);
+    // console.log("weeklyProps", result2);
+    // console.log("filtered log", result);
     return (
       <div className="weekly-dashboard">
         <div className="weekly-dashboard-header">Your weekly report</div>
