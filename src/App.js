@@ -8,7 +8,7 @@ import Hello from "./components/Hello";
 import NewUser from "./components/NewUser";
 import NewUserPrefs from "./components/NewUserPrefs";
 import UpdatePreferences from "./components/UpdatePreferences";
-import { fetchActivities } from "/store/reducers/activities";
+import { fetchActivities } from "./store/reducers/activities";
 
 class App extends React.Component {
   constructor() {
@@ -29,7 +29,7 @@ class App extends React.Component {
           <Route exact path="/new-user" component={NewUser} />
           <Route exact path="/new-user-prefs" component={NewUserPrefs} />
           <Route exact path="/update-preferences" component={UpdatePreferences} />
-          {props.isLoggedIn && (
+          {this.props.isLoggedIn && (
             <Route exact path="/dashboard" component={MasterDashboard} />
           )}
           <Route component={Hello} />

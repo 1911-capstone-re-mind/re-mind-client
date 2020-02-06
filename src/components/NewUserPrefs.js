@@ -89,6 +89,7 @@ class NewUserPrefs extends React.Component {
           {this.props.activities.map((activity, idx) => {
             return (
               <div key={activity.id}>
+                <label htmlFor={`${activity.id}-enable`}>Enable</label>
                 <input
                   onChange={this.handleCheck}
                   name="active"
@@ -106,7 +107,6 @@ class NewUserPrefs extends React.Component {
                       id={activity.id}
                       name="duration"
                       placeholder={activity.duration / 60000}
-                      value={this.state.preferences[idx].duration}
                     />
                   </>
                 )}
@@ -117,7 +117,6 @@ class NewUserPrefs extends React.Component {
                   id={activity.id}
                   name="frequency"
                   placeholder={activity.frequency / 60000}
-                  value={this.state.preferences[idx].frequency}
                 />
               </div>
             );
