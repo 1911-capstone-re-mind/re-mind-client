@@ -46,6 +46,7 @@ class UpdatePreferences extends Component {
       .filter(activity => (activity["userId"] = this.props.user.id));
 
     this.props.updateUserPreferences(activities, this.props.user.id);
+    this.props.toggleUpdatePage()
   };
   render() {
     return (
@@ -87,18 +88,19 @@ class UpdatePreferences extends Component {
             );
           })}
 
-          <button type="submit">Submit</button>
+          <button type="submit">Updates Complete</button>
         </form>
       </div>
     );
   }
 }
 
-const mapState = state => {
+const mapState = (state, ownProps) => {
   return {
     activities: state.activities,
     user: state.user,
-    userPreferences: state.userPreferences
+    userPreferences: state.userPreferences,
+    toggleUpdatePage: ownProps.toggleUpdatePage
   };
 };
 

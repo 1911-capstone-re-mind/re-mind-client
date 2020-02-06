@@ -49,6 +49,12 @@ export const initTimer = () => {
   ipcRenderer.send("main-app-init");
 };
 
+// save the user's activity log to file system
 export const saveLog = log => {
   ipcRenderer.send("save-log", log);
+};
+
+// save the user's preferences to the file system
+export const savePreferences = prefs => {
+  ipcRenderer.send("save-preferences", prefs);
 };
