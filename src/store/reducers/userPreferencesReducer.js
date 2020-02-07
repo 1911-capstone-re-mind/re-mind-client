@@ -1,5 +1,4 @@
 import axios from "axios";
-import history from "../../history";
 import { savePreferences } from "../../dataToMainProcess";
 const { ipcRenderer } = window.require("electron");
 
@@ -19,14 +18,8 @@ export const getUserPreferences = userId => {
         `http://localhost:8080/api/activities/${userId}`
       );
       dispatch(getPrefs(res.data));
-      if (res.data.length) {
-        savePreferences(res.data);
-        ipcRenderer.on("preferences-saved", (event, message) => {
-          console.log("USER PREFERENCES", message);
-        });
-      }
     } catch (error) {
-      console.log(error);
+      throw new Error("error fetching preferences");
     }
   };
 };
@@ -36,13 +29,14 @@ export const updateUserPreferences = (activities, userId) => {
     try {
       const res = await axios.put(
         `http://localhost:8080/api/activities/prefs/${userId}`,
-        activities
+        {
+          activities,
+          userId
+        }
       );
       dispatch(updatePrefs(res.data));
-      dispatch(getUserPreferences(userId));
-      // history.push("/dashboard");
     } catch (error) {
-      console.log(error);
+      throw new Error("error updating preferences");
     }
   };
 };

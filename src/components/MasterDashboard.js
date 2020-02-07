@@ -4,9 +4,10 @@ import DailyDashboard from "./DailyDashboard";
 import WeeklyDashboard from "./WeeklyDashboard";
 import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
 import { fetchLog } from "../store/reducers/activityLogReducer";
-import { initTimer } from "../dataToMainProcess";
+import { initTimer, setPreferences } from "../dataToMainProcess";
 import DashPreferences from "./DashPreferences";
 import Chatbot from "./Chatbot";
+import { logout } from "../store/reducers/userReducer";
 import UpdatePreferences from "./UpdatePreferences";
 
 class MasterDashboard extends React.Component {
@@ -16,21 +17,25 @@ class MasterDashboard extends React.Component {
       view: "daily",
       isUpdatingPrefs: false
     };
-
+    this.handleClick = this.handleClick.bind(this);
     this.handleSwitch = this.handleSwitch.bind(this);
     this.toggleUpdatePage = this.toggleUpdatePage.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getUserPreferences(this.props.user.id);
+  async componentDidMount() {
+    await this.props.getUserPreferences(this.props.user.id);
+    setPreferences(this.props.userPreferences);
     initTimer();
-    this.props.fetchLog(this.props.user.id);
+    await this.props.fetchLog(this.props.user.id);
   }
 
   handleSwitch(event) {
     this.setState({
       view: event.target.value
     });
+  }
+  handleClick() {
+    this.props.logout();
   }
 
   toggleUpdatePage() {
@@ -60,6 +65,9 @@ class MasterDashboard extends React.Component {
             <button onClick={this.handleSwitch} value="weekly">
               Weekly View
             </button>
+            <button type="button" onClick={this.handleClick}>
+              Logout
+            </button>
           </div>
           <div className="dashboard-view" style={{ margin: "100px" }}>
             {viewSelection}
@@ -83,7 +91,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getUserPreferences: userId => dispatch(getUserPreferences(userId)),
-    fetchLog: userId => dispatch(fetchLog(userId))
+    fetchLog: userId => dispatch(fetchLog(userId)),
+    logout: () => dispatch(logout())
   };
 };
 

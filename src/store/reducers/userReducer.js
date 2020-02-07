@@ -1,6 +1,8 @@
 import axios from "axios";
 import history from "../../history";
+import { clearTimer } from "../../dataToMainProcess";
 const { ipcRenderer } = window.require('electron')
+
 // action types
 const GET_USER = "GET_USER";
 const REMOVE_USER = "REMOVE_USER";
@@ -44,6 +46,7 @@ export const logout = () => async dispatch => {
     //TO DO : Add Heroku hosted server address
     await axios.post(`http://localhost:8080/auth/logout`);
     dispatch(removeUser());
+    clearTimer();
     history.push("/");
   } catch (err) {
     console.error(err);

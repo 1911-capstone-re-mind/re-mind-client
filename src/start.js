@@ -15,6 +15,10 @@ const url = require("url");
 const defaults = require("./utils/defaultSettings");
 let currentUserSettings = new Store({ defaults });
 
+//init timers
+let masterTimer;
+let syncTimer;
+
 // init html file views
 let mainWindow;
 let mindWindow;
@@ -55,9 +59,10 @@ function createWindow() {
     y: 200,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    resizable: false
   });
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
@@ -69,6 +74,8 @@ function createWindow() {
 
   mainWindow.on("closed", () => {
     mainWindow = null;
+    clearInterval(masterTimer);
+    clearInterval(syncTimer);
   });
 }
 
@@ -119,17 +126,23 @@ function startTimer() {
     mindfulPref.active
   );
 
-  setInterval(() => {
+  masterTimer = setInterval(() => {
     const now = new Date().getTime();
 
     //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
-      sendNotification("Posture", "How's your posture? Make sure you're sitting correctly");
+      sendNotification(
+        "Posture",
+        "How's your posture? Make sure you're sitting correctly"
+      );
       pstTime.setNextNotif();
     }
 
     if (now >= hydroTime.trigger && hydroTime.active) {
-      sendNotification("Hydration", "Have you been drinking water? Stay hydrated");
+      sendNotification(
+        "Hydration",
+        "Have you been drinking water? Stay hydrated"
+      );
       hydroTime.setNextNotif();
     }
 
@@ -151,9 +164,13 @@ function startTimer() {
       moveHeadsUp = true;
     }
 
-    if (now >= visionTime.trigger && visionTime.active && !visionTime.inProgress) {
+    if (
+      now >= visionTime.trigger &&
+      visionTime.active &&
+      !visionTime.inProgress
+    ) {
       openVisionModal();
-      visionTime.inProgress = true
+      visionTime.inProgress = true;
 
       visionHeadsUp = false;
     } else if (
@@ -169,8 +186,7 @@ function startTimer() {
       visionHeadsUp = true;
     }
 
-
-    if (now >= mindTime.trigger && mindTime.active && !mindHeadsUp && !mindTime.inProgress) {
+    if (now >= mindTime.trigger && mindTime.active && !mindTime.inProgress) {
       openMindModal();
 
       mindTime.inProgress = true;
@@ -197,7 +213,7 @@ function startSyncTimer() {
     req.push(log[activity]);
   }
 
-  setInterval(async () => {
+  syncTimer = setInterval(async () => {
     await axios.put("http://localhost:8080/api/activity-log/log/", req);
   }, 60000 * 15);
 }
@@ -221,7 +237,7 @@ function openMindModal() {
     mindWindow = null;
   });
 
-  var theUrl = path.join(__dirname, '/modals/mindfulness.html');
+  var theUrl = path.join(__dirname, "/modals/mindfulness.html");
 
   mindWindow.loadFile(theUrl);
 }
@@ -237,7 +253,7 @@ function openMoveModal() {
     moveWindow = null;
   });
 
-  var theUrl = path.join(__dirname, '/modals/movement.html');
+  var theUrl = path.join(__dirname, "/modals/movement.html");
 
   moveWindow.loadFile(theUrl);
 }
@@ -253,7 +269,7 @@ function openVisionModal() {
     visionWindow = null;
   });
 
-  var theUrl = path.join(__dirname, '/modals/vision.html');
+  var theUrl = path.join(__dirname, "/modals/vision.html");
 
   visionWindow.loadFile(theUrl);
 }
@@ -402,19 +418,6 @@ ipcMain.on("vision-delayed", () => {
 });
 //end vision IPC
 
-//change settings IPC
-ipcMain.on("change-settings", (event, arg) => {
-  event.reply("settings-change-success", arg); // or event.reply('settings-change-failure)
-  //update info on local storage
-  //put request to database
-});
-
-ipcMain.on("set-delay", (event, arg) => {
-  event.reply("delay-success", arg); // or event.reply('delay-failure)
-  //update info on local storage
-  //put request to database
-});
-
 ipcMain.on("get-preferences", (event, arg) => {
   // make axios call to grab info for user
   // compare to the local store preferences (date modified?)
@@ -460,33 +463,48 @@ ipcMain.on("save-log", (event, arg) => {
   event.reply("log-saved", currentUserSettings.get());
 });
 
-ipcMain.on("save-preferences", (event, arg) => {
+ipcMain.on("set-preferences", (event, arg) => {
   currentUserSettings.set("userPreferences", arg);
+});
+
+//soemthjing else
+ipcMain.on("save-preferences", (event, arg) => {
   const posturePref = getSetting("posture");
   const movePref = getSetting("movement");
   const visionPref = getSetting("vision");
   const hydrationPref = getSetting("hydration");
   const mindfulPref = getSetting("mindfulness");
+  const now = new Date().getTime();
 
+  pstTime.trigger = now + posturePref.frequency;
   pstTime.frequency = posturePref.frequency;
   pstTime.duration = posturePref.duration;
   pstTime.active = posturePref.active;
 
+  moveTime.trigger = now + movePref.frequency;
   moveTime.frequency = movePref.frequency;
   moveTime.duration = movePref.duration;
   moveTime.active = movePref.active;
 
+  visionTime.trigger = now + visionPref.frequency;
   visionTime.frequency = visionPref.frequency;
   visionTime.duration = visionPref.duration;
   visionTime.active = visionPref.active;
 
+  hydroTime.trigger = now + hydrationPref.frequency;
   hydroTime.frequency = hydrationPref.frequency;
   hydroTime.duration = hydrationPref.duration;
   hydroTime.active = hydrationPref.active;
 
+  mindTime.trigger = now + mindfulPref.frequency;
   mindTime.frequency = mindfulPref.frequency;
   mindTime.duration = mindfulPref.duration;
   mindTime.active = mindfulPref.active;
 
   event.reply("preferences-saved", currentUserSettings.get());
+});
+
+ipcMain.on("clear-timer", (event, arg) => {
+  clearInterval(masterTimer);
+  clearInterval(syncTimer);
 });
