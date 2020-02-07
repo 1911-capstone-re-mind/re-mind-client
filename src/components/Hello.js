@@ -3,7 +3,18 @@ import { Link } from "react-router-dom";
 
 class Hello extends React.Component {
   render() {
-    return <Link to="/login">Hi! Login.</Link>;
+    return (
+      <div className="login">
+        <div className="center">
+          <p>Your workplace wellness tracker.</p>
+          <div>
+            <Link to="/login">
+              <button>Continue</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

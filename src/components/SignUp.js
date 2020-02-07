@@ -21,41 +21,31 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <div id="login">
-        <form onSubmit={this.handleSubmit} name="signup">
-          <div>
-            <label htmlFor="email">
-              <small>Email</small>
-            </label>
-            <input name="email" type="text" />
-          </div>
-          <div>
-            <label htmlFor="password">
-              <small>Password</small>
-            </label>
-            <input name="password" type="password" />
-          </div>
-          <div>
-            <label htmlFor="firstName">
-              <small>First Name</small>
-            </label>
-            <input name="firstName" type="text" />
-          </div>
-          <div>
-            <label htmlFor="lastName">
-              <small>Last Name</small>
-            </label>
-            <input name="lastName" type="text" />
-          </div>
-          <div>
-            <button type="submit">Sign Up</button>
-          </div>
-          {/* {error && error.response && <div> {error.response.data} </div>} */}
-        </form>
-        {/* <button id="google" href="/auth/google">
+      <div className="login">
+        <div className="center">
+          <form onSubmit={this.handleSubmit} name="signup">
+            <div>
+              <input placeholder="Email" name="email" type="text" />
+            </div>
+            <div>
+              <input placeholder="Password" name="password" type="password" />
+            </div>
+            <div>
+              <input placeholder="First Name" name="firstName" type="text" />
+            </div>
+            <div>
+              <input placeholder="Last Name" name="lastName" type="text" />
+            </div>
+            <div>
+              <button type="submit">Sign Up</button>
+            </div>
+            {/* {error && error.response && <div> {error.response.data} </div>} */}
+          </form>
+          {/* <button id="google" href="/auth/google">
           Sign Up with Google
         </button> */}
-        <Link to="/login">Already a member? Login.</Link>
+          <Link to="/login">Already a member? Login.</Link>
+        </div>
       </div>
     );
   }

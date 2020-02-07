@@ -19,30 +19,27 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div id="login">
-        <form onSubmit={this.handleSubmit} name="login">
-          <div>
-            <label htmlFor="email">
-              <small>Email</small>
-            </label>
-            <input name="email" type="text" />
-          </div>
-          <div>
-            <label htmlFor="password">
-              <small>Password</small>
-            </label>
-            <input name="password" type="password" />
-          </div>
-          <div>
-            <button type="submit">Login</button>
-          </div>
-          {/* {error && error.response && <div> {error.response.data} </div>} */}
-        </form>
-        {/* <button id="google" onClick={() => window.open("https://google.com")}>
+      <div className="login">
+        <div className="center">
+          <form onSubmit={this.handleSubmit} name="login">
+            <div>
+              <input placeholder="Email" name="email" type="text" />
+            </div>
+
+            <div>
+              <input placeholder="Password" name="password" type="password" />
+            </div>
+            <div>
+              <button type="submit">Login</button>
+            </div>
+            {/* {error && error.response && <div> {error.response.data} </div>} */}
+          </form>
+          {/* <button id="google" onClick={() => window.open("https://google.com")}>
           Login with Google
         </button> */}
-        <div>
-          <Link to="/signup">Don't have an account? Sign up.</Link>
+          <div>
+            <Link to="/signup">Don't have an account? Sign up.</Link>
+          </div>
         </div>
       </div>
     );

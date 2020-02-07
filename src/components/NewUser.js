@@ -4,16 +4,28 @@ import { Link } from "react-router-dom";
 
 const NewUser = props => {
   return (
-    <div>
-      <h1>Welcome to re:mind, your personal workplace wellness tracker.</h1>
-      <p>This app will help you focus on:</p>
-      {props.activities.map(activity => (
-        <div key={activity.id}>
-          <h5>{activity.name}</h5>
-          <p>{activity.description}</p>
+    <div className="dash-container">
+      <div className="main-container">
+        <div className="card">
+          <h3>Welcome to your personal workplace wellness tracker.</h3>
+
+          <p>This app will help you focus on:</p>
+          <div id="activities-container">
+            {props.activities.map(activity => (
+              <div className="activity-card" key={activity.id}>
+                <h2>
+                  {activity.name.slice(0, 1).toUpperCase() +
+                    activity.name.slice(1)}
+                </h2>
+                <p>{activity.description}</p>
+              </div>
+            ))}
+          </div>
+          <Link to="/new-user-prefs">
+            <button>Continue</button>
+          </Link>
         </div>
-      ))}
-      <Link to="/new-user-prefs">Continue</Link>
+      </div>
     </div>
   );
 };

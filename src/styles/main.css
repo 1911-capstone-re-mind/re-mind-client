@@ -1,0 +1,154 @@
+/* #484545 */
+/* #55595d */
+
+body {
+  font-family: "Avenir";
+  color: #c9c4c4;
+  background-color: #484545;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  color: #c9c4c4;
+}
+
+h1 {
+  font-size: xx-large;
+  font-weight: 300;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: 300;
+  border-bottom: #ba7b64 10px solid;
+  width: 200px;
+  text-align: center;
+}
+
+h3 {
+  font-size: larger;
+  font-weight: 300;
+}
+button {
+  width: 120px;
+  height: 30px;
+  border-radius: 15px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  background-color: #738a98;
+  box-shadow: 2px 4px 6px #3f3f3f;
+  color: #c9c4c4;
+  margin: 10px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+input {
+  width: 250px;
+  border: none;
+  height: 27px;
+  margin: 10px;
+  padding-left: 10px;
+  color: #535353;
+  background-color: #cacaca;
+}
+
+.login {
+  background: url("./assets/re-mind-login.svg");
+  background-size: 900px;
+  background-position-x: -80px;
+  background-position-y: -60px;
+  background-attachment: fixed;
+  width: 800px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  padding: none;
+  border: none;
+  margin-top: 30px;
+  width: 400px;
+  height: 500px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-container {
+  background: url("./assets/re-mind-dash-logo.svg");
+  background-repeat: no-repeat;
+  background-position-x: -150px;
+  background-position-y: -80px;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  overflow: scroll;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  top: 70px;
+}
+
+.card {
+  /* background-color: #5d5955; */
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 450px;
+  overflow: none;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 15px;
+  margin: 5px;
+  margin-top: 70px;
+}
+
+#activities-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: auto;
+  height: auto;
+  overflow: scroll;
+  padding: 15px;
+  scroll-snap-type: y mandatory;
+}
+
+/* #activities-container::-webkit-scrollbar {
+  width: 0px;
+} */
+
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #919191;
+  width: 400px;
+  height: auto;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: 2px 4px 6px #414141;
+  border-radius: 15px;
+  scroll-snap-align: start;
+}

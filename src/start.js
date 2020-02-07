@@ -14,8 +14,8 @@ const defaults = require("./utils/defaultSettings");
 let currentUserSettings = new Store({ defaults });
 
 //init timers
-let masterTimer
-let syncTimer
+let masterTimer;
+let syncTimer;
 
 // init html file views
 let mainWindow;
@@ -55,7 +55,8 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    resizable: false
   });
   mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
@@ -69,8 +70,8 @@ function createWindow() {
 
   mainWindow.on("closed", () => {
     mainWindow = null;
-    clearInterval(masterTimer)
-    clearInterval(syncTimer)
+    clearInterval(masterTimer);
+    clearInterval(syncTimer);
   });
 }
 
@@ -126,12 +127,18 @@ function startTimer() {
 
     //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
-      sendNotification("Posture", "How's your posture? Make sure you're sitting correctly");
+      sendNotification(
+        "Posture",
+        "How's your posture? Make sure you're sitting correctly"
+      );
       pstTime.setNextNotif();
     }
 
     if (now >= hydroTime.trigger && hydroTime.active) {
-      sendNotification("Hydration", "Have you been drinking water? Stay hydrated");
+      sendNotification(
+        "Hydration",
+        "Have you been drinking water? Stay hydrated"
+      );
       hydroTime.setNextNotif();
     }
 
@@ -153,9 +160,13 @@ function startTimer() {
       moveHeadsUp = true;
     }
 
-    if (now >= visionTime.trigger && visionTime.active && !visionTime.inProgress) {
+    if (
+      now >= visionTime.trigger &&
+      visionTime.active &&
+      !visionTime.inProgress
+    ) {
       openVisionModal();
-      visionTime.inProgress = true
+      visionTime.inProgress = true;
 
       visionHeadsUp = false;
     } else if (
@@ -170,7 +181,6 @@ function startTimer() {
       );
       visionHeadsUp = true;
     }
-
 
     if (now >= mindTime.trigger && mindTime.active && !mindTime.inProgress) {
       openMindModal();
@@ -223,7 +233,7 @@ function openMindModal() {
     mindWindow = null;
   });
 
-  var theUrl = path.join(__dirname, '/modals/mindfulness.html');
+  var theUrl = path.join(__dirname, "/modals/mindfulness.html");
 
   mindWindow.loadFile(theUrl);
 }
@@ -239,7 +249,7 @@ function openMoveModal() {
     moveWindow = null;
   });
 
-  var theUrl = path.join(__dirname, '/modals/movement.html');
+  var theUrl = path.join(__dirname, "/modals/movement.html");
 
   moveWindow.loadFile(theUrl);
 }
@@ -255,7 +265,7 @@ function openVisionModal() {
     visionWindow = null;
   });
 
-  var theUrl = path.join(__dirname, '/modals/vision.html');
+  var theUrl = path.join(__dirname, "/modals/vision.html");
 
   visionWindow.loadFile(theUrl);
 }
@@ -400,8 +410,7 @@ ipcMain.on("save-log", (event, arg) => {
 
 ipcMain.on("set-preferences", (event, arg) => {
   currentUserSettings.set("userPreferences", arg);
-})
-
+});
 
 //soemthjing else
 ipcMain.on("save-preferences", (event, arg) => {

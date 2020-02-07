@@ -19,7 +19,7 @@ export const getUserPreferences = userId => {
       );
       dispatch(getPrefs(res.data));
     } catch (error) {
-      throw new Error('error fetching preferences')
+      throw new Error("error fetching preferences");
     }
   };
 };
@@ -36,7 +36,7 @@ export const updateUserPreferences = (activities, userId) => {
       );
       dispatch(updatePrefs(res.data));
     } catch (error) {
-      throw new Error('error updating preferences')
+      throw new Error("error updating preferences");
     }
   };
 };
