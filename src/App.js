@@ -9,13 +9,12 @@ import Hello from "./components/Hello";
 import NewUser from "./components/NewUser";
 import NewUserPrefs from "./components/NewUserPrefs";
 import Test from "./Test";
-import Nav from "./Nav";
 import UpdatePreferences from "./components/UpdatePreferences";
 
 function App(props) {
   return (
     <div>
-      {props.isLoggedIn && <Nav />}
+      {props.isLoggedIn}
       <Switch>
         <Route exact path="/" component={Hello} />
         <Route exact path="/login" component={Login} />

@@ -7,6 +7,7 @@ import { fetchLog } from "../store/reducers/activityLogReducer";
 import { initTimer } from "../dataToMainProcess";
 import DashPreferences from "./DashPreferences";
 import Chatbot from "./Chatbot";
+import { logout } from "../store/reducers/userReducer";
 
 class MasterDashboard extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class MasterDashboard extends React.Component {
     this.state = {
       view: "daily"
     };
-
+    this.handleClick = this.handleClick.bind(this);
     this.handleSwitch = this.handleSwitch.bind(this);
   }
 
@@ -28,6 +29,9 @@ class MasterDashboard extends React.Component {
     this.setState({
       view: event.target.value
     });
+  }
+  handleClick() {
+    this.props.logout();
   }
 
   render() {
@@ -45,6 +49,9 @@ class MasterDashboard extends React.Component {
           </button>
           <button onClick={this.handleSwitch} value="weekly">
             Weekly View
+          </button>
+          <button type="button" onClick={this.handleClick}>
+            Logout
           </button>
         </div>
         <div className="dashboard-view" style={{ margin: "100px" }}>
@@ -68,7 +75,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getUserPreferences: userId => dispatch(getUserPreferences(userId)),
-    fetchLog: userId => dispatch(fetchLog(userId))
+    fetchLog: userId => dispatch(fetchLog(userId)),
+    logout: () => dispatch(logout())
   };
 };
 

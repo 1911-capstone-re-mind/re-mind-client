@@ -376,5 +376,6 @@ ipcMain.on("save-preferences", (event, arg) => {
 });
 
 ipcMain.on("clear-timer", (event, arg) => {
-  clearInterval();
+  clearInterval(masterTimer);
+  clearInterval(syncTimer);
 });
