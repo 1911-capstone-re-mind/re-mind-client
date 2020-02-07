@@ -10,29 +10,16 @@ class UpdatePreferences extends Component {
   constructor() {
     super();
     this.state = {
-      preferences: [
-        {
-          activityId: 1,
-          active: false,
-        },
-        {
-          activityId: 2,
-          active: false
-        },
-        {
-          activityId: 3,
-          active: false
-        },
-        {
-          activityId: 4,
-          active: false
-        },
-        {
-          activityId: 5,
-          active: false
-        }
-      ]
-    };
+      currentActivityInEdit: 0
+    }
+
+    this.chooseEditActivity = this.chooseEditActivity.bind(this);
+  }
+
+  chooseEditActivity(id) {
+    this.setState({
+      currentActivityInEdit: id
+    })
   }
 
   handleCheck = evt => {
@@ -81,44 +68,7 @@ class UpdatePreferences extends Component {
     return (
       <div>
         <h1>Update your preferences</h1>
-        <form name="preferences" onSubmit={this.handleSubmit}>
-          {this.props.activities.map(activity => {
-            return (
-              <div key={activity.id}>
-                <input
-                  onChange={this.handleCheck}
-                  name="include"
-                  type="checkbox"
-                  id={activity.id}
-                  value={activity.name}
-                />
-                <label htmlFor={activity.id}>{activity.name}</label>
-                {activity.duration > 0 && (
-                  <>
-                    <h5>duration:</h5>
-                    <input
-                      onChange={this.handleChange}
-                      type="number"
-                      id={activity.id}
-                      name="duration"
-                      placeholder={activity.duration}
-                    />
-                  </>
-                )}
-                <h5>time between reminders:</h5>
-                <input
-                  onChange={this.handleChange}
-                  type="number"
-                  id={activity.id}
-                  name="frequency"
-                  placeholder={activity.frequency + " minutes"}
-                />
-              </div>
-            );
-          })}
-
-          <button type="submit">Updates Complete</button>
-        </form>
+        <button onClick={this.props.toggleUpdatePage}>Back</button>
       </div>
     );
   }
