@@ -374,3 +374,7 @@ ipcMain.on("save-preferences", (event, arg) => {
   currentUserSettings.set("userPreferences", arg);
   event.reply("preferences-saved", currentUserSettings._defaultValues);
 });
+
+ipcMain.on("clear-timer", (event, arg) => {
+  clearInterval();
+});

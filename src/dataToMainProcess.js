@@ -58,3 +58,7 @@ export const saveLog = log => {
 export const savePreferences = prefs => {
   ipcRenderer.send("save-preferences", prefs);
 };
+
+export const clearTimer = () => {
+  ipcRenderer.send("clear-timer");
+};
