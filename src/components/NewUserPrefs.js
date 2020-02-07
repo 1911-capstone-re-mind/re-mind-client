@@ -11,30 +11,30 @@ class NewUserPrefs extends React.Component {
         {
           activityId: 1, //posture
           active: false,
-          frequency: 0
+          frequency: 1800000
         },
         {
           activityId: 2, //movement
           active: false,
-          frequency: 0,
-          duration: 0
+          frequency: 3600000,
+          duration: 300000
         },
         {
           activityId: 3, //vision
           active: false,
-          frequency: 0,
-          duration: 0
+          frequency: 1200000,
+          duration: 20000
         },
         {
           activityId: 4, //hydration
           active: false,
-          frequency: 0
+          frequency: 3600000
         },
         {
           activityId: 5, //mindfulness
           active: false,
-          frequency: 0,
-          duration: 0
+          frequency: 14400000,
+          duration: 600000
         }
       ]
     };
