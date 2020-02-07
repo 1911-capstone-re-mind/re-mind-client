@@ -1,6 +1,5 @@
 const electron = require("electron");
-const { remote, session } = require("electron");
-const app = electron.app;
+const { app, session } = require("electron");
 const BrowserWindow = electron.BrowserWindow;
 
 const ipcMain  = electron.ipcMain
@@ -8,7 +7,7 @@ const Notification = electron.Notification
 const Store = require('electron-store')
 const Scheduler = require('./utils/scheduler')
 const axios = require('axios');
-
+const devtron = require('devtron')
 
 const uuidv1 = require('uuid/v1')
 const path = require("path");
@@ -260,23 +259,34 @@ function openVisionModal() {
 }
 
 app.on("ready", async () => {
+
+  createWindow()
+  devtron.install()
+
+  //get the sessions from db Sessions table
   try {
-    const { data } = await axios.get('http://localhost:8080/auth/me')
-    const createWindowCookie = {
-      url: 'http://localhost:8080',
-      name: 'newUser',
-      value: data,
-      expirationDate: 100003424232
-    }
-    console.log(`TCL: data from auth/me ${new Date()}`, data)
-    await session.defaultSession.cookies.set(createWindowCookie)
+    const dbSessionsInfo = (await axios.get('http://localhost:8080/auth/me')).data
+    console.log("TCL: dbSessions", dbSessionsInfo)
+    //get sessions from electron app cookies store
     const cookies = await session.defaultSession.cookies.get({})
     console.log("TCL: get cookie (by createWindow)", cookies)
+    if (cookies.length>0) {
+      const [matchedCookie] = dbSessionsInfo.filter(session => session.sid === cookies[0].value)
+      console.log("TCL: matchedCookie", matchedCookie)
+      let id = matchedCookie.user.toString()
+      console.log("TCL: id", id)
+      const user = await axios.post('http://localhost:8080/auto-login', {id})
+      console.log("TCL: user from axios post to auth/auto-login", user)
+      if (cookies.length) {
+        ipcMain.emit('we-have-cookies')
+      }
+    }
 
   } catch (error) {
-    console.log('cookie error:', error)
+    console.log("Error trying to auto-login\n", error)
+
   }
-  createWindow()
+
 });
 
 app.on("window-all-closed", () => {
@@ -290,6 +300,28 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+ipcMain.on('successful-login', async (event, info) => {
+  try {
+    // const { data } = await axios.get('http://localhost:8080/auth/me')
+
+    const sessionCookie = {
+      url: 'http://localhost:8080',
+      name: info.user,
+      value: info.sessionId,
+      expirationDate: 123456789000
+    }
+  await session.defaultSession.cookies.set(sessionCookie)
+
+    // console.log(`TCL: data from auth/me ${new Date()}`, data)
+
+
+  } catch (error) {
+    console.log('cookie error:', error)
+  }
+
+})
+
 // MINDFULNESS EVENTS
 ipcMain.on("mindfulness-accepted", event => {
   event.reply("mindfulness-start-counter", mindTime.duration);

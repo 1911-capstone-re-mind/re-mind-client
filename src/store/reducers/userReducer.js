@@ -1,6 +1,6 @@
 import axios from "axios";
 import history from "../../history";
-
+const { ipcRenderer } = window.require('electron')
 // action types
 const GET_USER = "GET_USER";
 const REMOVE_USER = "REMOVE_USER";
@@ -24,13 +24,14 @@ export const auth = (data, method) => async dispatch => {
   }
 
   try {
-    const test = dispatch(getUser(res.data));
+    dispatch(getUser(res.data));
     if (method === "signup") {
       history.push("/new-user");
     } else if (method === "me") {
 
-      console.log("TCL: test", test)
     } else {
+      const info = {user: res.data.user.email, sessionId: res.data.sessionId }
+      ipcRenderer.send('successful-login', info)
       history.push("/dashboard");
     }
   } catch (dispatchOrHistoryErr) {
