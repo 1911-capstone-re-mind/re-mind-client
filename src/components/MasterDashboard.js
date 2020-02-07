@@ -7,6 +7,7 @@ import { fetchLog } from "../store/reducers/activityLogReducer";
 import { initTimer, setPreferences } from "../dataToMainProcess";
 import DashPreferences from "./DashPreferences";
 import Chatbot from "./Chatbot";
+import { logout } from "../store/reducers/userReducer";
 import UpdatePreferences from "./UpdatePreferences";
 
 class MasterDashboard extends React.Component {
@@ -16,7 +17,7 @@ class MasterDashboard extends React.Component {
       view: "daily",
       isUpdatingPrefs: false
     };
-
+    this.handleClick = this.handleClick.bind(this);
     this.handleSwitch = this.handleSwitch.bind(this);
     this.toggleUpdatePage = this.toggleUpdatePage.bind(this);
   }
@@ -32,6 +33,9 @@ class MasterDashboard extends React.Component {
     this.setState({
       view: event.target.value
     });
+  }
+  handleClick() {
+    this.props.logout();
   }
 
   toggleUpdatePage() {
@@ -52,22 +56,26 @@ class MasterDashboard extends React.Component {
       } else {
         viewSelection = <DailyDashboard activityLog={this.props.activityLog} />;
       }
-      return (
-        <div className="dashboard">
-          <div className="dashboard-navigation">
-            <button onClick={this.handleSwitch} value="daily">
-              Daily View
-            </button>
-            <button onClick={this.handleSwitch} value="weekly">
-              Weekly View
-            </button>
-          </div>
-          <div className="dashboard-view" style={{ margin: "100px" }}>
-            {viewSelection}
-          </div>
-          <DashPreferences toggleUpdatePage={this.toggleUpdatePage}/>
-          <Chatbot />
+    }
+    return (
+      <div className="dashboard">
+        <div className="dashboard-navigation">
+          <button onClick={this.handleSwitch} value="daily">
+            Daily View
+          </button>
+          <button onClick={this.handleSwitch} value="weekly">
+            Weekly View
+          </button>
+          <button type="button" onClick={this.handleClick}>
+            Logout
+          </button>
         </div>
+        <div className="dashboard-view" style={{ margin: "100px" }}>
+          {viewSelection}
+        </div>
+        <DashPreferences toggleUpdatePage={this.toggleUpdatePage}/>
+        <Chatbot />
+       </div>
       );
     }
   }
@@ -84,7 +92,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getUserPreferences: userId => dispatch(getUserPreferences(userId)),
-    fetchLog: userId => dispatch(fetchLog(userId))
+    fetchLog: userId => dispatch(fetchLog(userId)),
+    logout: () => dispatch(logout())
   };
 };
 

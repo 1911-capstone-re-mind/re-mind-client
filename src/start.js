@@ -448,3 +448,8 @@ ipcMain.on("save-preferences", (event, arg) => {
 
   event.reply("preferences-saved", currentUserSettings.get());
 });
+
+ipcMain.on("clear-timer", (event, arg) => {
+  clearInterval(masterTimer);
+  clearInterval(syncTimer);
+});
