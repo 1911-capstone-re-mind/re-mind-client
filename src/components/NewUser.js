@@ -7,6 +7,7 @@ const NewUser = props => {
     <div className="dash-container">
       <div className="main-container">
         <div className="card">
+          <p onClick={() => props.history.push("/signup")}>Back</p>
           <h3>Welcome to your personal workplace wellness tracker.</h3>
 
           <div id="activities-container">
