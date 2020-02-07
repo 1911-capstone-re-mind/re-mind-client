@@ -56,26 +56,25 @@ class MasterDashboard extends React.Component {
       } else {
         viewSelection = <DailyDashboard activityLog={this.props.activityLog} />;
       }
-    }
-    return (
-      <div className="dashboard">
-        <div className="dashboard-navigation">
-          <button onClick={this.handleSwitch} value="daily">
-            Daily View
-          </button>
-          <button onClick={this.handleSwitch} value="weekly">
-            Weekly View
-          </button>
-          <button type="button" onClick={this.handleClick}>
-            Logout
-          </button>
+      return (
+        <div className="dashboard">
+          <div className="dashboard-navigation">
+            <button onClick={this.handleSwitch} value="daily">
+              Daily View
+            </button>
+            <button onClick={this.handleSwitch} value="weekly">
+              Weekly View
+            </button>
+            <button type="button" onClick={this.handleClick}>
+              Logout
+            </button>
+          </div>
+          <div className="dashboard-view" style={{ margin: "100px" }}>
+            {viewSelection}
+          </div>
+          <DashPreferences toggleUpdatePage={this.toggleUpdatePage}/>
+          <Chatbot />
         </div>
-        <div className="dashboard-view" style={{ margin: "100px" }}>
-          {viewSelection}
-        </div>
-        <DashPreferences toggleUpdatePage={this.toggleUpdatePage}/>
-        <Chatbot />
-       </div>
       );
     }
   }
