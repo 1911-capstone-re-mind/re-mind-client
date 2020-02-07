@@ -4,7 +4,7 @@ import {
   updateUserPreferences,
   getUserPreferences
 } from "../store/reducers/userPreferencesReducer";
-import { savePreferences ,setPreferences } from "../dataToMainProcess";
+import { savePreferences, setPreferences } from "../dataToMainProcess";
 
 class UpdatePreferences extends Component {
   constructor() {
@@ -13,7 +13,7 @@ class UpdatePreferences extends Component {
       preferences: [
         {
           activityId: 1,
-          active: false,
+          active: false
         },
         {
           activityId: 2,
@@ -38,42 +38,41 @@ class UpdatePreferences extends Component {
   handleCheck = evt => {
     let newPreferences = this.state.preferences.map(pref => {
       if (pref.activityId === Number(evt.target.id)) {
-        return (
-          {...pref, active: evt.target.checked ? true :  false}
-        )
+        return { ...pref, active: evt.target.checked ? true : false };
       } else {
         return pref;
       }
     });
     this.setState(() => ({
       preferences: newPreferences
-    }))
+    }));
   };
 
   handleChange = evt => {
     let newPreferences = this.state.preferences.map(pref => {
       if (pref.activityId === Number(evt.target.id)) {
-        return (
-          {...pref, [evt.target.name]: Number(evt.target.value) * 60000}
-        ) ;
+        return { ...pref, [evt.target.name]: Number(evt.target.value) * 60000 };
       } else {
         return pref;
       }
     });
     this.setState(() => ({
       preferences: newPreferences
-    }))
+    }));
   };
 
   handleSubmit = async evt => {
     evt.preventDefault();
     try {
-      await this.props.updateUserPreferences(this.state.preferences, this.props.user.id);
-      setPreferences(this.props.userPreferences)
-      savePreferences()
-      this.props.toggleUpdatePage()
+      await this.props.updateUserPreferences(
+        this.state.preferences,
+        this.props.user.id
+      );
+      setPreferences(this.props.userPreferences);
+      savePreferences();
+      this.props.toggleUpdatePage();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -101,7 +100,7 @@ class UpdatePreferences extends Component {
                       type="number"
                       id={activity.id}
                       name="duration"
-                      placeholder={activity.duration}
+                      placeholder={activity.duration / 60000}
                     />
                   </>
                 )}
@@ -111,7 +110,7 @@ class UpdatePreferences extends Component {
                   type="number"
                   id={activity.id}
                   name="frequency"
-                  placeholder={activity.frequency + " minutes"}
+                  placeholder={activity.frequency / 60000 + " minutes"}
                 />
               </div>
             );
