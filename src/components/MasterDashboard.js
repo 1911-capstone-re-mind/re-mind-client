@@ -4,7 +4,7 @@ import DailyDashboard from "./DailyDashboard";
 import WeeklyDashboard from "./WeeklyDashboard";
 import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
 import { fetchLog } from "../store/reducers/activityLogReducer";
-import { initTimer } from "../dataToMainProcess";
+import { initTimer, setPreferences } from "../dataToMainProcess";
 import DashPreferences from "./DashPreferences";
 import Chatbot from "./Chatbot";
 import UpdatePreferences from "./UpdatePreferences";
@@ -21,10 +21,11 @@ class MasterDashboard extends React.Component {
     this.toggleUpdatePage = this.toggleUpdatePage.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getUserPreferences(this.props.user.id);
+  async componentDidMount() {
+    await this.props.getUserPreferences(this.props.user.id);
+    setPreferences(this.props.userPreferences);
     initTimer();
-    this.props.fetchLog(this.props.user.id);
+    await this.props.fetchLog(this.props.user.id);
   }
 
   handleSwitch(event) {
