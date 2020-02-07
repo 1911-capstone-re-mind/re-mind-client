@@ -4,25 +4,29 @@ import DailyDashboard from "./DailyDashboard";
 import WeeklyDashboard from "./WeeklyDashboard";
 import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
 import { fetchLog } from "../store/reducers/activityLogReducer";
-import { initTimer } from "../dataToMainProcess";
+import { initTimer, setPreferences } from "../dataToMainProcess";
 import DashPreferences from "./DashPreferences";
 import Chatbot from "./Chatbot";
 import { logout } from "../store/reducers/userReducer";
+import UpdatePreferences from "./UpdatePreferences";
 
 class MasterDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "daily"
+      view: "daily",
+      isUpdatingPrefs: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleSwitch = this.handleSwitch.bind(this);
+    this.toggleUpdatePage = this.toggleUpdatePage.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getUserPreferences(this.props.user.id);
+  async componentDidMount() {
+    await this.props.getUserPreferences(this.props.user.id);
+    setPreferences(this.props.userPreferences);
     initTimer();
-    this.props.fetchLog(this.props.user.id);
+    await this.props.fetchLog(this.props.user.id);
   }
 
   handleSwitch(event) {
@@ -34,12 +38,24 @@ class MasterDashboard extends React.Component {
     this.props.logout();
   }
 
+  toggleUpdatePage() {
+    this.setState({
+      isUpdatingPrefs: !this.state.isUpdatingPrefs
+    })
+  }
+
   render() {
-    let viewSelection;
-    if (this.state.view === "weekly") {
-      viewSelection = <WeeklyDashboard activityLog={this.props.activityLog} />;
+    if (this.state.isUpdatingPrefs) {
+      return (
+        <UpdatePreferences toggleUpdatePage={this.toggleUpdatePage}/>
+      )
     } else {
-      viewSelection = <DailyDashboard activityLog={this.props.activityLog} />;
+      let viewSelection;
+      if (this.state.view === "weekly") {
+        viewSelection = <WeeklyDashboard activityLog={this.props.activityLog} />;
+      } else {
+        viewSelection = <DailyDashboard activityLog={this.props.activityLog} />;
+      }
     }
     return (
       <div className="dashboard">
@@ -57,10 +73,11 @@ class MasterDashboard extends React.Component {
         <div className="dashboard-view" style={{ margin: "100px" }}>
           {viewSelection}
         </div>
-        <DashPreferences />
+        <DashPreferences toggleUpdatePage={this.toggleUpdatePage}/>
         <Chatbot />
-      </div>
-    );
+       </div>
+      );
+    }
   }
 }
 
