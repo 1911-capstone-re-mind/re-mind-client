@@ -112,44 +112,6 @@ class NewUserPrefs extends React.Component {
                           </h3>
                         </div>
                       </div>
-
-                      <div className="single-prefs">
-                        <div className="pref-line-item">
-                          <p>Frequency:</p>
-                        </div>
-                        <div className="pref-line-item">
-                          <input
-                            className="min-input"
-                            onChange={this.handleChange}
-                            type="number"
-                            id={activity.id}
-                            name="frequency"
-                            placeholder={activity.frequency / 60000}
-                          />
-                          <p> minutes</p>
-                        </div>
-                      </div>
-
-                      <div className="single-prefs">
-                        {activity.duration > 0 && (
-                          <>
-                            <div className="pref-line-item">
-                              <p>Duration:</p>
-                            </div>
-                            <div className="pref-line-item">
-                              <input
-                                className="min-input"
-                                onChange={this.handleChange}
-                                type="number"
-                                id={activity.id}
-                                name="duration"
-                                placeholder={activity.duration / 60000}
-                              />
-                              <p> minutes</p>
-                            </div>
-                          </>
-                        )}
-                      </div>
                     </div>
                   );
                 })}
