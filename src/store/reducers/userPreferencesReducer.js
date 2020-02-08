@@ -1,5 +1,4 @@
 import axios from "axios";
-import { savePreferences } from "../../dataToMainProcess";
 
 // action types
 const GET_PREFS = "GET_PREFS";
@@ -44,7 +43,7 @@ export const updateSingleUserPreference = (activity, userId) => {
 return async dispatch => {
   try {
     const res = await axios.put(
-      `http://localhost:8080/api/activities/prefs/${userId}/${activity.id}`,
+      `http://localhost:8080/api/activities/prefs/${userId}/${activity.activityId}`,
       {
         activity,
         userId

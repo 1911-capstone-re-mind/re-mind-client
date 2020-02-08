@@ -416,7 +416,11 @@ ipcMain.on("set-preferences", (event, arg) => {
 ipcMain.on("updateTimer1", (event) => {
   const now = new Date().getTime();
   const posturePref = getSetting("posture");
-  pstTime.trigger = now + posturePref.frequency;
+  if (!posturePref.active) {
+    pstTime.trigger = now - 60000
+  } else {
+    pstTime.trigger = now + posturePref.frequency;
+  }
   pstTime.frequency = posturePref.frequency;
   pstTime.duration = posturePref.duration;
   pstTime.active = posturePref.active;
@@ -426,7 +430,11 @@ ipcMain.on("updateTimer1", (event) => {
 ipcMain.on("updateTimer2", (event) => {
   const now = new Date().getTime();
   const movePref = getSetting("movement");
-  moveTime.trigger = now + movePref.frequency;
+  if (!movePref.active) {
+    moveTime.trigger = now - 60000
+  } else {
+    moveTime.trigger = now + movePref.frequency;
+  }
   moveTime.frequency = movePref.frequency;
   moveTime.duration = movePref.duration;
   moveTime.active = movePref.active;
@@ -436,7 +444,11 @@ ipcMain.on("updateTimer2", (event) => {
 ipcMain.on("updateTimer3", (event) => {
   const now = new Date().getTime();
   const visionPref = getSetting("vision");
-  visionTime.trigger = now + visionPref.frequency;
+  if (!visionPref.active) {
+    visionTime.trigger = now - 60000
+  } else {
+    visionTime.trigger = now + visionPref.frequency;
+  }
   visionTime.frequency = visionPref.frequency;
   visionTime.duration = visionPref.duration;
   visionTime.active = visionPref.active;
@@ -446,7 +458,11 @@ ipcMain.on("updateTimer3", (event) => {
 ipcMain.on("updateTimer4", (event) => {
   const now = new Date().getTime();
   const hydrationPref = getSetting("hydration");
-  hydroTime.trigger = now + hydrationPref.frequency;
+  if (!hydrationPref.active) {
+    hydroTime.trigger = now - 60000
+  } else {
+    hydroTime.trigger = now + hydrationPref.frequency;
+  }
   hydroTime.frequency = hydrationPref.frequency;
   hydroTime.duration = hydrationPref.duration;
   hydroTime.active = hydrationPref.active;
@@ -456,7 +472,11 @@ ipcMain.on("updateTimer4", (event) => {
 ipcMain.on("updateTimer5", (event) => {
   const now = new Date().getTime();
   const mindfulPref = getSetting("mindfulness");
-  mindTime.trigger = now + mindfulPref.frequency;
+  if (!mindfulPref.active) {
+    mindTime.trigger = now - 60000
+  } else {
+    mindTime.trigger = now + mindfulPref.frequency;
+  }
   mindTime.frequency = mindfulPref.frequency;
   mindTime.duration = mindfulPref.duration;
   mindTime.active = mindfulPref.active;
