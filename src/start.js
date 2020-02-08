@@ -412,39 +412,53 @@ ipcMain.on("set-preferences", (event, arg) => {
   currentUserSettings.set("userPreferences", arg);
 });
 
-//soemthjing else
-ipcMain.on("save-preferences", (event, arg) => {
-  const posturePref = getSetting("posture");
-  const movePref = getSetting("movement");
-  const visionPref = getSetting("vision");
-  const hydrationPref = getSetting("hydration");
-  const mindfulPref = getSetting("mindfulness");
+//update timer for posture
+ipcMain.on("updateTimer1", (event) => {
   const now = new Date().getTime();
-
+  const posturePref = getSetting("posture");
   pstTime.trigger = now + posturePref.frequency;
   pstTime.frequency = posturePref.frequency;
   pstTime.duration = posturePref.duration;
   pstTime.active = posturePref.active;
+})
 
+//update timer for movement
+ipcMain.on("updateTimer2", (event) => {
+  const now = new Date().getTime();
+  const movePref = getSetting("movement");
   moveTime.trigger = now + movePref.frequency;
   moveTime.frequency = movePref.frequency;
   moveTime.duration = movePref.duration;
   moveTime.active = movePref.active;
+})
 
+//update timer for vision
+ipcMain.on("updateTimer3", (event) => {
+  const now = new Date().getTime();
+  const visionPref = getSetting("vision");
   visionTime.trigger = now + visionPref.frequency;
   visionTime.frequency = visionPref.frequency;
   visionTime.duration = visionPref.duration;
   visionTime.active = visionPref.active;
+})
 
+//update timer for hydration
+ipcMain.on("updateTimer4", (event) => {
+  const now = new Date().getTime();
+  const hydrationPref = getSetting("hydration");
   hydroTime.trigger = now + hydrationPref.frequency;
   hydroTime.frequency = hydrationPref.frequency;
   hydroTime.duration = hydrationPref.duration;
   hydroTime.active = hydrationPref.active;
+})
 
+//update timer for mindfulness
+ipcMain.on("updateTimer5", (event) => {
+  const now = new Date().getTime();
+  const mindfulPref = getSetting("mindfulness");
   mindTime.trigger = now + mindfulPref.frequency;
   mindTime.frequency = mindfulPref.frequency;
   mindTime.duration = mindfulPref.duration;
   mindTime.active = mindfulPref.active;
+})
 
-  event.reply("preferences-saved", currentUserSettings.get());
-});

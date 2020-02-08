@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
-//import { savePreferences ,setPreferences } from "../dataToMainProcess"; todo make ipcrenderer to save
+import { updateSingleUserPreference } from "../store/reducers/userPreferencesReducer";
+import { setPreferences, updateTimer } from "../dataToMainProcess"; //todo make ipcrenderer to save
 
 class PreferenceField extends Component {
   constructor(props) {
@@ -38,13 +38,21 @@ class PreferenceField extends Component {
     })
   }
 
-  saveChanges(event) {
+  async saveChanges(event) {
     event.preventDefault();
     this.setState({
       isSaveDisabled: true
     })
-    //thunk to update one activity
-    //ipcRenderer to update timers
+    await this.props.updateSingleUserPreference({
+      id: this.props.activityIndex,
+      frequency: this.state.frequency,
+      duration: this.state.duration,
+      active: this.state.active
+    },
+      this.props.user.id
+    )
+    setPreferences(this.props.userPreferences);
+    updateTimer(this.props.activityIndex)
     this.props.chooseEditActivity(0);
     this.setState({
       isSaveDisabled: false
@@ -121,7 +129,7 @@ const mapState = (state, ownProps) => {
 
 const mapDispatch = dispatch => {
   return {
-    getUserPreferences: userId => dispatch(getUserPreferences(userId)),
+    updateSingleUserPreference: (activity, userId) => dispatch(updateSingleUserPreference(activity, userId)),
   };
 };
 

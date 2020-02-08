@@ -25,10 +25,11 @@ export const saveLog = log => {
 };
 
 // save the user's preferences to the file system
-export const savePreferences = prefs => {
-  ipcRenderer.send("save-preferences", prefs);
-};
-
 export const setPreferences = prefs => {
   ipcRenderer.send("set-preferences", prefs);
 };
+
+//update timer of single activity
+export const updateTimer = activityId => {
+  ipcRenderer.send(`updateTimer${activityId}`)
+}
