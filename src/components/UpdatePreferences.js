@@ -38,7 +38,6 @@ class UpdatePreferences extends Component {
   }
 
   render() {
-    console.log(this.state.saveInProgress)
     return (
       <div>
         <h1>Your re:minders</h1>

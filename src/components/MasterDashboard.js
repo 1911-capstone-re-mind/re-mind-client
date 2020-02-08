@@ -6,7 +6,6 @@ import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
 import { fetchLog } from "../store/reducers/activityLogReducer";
 import { initTimer, setPreferences } from "../dataToMainProcess";
 import DashPreferences from "./DashPreferences";
-import Chatbot from "./Chatbot";
 import UpdatePreferences from "./UpdatePreferences";
 
 class MasterDashboard extends React.Component {
@@ -66,7 +65,6 @@ class MasterDashboard extends React.Component {
             {viewSelection}
           </div>
           <DashPreferences toggleUpdatePage={this.toggleUpdatePage}/>
-          <Chatbot />
         </div>
       );
     }

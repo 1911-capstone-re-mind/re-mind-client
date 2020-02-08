@@ -73,14 +73,14 @@ class PreferenceField extends Component {
       }));
     } catch (err) {
       const { hours, minutes, seconds } = millisecondsToHrMinSec(this.props.userPreferences[this.props.activityIndex - 1].frequency)
-      this.setState({
+      this.setState(() => ({
         frequencyHours: hours,
         frequencyMinutes: minutes,
         frequencySeconds: seconds,
         duration: this.props.userPreferences[this.props.activityIndex - 1].duration / 60000,
         active: this.props.userPreferences[this.props.activityIndex - 1].active,
         error: err.message === 'Invalid inputs' ? 'Invalid inputs' : 'Something went wrong. Please try again'
-      })
+      }))
       this.props.endSave()
     }
   }
@@ -147,7 +147,7 @@ class PreferenceField extends Component {
           value={this.state.frequencyMinutes}
           disabled={this.props.currentActivityInEdit !== this.props.activityIndex}
         />
-        <label>minutess</label>
+        <label>minutes</label>
         <input
           onChange={this.handleChange}
           type="number"
