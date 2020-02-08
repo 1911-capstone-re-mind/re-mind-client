@@ -5,6 +5,7 @@ import {
   getUserPreferences
 } from "../store/reducers/userPreferencesReducer";
 import { savePreferences ,setPreferences } from "../dataToMainProcess";
+import PreferenceField from "./PreferenceField"
 
 class UpdatePreferences extends Component {
   constructor() {
@@ -17,57 +18,30 @@ class UpdatePreferences extends Component {
   }
 
   chooseEditActivity(id) {
-    this.setState({
+    this.setState(() => ({
       currentActivityInEdit: id
-    })
+    }))
   }
-
-  handleCheck = evt => {
-    let newPreferences = this.state.preferences.map(pref => {
-      if (pref.activityId === Number(evt.target.id)) {
-        return (
-          {...pref, active: evt.target.checked ? true :  false}
-        )
-      } else {
-        return pref;
-      }
-    });
-    this.setState(() => ({
-      preferences: newPreferences
-    }))
-  };
-
-  handleChange = evt => {
-    let newPreferences = this.state.preferences.map(pref => {
-      if (pref.activityId === Number(evt.target.id)) {
-        return (
-          {...pref, [evt.target.name]: Number(evt.target.value) * 60000}
-        ) ;
-      } else {
-        return pref;
-      }
-    });
-    this.setState(() => ({
-      preferences: newPreferences
-    }))
-  };
-
-  handleSubmit = async evt => {
-    evt.preventDefault();
-    try {
-      await this.props.updateUserPreferences(this.state.preferences, this.props.user.id);
-      setPreferences(this.props.userPreferences)
-      savePreferences()
-      this.props.toggleUpdatePage()
-    } catch (err) {
-      console.log(err)
-    }
-  };
 
   render() {
     return (
       <div>
         <h1>Update your preferences</h1>
+        <div>
+          <PreferenceField activityIndex={1} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} />
+        </div>
+        <div>
+          <PreferenceField activityIndex={2} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} />
+        </div>
+        <div>
+          <PreferenceField activityIndex={3} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} />
+        </div>
+        <div>
+          <PreferenceField activityIndex={4} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} />
+        </div>
+        <div>
+          <PreferenceField activityIndex={5} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} />
+        </div>
         <button onClick={this.props.toggleUpdatePage}>Back</button>
       </div>
     );
