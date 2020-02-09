@@ -41,8 +41,4 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = dispatch => ({
-  fetchActivities: () => dispatch(fetchActivities())
-})
-
-export default withRouter(connect(mapState, mapDispatch)(App));
+export default withRouter(connect(mapState)(App));
