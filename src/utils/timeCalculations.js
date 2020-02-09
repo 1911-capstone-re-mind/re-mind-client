@@ -21,8 +21,8 @@ export const validateTimes = (frequencyHours, frequencyMinutes, frequencySeconds
     dMinutes = true;
     dSeconds = true;
   } else {
-    dMinutes = durationMinutes >= 0 && durationMinutes <= 60;
-    dSeconds = durationSeconds >= 0 && durationSeconds <= 60;
+    dMinutes = durationMinutes >= 0 && durationMinutes <= 59;
+    dSeconds = durationSeconds >= 0 && durationSeconds <= 59;
   }
   return hours && minutes && seconds && dMinutes && dSeconds;
 }

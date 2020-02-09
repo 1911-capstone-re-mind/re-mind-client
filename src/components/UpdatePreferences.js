@@ -10,7 +10,7 @@ class UpdatePreferences extends Component {
   constructor() {
     super();
     this.state = {
-      currentActivityInEdit: 0, //sets which activity is being edited. 1 = prosture, etc
+      currentActivityInEdit: 0, //sets which activity is being edited. 1 = prosture, etc. 0 means none
       saveInProgress: false,
     }
 
