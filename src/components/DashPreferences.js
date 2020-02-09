@@ -5,8 +5,7 @@ import { millisecondsToHrMinSec } from "../utils/timeCalculations";
 const DashPreferences = (props) => {
   if (props.userPreferences.length > 0) {
     const prefs = props.userPreferences.map(pref => {
-      const { hours, minutes, seconds } = millisecondsToHrMinSec(pref.frequency);
-      console.log('gffufuy', pref.active)
+      const [ hours, minutes, seconds ] = millisecondsToHrMinSec(pref.frequency);
       let phrase = "";
       if (hours > 0 ) {
         phrase += ` ${hours} hour`;
@@ -32,7 +31,7 @@ const DashPreferences = (props) => {
           Movement: {prefs[1].phrase} ({prefs[1].active ? "Active" : "Inactive"})
         </p>
         <p>
-          Eye Strain: {prefs[2].phrase} ({prefs[2].active ? "Active" : "Inactive"})
+          Vision: {prefs[2].phrase} ({prefs[2].active ? "Active" : "Inactive"})
         </p>
         <p>
           Hydration: {prefs[3].phrase} ({prefs[3].active ? "Active" : "Inactive"})
