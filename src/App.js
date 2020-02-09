@@ -10,9 +10,6 @@ import NewUserPrefs from "./components/NewUserPrefs";
 import UpdatePreferences from "./components/UpdatePreferences";
 
 class App extends React.Component {
-  constructor() {
-    super();
-  }
 
   render() {
     return (
