@@ -1,4 +1,5 @@
 import axios from "axios";
+import { userPreferences } from "../../utils/defaultSettings"
 
 const GET_ACTIVITIES = "GET_ACTIVITIES";
 
@@ -21,7 +22,7 @@ export const fetchActivities = () => {
   };
 };
 
-const activitiesReducer = (state = [], action) => {
+const activitiesReducer = (state = userPreferences, action) => {
   switch (action.type) {
     case GET_ACTIVITIES:
       return action.activities;
