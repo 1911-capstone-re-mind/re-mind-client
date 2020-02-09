@@ -12,12 +12,11 @@ const NewUser = props => {
           <p>This app will help you focus on:</p>
           <div id="activities-container">
             {props.activities.map(activity => (
-              <div className="activity-card" key={activity.id}>
+              <div className="activity-card" key={activity.activityId}>
                 <h2>
-                  {activity.name.slice(0, 1).toUpperCase() +
-                    activity.name.slice(1)}
+                  {activity.activity.name}
                 </h2>
-                <p>{activity.description}</p>
+                <p>{activity.activity.description}</p>
               </div>
             ))}
           </div>
