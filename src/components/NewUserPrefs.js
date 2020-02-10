@@ -11,30 +11,32 @@ class NewUserPrefs extends React.Component {
         {
           activityId: 1, //posture
           active: false,
-          frequency: 0
+          frequency: 1800000,
+          duration: null
         },
         {
           activityId: 2, //movement
           active: false,
-          frequency: 0,
-          duration: 0
+          frequency: 3600000,
+          duration: 300000
         },
         {
           activityId: 3, //vision
           active: false,
-          frequency: 0,
-          duration: 0
+          frequency: 1200000,
+          duration: 20000
         },
         {
           activityId: 4, //hydration
           active: false,
-          frequency: 0
+          frequency: 3600000,
+          duration: null
         },
         {
           activityId: 5, //mindfulness
           active: false,
-          frequency: 0,
-          duration: 0
+          frequency: 14400000,
+          duration: 600000
         }
       ]
     };
@@ -44,19 +46,6 @@ class NewUserPrefs extends React.Component {
     let newPreferences = this.state.preferences.map(pref => {
       if (pref.activityId === Number(evt.target.id)) {
         return { ...pref, active: evt.target.checked ? true : false };
-      } else {
-        return pref;
-      }
-    });
-    this.setState(() => ({
-      preferences: newPreferences
-    }));
-  };
-
-  handleChange = evt => {
-    let newPreferences = this.state.preferences.map(pref => {
-      if (pref.activityId === Number(evt.target.id)) {
-        return { ...pref, [evt.target.name]: Number(evt.target.value) * 60000 };
       } else {
         return pref;
       }
@@ -90,9 +79,9 @@ class NewUserPrefs extends React.Component {
               <h3>Set your preferences</h3>
 
               <form name="preferences" onSubmit={this.handleSubmit}>
-                {this.props.activities.map((activity, idx) => {
+                {this.props.activities.map(activity => {
                   return (
-                    <div key={activity.id}>
+                    <div key={activity.activityId}>
                       <div className="single-prefs">
                         {/* <label htmlFor={`${activity.id}-enable`}>Enable</label> */}
                         <div className="pref-line-item">
@@ -101,7 +90,7 @@ class NewUserPrefs extends React.Component {
                               onChange={this.handleCheck}
                               name="active"
                               type="checkbox"
-                              id={activity.id}
+                              id={activity.activityId}
                               value={activity.name}
                             />
                             <span class="slider round"></span>
@@ -111,44 +100,6 @@ class NewUserPrefs extends React.Component {
                               activity.name.slice(1)}
                           </h3>
                         </div>
-                      </div>
-
-                      <div className="single-prefs">
-                        <div className="pref-line-item">
-                          <p>Frequency:</p>
-                        </div>
-                        <div className="pref-line-item">
-                          <input
-                            className="min-input"
-                            onChange={this.handleChange}
-                            type="number"
-                            id={activity.id}
-                            name="frequency"
-                            placeholder={activity.frequency / 60000}
-                          />
-                          <p> minutes</p>
-                        </div>
-                      </div>
-
-                      <div className="single-prefs">
-                        {activity.duration > 0 && (
-                          <>
-                            <div className="pref-line-item">
-                              <p>Duration:</p>
-                            </div>
-                            <div className="pref-line-item">
-                              <input
-                                className="min-input"
-                                onChange={this.handleChange}
-                                type="number"
-                                id={activity.id}
-                                name="duration"
-                                placeholder={activity.duration / 60000}
-                              />
-                              <p> minutes</p>
-                            </div>
-                          </>
-                        )}
                       </div>
                     </div>
                   );
