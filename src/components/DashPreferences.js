@@ -1,52 +1,42 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { millisecondsToHrMinSec } from "../utils/timeCalculations";
+import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
+import { Link } from "react-router-dom";
 
-const DashPreferences = (props) => {
-  if (props.userPreferences.length > 0) {
-    const prefs = props.userPreferences.map(pref => {
-      const [ hours, minutes, seconds ] = millisecondsToHrMinSec(pref.frequency);
-      let phrase = "";
-      if (hours > 0 ) {
-        phrase += ` ${hours} hour`;
-      }
-      if (minutes > 0) {
-        phrase += ` ${minutes} minute`;
-      }
-      if (seconds > 0) {
-        phrase += ` ${seconds} second`;
-      }
-      return {
-        phrase: phrase += " intervals",
-        active: pref.active
-      }
-    })
+class DashPreferences extends Component {
+  componentDidMount() {
+    try {
+      this.props.getUserPreferences(this.props.user.id);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  render() {
+    const pref = this.props.userPreferences.map(pref => pref.frequency);
     return (
       <div>
-        Your re:minders
+        Your Preferences
         <p>
-          Posture: {prefs[0].phrase} ({prefs[0].active ? "Active" : "Inactive"})
+          Posture:{" "}
+          {pref[0] ? `${pref[0]} minute intervals` : "No preference set"}
         </p>
         <p>
-          Movement: {prefs[1].phrase} ({prefs[1].active ? "Active" : "Inactive"})
+          Movement:{" "}
+          {pref[1] ? `${pref[1]} minute intervals` : "No preference set"}
         </p>
         <p>
-          Vision: {prefs[2].phrase} ({prefs[2].active ? "Active" : "Inactive"})
+          Eye Strain:{" "}
+          {pref[2] ? `${pref[2]} minute intervals` : "No preference set"}
         </p>
         <p>
-          Hydration: {prefs[3].phrase} ({prefs[3].active ? "Active" : "Inactive"})
+          Hydration:{" "}
+          {pref[3] ? `${pref[3]} minute intervals` : "No preference set"}
         </p>
         <p>
-          Mindfulness: {prefs[4].phrase} ({prefs[4].active ? "Active" : "Inactive"})
+          Mindfulness:{" "}
+          {pref[4] ? `${pref[4]} minute intervals` : "No preference set"}
         </p>
-        <button onClick={props.toggleUpdatePage}>Update Preferences</button>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <p>Loading...</p>
-        <button onClick={props.toggleUpdatePage}>Update Preferences</button>
+        <button onClick={this.props.toggleUpdatePage}>Update Preferences</button>
       </div>
     );
   }
@@ -61,4 +51,10 @@ const mapState = (state, ownProps) => {
   };
 };
 
-export default connect(mapState)(DashPreferences);
+const mapDispatch = dispatch => {
+  return {
+    getUserPreferences: userId => dispatch(getUserPreferences(userId))
+  };
+};
+
+export default connect(mapState, mapDispatch)(DashPreferences);
