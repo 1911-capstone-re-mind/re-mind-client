@@ -57,7 +57,7 @@ input {
 }
 
 .min-input {
-  width: 30px;
+  /* width: 30px; */
   display: inline;
   white-space: nowrap;
 }
