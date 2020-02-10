@@ -9,7 +9,6 @@ const Scheduler = require('./utils/scheduler')
 const axios = require('axios');
 const devtron = require('devtron')
 
-const uuidv1 = require('uuid/v1')
 const path = require("path");
 const url = require("url");
 const defaults = require("./utils/defaultSettings");
@@ -54,15 +53,15 @@ const getSetting = settingName => {
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
-    height: 250,
+    height: 600,
     x: 300,
     y: 200,
     webPreferences: {
       nodeIntegration: true
     },
-    resizable: false
+    resizable: true
   });
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
@@ -77,6 +76,23 @@ function createWindow() {
     clearInterval(masterTimer);
     clearInterval(syncTimer);
   });
+
+  // Install React/Redux Dev Tools
+  const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+
+  installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+      console.log(`Added Extension:  ${name}`);
+  })
+  .catch((err) => {
+      console.log('An error occurred: ', err);
+  });
+
+  installExtension(REDUX_DEVTOOLS).then((name) => {
+    console.log(`Added Extension:  ${name}`);
+})
+.catch((err) => {
+    console.log('An error occurred: ', err);
+});
 }
 
 function startTimer() {
@@ -282,20 +298,20 @@ app.on("ready", async () => {
   //get the sessions from db Sessions table
   try {
     const dbSessionsInfo = (await axios.get('http://localhost:8080/auth/me')).data
-    console.log("TCL: dbSessions", dbSessionsInfo)
+    console.log("TCL: dbSessions:\n", dbSessionsInfo)
     //get sessions from electron app cookies store
     const cookies = await session.defaultSession.cookies.get({})
-    console.log("TCL: get cookie (by createWindow)", cookies)
+    console.log("TCL: electron cookies:\n", cookies)
     if (cookies.length>0) {
       const [matchedCookie] = dbSessionsInfo.filter(session => session.sid === cookies[0].value)
       console.log("TCL: matchedCookie", matchedCookie)
       let id = matchedCookie.user.toString()
       console.log("TCL: id", id)
-      const user = await axios.post('http://localhost:8080/auto-login', {id})
-      console.log("TCL: user from axios post to auth/auto-login", user)
-      if (cookies.length) {
-        ipcMain.emit('we-have-cookies')
-      }
+      const user = await axios.post('http://localhost:8080/auth/auto-login', {id})
+      console.log("TCL: user from axios post to auth/auto-login", user.data)
+      // if (cookies.length) {
+      //   ipcMain.emit('we-have-cookies')
+      // }
     }
 
   } catch (error) {
@@ -319,24 +335,27 @@ app.on("activate", () => {
 
 ipcMain.on('successful-login', async (event, info) => {
   try {
-    // const { data } = await axios.get('http://localhost:8080/auth/me')
-
     const sessionCookie = {
-      url: 'http://localhost:8080',
+      url: 'http://localhost/',
       name: info.user,
       value: info.sessionId,
-      expirationDate: 123456789000
+      expirationDate: 2093792393,
     }
   await session.defaultSession.cookies.set(sessionCookie)
-
-    // console.log(`TCL: data from auth/me ${new Date()}`, data)
-
 
   } catch (error) {
     console.log('cookie error:', error)
   }
-
 })
+
+// session.defaultSession.webRequest.onBeforeSendHeaders({urls: ['*://localhost/*']}, function(request,callback){
+// if(request.requestHeaders.Authorization){
+//   settings.set('access_token',request.requestHeaders.Authorization.split(' ')[1]);
+
+//   session.defaultSession.clearStorageData();
+//   session.defaultSession.webRequest.onBeforeSendHeaders({urls: ['*://*.udemy.com/*']},function(request,callback) {
+//    callback({ requestHeaders: request.requestHeaders });
+//   });
 
 // MINDFULNESS EVENTS
 ipcMain.on("mindfulness-accepted", event => {

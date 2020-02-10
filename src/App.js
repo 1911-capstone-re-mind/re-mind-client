@@ -11,9 +11,6 @@ import UpdatePreferences from "./components/UpdatePreferences";
 import { fetchActivities } from "./store/reducers/activities";
 
 class App extends React.Component {
-  constructor() {
-    super();
-  }
 
   componentDidMount() {
     this.props.fetchActivities();
