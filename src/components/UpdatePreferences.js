@@ -4,120 +4,59 @@ import {
   updateUserPreferences,
   getUserPreferences
 } from "../store/reducers/userPreferencesReducer";
-import { savePreferences, setPreferences } from "../dataToMainProcess";
+import PreferenceField from "./PreferenceField"
 
 class UpdatePreferences extends Component {
   constructor() {
     super();
     this.state = {
-      preferences: [
-        {
-          activityId: 1,
-          active: false
-        },
-        {
-          activityId: 2,
-          active: false
-        },
-        {
-          activityId: 3,
-          active: false
-        },
-        {
-          activityId: 4,
-          active: false
-        },
-        {
-          activityId: 5,
-          active: false
-        }
-      ]
-    };
+      currentActivityInEdit: 0, //sets which activity is being edited. 1 = prosture, etc. 0 means none
+      saveInProgress: false,
+    }
+
+    this.chooseEditActivity = this.chooseEditActivity.bind(this);
+    this.initiateSave = this.initiateSave.bind(this);
+    this.endSave = this.endSave.bind(this);
   }
 
-  handleCheck = evt => {
-    let newPreferences = this.state.preferences.map(pref => {
-      if (pref.activityId === Number(evt.target.id)) {
-        return { ...pref, active: evt.target.checked ? true : false };
-      } else {
-        return pref;
-      }
-    });
+  chooseEditActivity(id) {
     this.setState(() => ({
-      preferences: newPreferences
-    }));
-  };
+      currentActivityInEdit: id
+    }))
+  }
 
-  handleChange = evt => {
-    let newPreferences = this.state.preferences.map(pref => {
-      if (pref.activityId === Number(evt.target.id)) {
-        return { ...pref, [evt.target.name]: Number(evt.target.value) * 60000 };
-      } else {
-        return pref;
-      }
-    });
+  initiateSave() {
     this.setState(() => ({
-      preferences: newPreferences
-    }));
-  };
+      saveInProgress: true
+    }))
+  }
 
-  handleSubmit = async evt => {
-    evt.preventDefault();
-    try {
-      await this.props.updateUserPreferences(
-        this.state.preferences,
-        this.props.user.id
-      );
-      setPreferences(this.props.userPreferences);
-      savePreferences();
-      this.props.toggleUpdatePage();
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  endSave() {
+    this.setState(() => ({
+      saveInProgress: false
+    }))
+  }
 
   render() {
     return (
       <div>
-        <h1>Update your preferences</h1>
-        <form name="preferences" onSubmit={this.handleSubmit}>
-          {this.props.activities.map(activity => {
-            return (
-              <div key={activity.id}>
-                <input
-                  onChange={this.handleCheck}
-                  name="include"
-                  type="checkbox"
-                  id={activity.id}
-                  value={activity.name}
-                />
-                <label htmlFor={activity.id}>{activity.name}</label>
-                {activity.duration > 0 && (
-                  <>
-                    <h5>duration:</h5>
-                    <input
-                      onChange={this.handleChange}
-                      type="number"
-                      id={activity.id}
-                      name="duration"
-                      placeholder={activity.duration / 60000}
-                    />
-                  </>
-                )}
-                <h5>time between reminders:</h5>
-                <input
-                  onChange={this.handleChange}
-                  type="number"
-                  id={activity.id}
-                  name="frequency"
-                  placeholder={activity.frequency / 60000 + " minutes"}
-                />
-              </div>
-            );
-          })}
-
-          <button type="submit">Updates Complete</button>
-        </form>
+        <h1>Your re:minders</h1>
+        <div>
+          <PreferenceField activityIndex={1} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
+        </div>
+        <div>
+          <PreferenceField activityIndex={2} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
+        </div>
+        <div>
+          <PreferenceField activityIndex={3} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
+        </div>
+        <div>
+          <PreferenceField activityIndex={4} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
+        </div>
+        <div>
+          <PreferenceField activityIndex={5} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
+        </div>
+        <button onClick={this.props.toggleUpdatePage}>Back</button>
       </div>
     );
   }

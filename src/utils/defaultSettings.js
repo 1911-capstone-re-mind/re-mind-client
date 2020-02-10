@@ -2,8 +2,8 @@
 module.exports = {
   userPreferences: [
     {
-      frequency: 15000, // for testing
-      duration: 5000, // for testing
+      frequency: 1800000,
+      duration: null,
       active: true,
       userId: 1,
       activityId: 1,
@@ -12,12 +12,12 @@ module.exports = {
         description:
           "Good posture is about more than standing up straight so you can look your best. It is an important part of your long-term health. Making sure that you hold your body the right way can prevent pain, injuries, and other health problems.",
         frequency: 1800000,
-        duration: 5000
+        duration: null
       }
     },
     {
-      frequency: 60000,
-      duration: 5 * 60000,
+      frequency: 3600000,
+      duration: 300000,
       active: true,
       userId: 1,
       activityId: 2,
@@ -30,8 +30,8 @@ module.exports = {
       }
     },
     {
-      frequency: 5000,
-      duration: 5000,
+      frequency: 1200000,
+      duration: 20000,
       active: true,
       userId: 1,
       activityId: 3,
@@ -44,17 +44,17 @@ module.exports = {
       }
     },
     {
-      frequency: 60 * 60000,
-      duration: 5000,
+      frequency: 3600000,
+      duration: null,
       active: true,
       userId: 1,
       activityId: 4,
       activity: {
         name: "hydration",
         description:
-          "Good posture is about more than standing up straight so you can look your best. It is an important part of your long-term health. Making sure that you hold your body the right way can prevent pain, injuries, and other health problems.",
+          "Water is your body's principal chemical component and makes up about 60 percent of your body weight. Your body depends on water to survive.",
         frequency: 3600000,
-        duration: 5000
+        duration: null
       }
     },
     {
