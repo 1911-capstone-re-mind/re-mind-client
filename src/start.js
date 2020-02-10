@@ -58,7 +58,7 @@ function createWindow() {
     },
     resizable: false
   });
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
@@ -482,3 +482,7 @@ ipcMain.on("updateTimer5", (event) => {
   mindTime.active = mindfulPref.active;
 })
 
+ipcMain.on("clear-timer", (event, arg) => {
+  clearInterval(masterTimer);
+  clearInterval(syncTimer);
+});

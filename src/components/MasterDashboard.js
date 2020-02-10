@@ -15,7 +15,7 @@ class MasterDashboard extends React.Component {
       view: "daily",
       isUpdatingPrefs: false
     };
-
+    this.handleClick = this.handleClick.bind(this);
     this.handleSwitch = this.handleSwitch.bind(this);
     this.toggleUpdatePage = this.toggleUpdatePage.bind(this);
   }
@@ -31,6 +31,9 @@ class MasterDashboard extends React.Component {
     this.setState({
       view: event.target.value
     });
+  }
+  handleClick() {
+    this.props.logout();
   }
 
   toggleUpdatePage() {
@@ -60,6 +63,9 @@ class MasterDashboard extends React.Component {
             <button onClick={this.handleSwitch} value="weekly">
               Weekly View
             </button>
+            <button type="button" onClick={this.handleClick}>
+              Logout
+            </button>
           </div>
           <div className="dashboard-view" style={{ margin: "100px" }}>
             {viewSelection}
@@ -82,7 +88,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getUserPreferences: userId => dispatch(getUserPreferences(userId)),
-    fetchLog: userId => dispatch(fetchLog(userId))
+    fetchLog: userId => dispatch(fetchLog(userId)),
+    logout: () => dispatch(logout())
   };
 };
 

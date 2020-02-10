@@ -49,8 +49,6 @@ class DailyDashboard extends React.Component {
     return (
       <div className="daily-dashboard">
         <div className="daily-dashboard-header">Your daily report</div>
-        <button onClick={this.handleSendSettings}>go</button>
-        <button onClick={this.handleSendDelay}>go</button>
         <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
           <VictoryAxis
             label="Activity"

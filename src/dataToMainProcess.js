@@ -24,6 +24,10 @@ export const saveLog = log => {
   ipcRenderer.send("save-log", log);
 };
 
+export const clearTimer = () => {
+  ipcRenderer.send("clear-timer");
+}
+
 // save the user's preferences to the file system
 export const setPreferences = prefs => {
   ipcRenderer.send("set-preferences", prefs);

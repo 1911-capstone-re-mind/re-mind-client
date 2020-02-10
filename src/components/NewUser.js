@@ -9,7 +9,6 @@ const NewUser = props => {
         <div className="card">
           <h3>Welcome to your personal workplace wellness tracker.</h3>
 
-          <p>This app will help you focus on:</p>
           <div id="activities-container">
             {props.activities.map(activity => (
               <div className="activity-card" key={activity.activityId}>
