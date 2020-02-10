@@ -11,7 +11,8 @@ class NewUserPrefs extends React.Component {
         {
           activityId: 1, //posture
           active: false,
-          frequency: 1800000
+          frequency: 1800000,
+          duration: null
         },
         {
           activityId: 2, //movement
@@ -28,7 +29,8 @@ class NewUserPrefs extends React.Component {
         {
           activityId: 4, //hydration
           active: false,
-          frequency: 3600000
+          frequency: 3600000,
+          duration: null
         },
         {
           activityId: 5, //mindfulness
@@ -44,19 +46,6 @@ class NewUserPrefs extends React.Component {
     let newPreferences = this.state.preferences.map(pref => {
       if (pref.activityId === Number(evt.target.id)) {
         return { ...pref, active: evt.target.checked ? true : false };
-      } else {
-        return pref;
-      }
-    });
-    this.setState(() => ({
-      preferences: newPreferences
-    }));
-  };
-
-  handleChange = evt => {
-    let newPreferences = this.state.preferences.map(pref => {
-      if (pref.activityId === Number(evt.target.id)) {
-        return { ...pref, [evt.target.name]: Number(evt.target.value) * 60000 };
       } else {
         return pref;
       }
@@ -90,9 +79,9 @@ class NewUserPrefs extends React.Component {
               <h3>Set your preferences</h3>
 
               <form name="preferences" onSubmit={this.handleSubmit}>
-                {this.props.activities.map((activity, idx) => {
+                {this.props.activities.map(activity => {
                   return (
-                    <div key={activity.id}>
+                    <div key={activity.activityId}>
                       <div className="single-prefs">
                         {/* <label htmlFor={`${activity.id}-enable`}>Enable</label> */}
                         <div className="pref-line-item">
@@ -101,7 +90,7 @@ class NewUserPrefs extends React.Component {
                               onChange={this.handleCheck}
                               name="active"
                               type="checkbox"
-                              id={activity.id}
+                              id={activity.activityId}
                               value={activity.name}
                             />
                             <span class="slider round"></span>
