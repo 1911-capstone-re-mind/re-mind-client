@@ -13,7 +13,7 @@ const NewUser = props => {
             {props.activities.map(activity => (
               <div className="activity-card" key={activity.activityId}>
                 <h2>
-                  {activity.name}
+                  {activity.name.slice(0).toUpperCase() + activity.name.slice(1)}
                 </h2>
                 <p>{activity.description}</p>
               </div>
