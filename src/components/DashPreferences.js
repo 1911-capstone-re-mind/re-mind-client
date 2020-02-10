@@ -1,42 +1,45 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
-import { Link } from "react-router-dom";
+import { FiCalendar, FiEdit2 } from "react-icons/fi";
 
 class DashPreferences extends Component {
-  componentDidMount() {
-    try {
-      this.props.getUserPreferences(this.props.user.id);
-    } catch (err) {
-      console.log(err);
-    }
-  }
   render() {
-    const pref = this.props.userPreferences.map(pref => pref.frequency);
     return (
       <div>
-        Your Preferences
-        <p>
-          Posture:{" "}
-          {pref[0] ? `${pref[0]} minute intervals` : "No preference set"}
-        </p>
-        <p>
-          Movement:{" "}
-          {pref[1] ? `${pref[1]} minute intervals` : "No preference set"}
-        </p>
-        <p>
-          Eye Strain:{" "}
-          {pref[2] ? `${pref[2]} minute intervals` : "No preference set"}
-        </p>
-        <p>
-          Hydration:{" "}
-          {pref[3] ? `${pref[3]} minute intervals` : "No preference set"}
-        </p>
-        <p>
-          Mindfulness:{" "}
-          {pref[4] ? `${pref[4]} minute intervals` : "No preference set"}
-        </p>
-        <button onClick={this.props.toggleUpdatePage}>Update Preferences</button>
+        <h1>
+          <FiCalendar size={20} /> Daily Overview
+        </h1>
+        <h2>
+          My Preferences{" "}
+          <FiEdit2
+            onClick={this.props.toggleUpdatePage}
+            size={15}
+            style={{ cursor: "pointer" }}
+          />
+        </h2>
+
+        {this.props.userPreferences.map(pref => {
+          return (
+            <div className="dash-prefs">
+              <div id={`activity-${pref.activity.id}`} />
+              <p>
+                {pref.activity.name.slice(0, 1).toUpperCase() +
+                  pref.activity.name.slice(1)}{" "}
+                |
+                {pref.frequency < 60000
+                  ? ` Every ${pref.frequency / 1000} sec `
+                  : pref.frequency >= 60000
+                  ? ` Every ${pref.frequency / 60000} mins `
+                  : " No preference set "}
+                {pref.duration < 60000
+                  ? `| ${pref.duration / 1000} sec sessions`
+                  : pref.duration >= 60000
+                  ? `| ${pref.duration / 60000} min sessions `
+                  : " "}
+              </p>
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -44,17 +47,9 @@ class DashPreferences extends Component {
 
 const mapState = (state, ownProps) => {
   return {
-    activities: state.activities,
-    user: state.user,
     userPreferences: state.userPreferences,
     toggleUpdatePage: ownProps.toggleUpdatePage
   };
 };
 
-const mapDispatch = dispatch => {
-  return {
-    getUserPreferences: userId => dispatch(getUserPreferences(userId))
-  };
-};
-
-export default connect(mapState, mapDispatch)(DashPreferences);
+export default connect(mapState)(DashPreferences);

@@ -203,13 +203,12 @@ function startTimer() {
 }
 
 function startSyncTimer() {
-  const log = currentUserSettings.get("log");
-  let req = [];
-  for (let activity in log) {
-    req.push(log[activity]);
-  }
-
   syncTimer = setInterval(async () => {
+    const log = currentUserSettings.get("log");
+    let req = [];
+    for (let activity in log) {
+      req.push(log[activity]);
+    }
     await axios.put("http://localhost:8080/api/activity-log/log/", req);
   }, 60000 * 15);
 }
@@ -241,7 +240,7 @@ function openMindModal() {
 function openMoveModal() {
   moveWindow = new BrowserWindow({
     width: 400,
-    height: 400,
+    height: 250,
     frame: false,
     webPreferences: { nodeIntegration: true }
   });

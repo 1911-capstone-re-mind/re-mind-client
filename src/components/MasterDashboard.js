@@ -2,11 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import DailyDashboard from "./DailyDashboard";
 import WeeklyDashboard from "./WeeklyDashboard";
+import StatsView from "./StatsView";
+import DashPreferences from "./DashPreferences";
+import UpdatePreferences from "./UpdatePreferences";
+import { FaPowerOff } from "react-icons/fa";
 import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
 import { fetchLog } from "../store/reducers/activityLogReducer";
 import { initTimer, setPreferences } from "../dataToMainProcess";
-import DashPreferences from "./DashPreferences";
-import UpdatePreferences from "./UpdatePreferences";
 import { logout } from "../store/reducers/userReducer";
 
 class MasterDashboard extends React.Component {
@@ -40,38 +42,43 @@ class MasterDashboard extends React.Component {
   toggleUpdatePage() {
     this.setState({
       isUpdatingPrefs: !this.state.isUpdatingPrefs
-    })
+    });
   }
 
   render() {
     if (this.state.isUpdatingPrefs) {
-      return (
-        <UpdatePreferences toggleUpdatePage={this.toggleUpdatePage}/>
-      )
+      return <UpdatePreferences toggleUpdatePage={this.toggleUpdatePage} />;
     } else {
       let viewSelection;
       if (this.state.view === "weekly") {
-        viewSelection = <WeeklyDashboard activityLog={this.props.activityLog} />;
+        viewSelection = (
+          <WeeklyDashboard activityLog={this.props.activityLog} />
+        );
       } else {
         viewSelection = <DailyDashboard activityLog={this.props.activityLog} />;
       }
       return (
-        <div className="dashboard">
-          <div className="dashboard-navigation">
+        <div>
+          <div id="dash-nav">
+            <FaPowerOff className="icon" onClick={this.handleClick} />
             <button onClick={this.handleSwitch} value="daily">
               Daily View
             </button>
             <button onClick={this.handleSwitch} value="weekly">
               Weekly View
             </button>
-            <button type="button" onClick={this.handleClick}>
-              Logout
-            </button>
           </div>
-          <div className="dashboard-view" style={{ margin: "100px" }}>
-            {viewSelection}
+          <div className="dash-container">
+            <div id="dash-sub-container">
+              <div className="dash-card-left">
+                <DashPreferences toggleUpdatePage={this.toggleUpdatePage} />
+              </div>
+              <div>
+                <StatsView activityLog={this.props.activityLog} />
+                {viewSelection}
+              </div>
+            </div>
           </div>
-          <DashPreferences toggleUpdatePage={this.toggleUpdatePage}/>
         </div>
       );
     }
