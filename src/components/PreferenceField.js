@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateSingleUserPreference } from "../store/reducers/userPreferencesReducer";
 import { setPreferences, updateTimer } from "../dataToMainProcess";
-import { millisecondsToHrMinSec, millisecondsToHrMin, millisecondsToMinSec, validateTimes } from "../utils/timeCalculations"
+import { millisecondsToHrMin, millisecondsToMinSec, validateTimes } from "../utils/timeCalculations"
 
 class PreferenceField extends Component {
   constructor(props) {
