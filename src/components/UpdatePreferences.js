@@ -45,16 +45,16 @@ class UpdatePreferences extends Component {
           <PreferenceField activityIndex={1} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
         </div>
         <div>
-          <PreferenceField activityIndex={2} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} ssaveInProgress={this.state.saveInProgress}/>
+          <PreferenceField activityIndex={2} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
         </div>
         <div>
-          <PreferenceField activityIndex={3} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} ssaveInProgress={this.state.saveInProgress}/>
+          <PreferenceField activityIndex={3} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
         </div>
         <div>
-          <PreferenceField activityIndex={4} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} ssaveInProgress={this.state.saveInProgress}/>
+          <PreferenceField activityIndex={4} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
         </div>
         <div>
-          <PreferenceField activityIndex={5} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} ssaveInProgress={this.state.saveInProgress}/>
+          <PreferenceField activityIndex={5} currentActivityInEdit={this.state.currentActivityInEdit} chooseEditActivity={this.chooseEditActivity} initiateSave={this.initiateSave} endSave={this.endSave} saveInProgress={this.state.saveInProgress}/>
         </div>
         <button onClick={this.props.toggleUpdatePage}>Back</button>
       </div>
