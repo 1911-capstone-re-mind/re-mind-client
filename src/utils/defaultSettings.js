@@ -52,7 +52,7 @@ module.exports = {
       activity: {
         name: "hydration",
         description:
-          "Good posture is about more than standing up straight so you can look your best. It is an important part of your long-term health. Making sure that you hold your body the right way can prevent pain, injuries, and other health problems.",
+          "Water is your body's principal chemical component and makes up about 60 percent of your body weight. Your body depends on water to survive.",
         frequency: 3600000,
         duration: null
       }

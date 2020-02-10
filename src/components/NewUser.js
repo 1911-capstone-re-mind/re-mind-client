@@ -14,9 +14,9 @@ const NewUser = props => {
             {props.activities.map(activity => (
               <div className="activity-card" key={activity.activityId}>
                 <h2>
-                  {activity.activity.name}
+                  {activity.name}
                 </h2>
-                <p>{activity.activity.description}</p>
+                <p>{activity.description}</p>
               </div>
             ))}
           </div>
