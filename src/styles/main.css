@@ -13,12 +13,12 @@ a {
   color: #c9c4c4;
 }
 
-h1 {
+#activities-container h1 {
   font-size: xx-large;
   font-weight: 300;
 }
 
-h2 {
+#activities-container h2 {
   font-size: x-large;
   font-weight: 300;
   border-bottom: #ba7b64 10px solid;
@@ -26,7 +26,7 @@ h2 {
   text-align: center;
 }
 
-h3 {
+#activities-container h3 {
   font-size: larger;
   font-weight: 300;
 }
@@ -178,7 +178,6 @@ input {
 }
 
 .pref-line-item {
-  /* display: inline; */
   width: 200px;
   height: 50px;
   display: flex;
@@ -248,11 +247,177 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* DASHBOARD */
+
+#dash-sub-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: space-around;
+  margin-top: 70px;
+}
+
+#dash-sub-container h1 {
+  font-size: 15pt;
+  border-bottom: 1px solid #c9c4c4;
+  font-weight: 200;
+  width: 220px;
+}
+
+#dash-sub-container h2 {
+  font-size: 10pt;
+  text-transform: uppercase;
+  font-weight: 200;
+  border-bottom: none;
+  width: auto;
+}
+
+#dash-sub-container h3 {
+  font-size: 10pt;
+  text-transform: uppercase;
+  font-weight: 200;
+  border-bottom: 1px solid #c9c4c4;
+}
+
+#dash-sub-container p {
+  font-size: 10pt;
+}
+
+#dash-nav {
+  background-color: transparent;
+  height: 200px;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+#dash-nav button {
+  font-size: 10pt;
+  text-transform: uppercase;
+  font-weight: 200;
+  border-bottom: none;
+  width: auto;
+  margin-right: 10px;
+  margin-left: 5px;
+  background-color: transparent;
+  box-shadow: none;
+  height: auto;
+}
+
+#dash-nav button:hover {
+  cursor: pointer;
+}
+
+#dash-nav .icon {
+  margin-bottom: 12px;
+  margin-right: 10px;
+}
+
+#dash-nav .icon:hover {
+  cursor: pointer;
+}
+
+.dash-card-left {
+  background-color: #5d5955;
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 40%;
+  height: 310px;
+  overflow: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 5px;
+}
+
+.dash-card-right {
+  background-color: #5d5955;
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 90%;
+  height: auto;
+  overflow: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 5px;
+  margin-bottom: 10px;
+}
+.dash-prefs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#activity-1 {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: #ba7b64;
+  margin-right: 5px;
+}
+
+#activity-2 {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: #738a98;
+  margin-right: 5px;
+}
+#activity-3 {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: #9a8e67;
+  margin-right: 5px;
+}
+#activity-4 {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: #987383;
+  margin-right: 5px;
+}
+
+#activity-5 {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: #636b95;
+  margin-right: 5px;
+}
+
+#stats-view {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.stat-num {
+  display: flex;
+  flex-direction: column;
+  font-size: 18pt;
+}
+
+.stat-num p {
+  width: 65px;
+  margin-right: 15px;
 }
