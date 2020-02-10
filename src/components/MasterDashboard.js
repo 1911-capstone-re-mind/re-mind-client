@@ -7,6 +7,7 @@ import { fetchLog } from "../store/reducers/activityLogReducer";
 import { initTimer, setPreferences } from "../dataToMainProcess";
 import DashPreferences from "./DashPreferences";
 import UpdatePreferences from "./UpdatePreferences";
+import { logout } from "../store/reducers/userReducer";
 
 class MasterDashboard extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { activities } from "../../utils/activities"
+import activities from "../../utils/activities"
 
 const GET_ACTIVITIES = "GET_ACTIVITIES";
 
