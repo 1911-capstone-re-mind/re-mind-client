@@ -1,6 +1,4 @@
 import axios from "axios";
-import { savePreferences } from "../../dataToMainProcess";
-const { ipcRenderer } = window.require("electron");
 
 // action types
 const GET_PREFS = "GET_PREFS";
@@ -40,6 +38,23 @@ export const updateUserPreferences = (activities, userId) => {
     }
   };
 };
+
+export const updateSingleUserPreference = (activity, userId) => {
+return async dispatch => {
+  try {
+    const res = await axios.put(
+      `http://localhost:8080/api/activities/prefs/${userId}/${activity.activityId}`,
+      {
+        activity,
+        userId
+      }
+    );
+    dispatch(updatePrefs(res.data));
+  } catch (err) {
+    throw new Error("error updating preferences")
+  }
+}
+}
 
 // reducer
 const userPreferencesReducer = (state = [], action) => {

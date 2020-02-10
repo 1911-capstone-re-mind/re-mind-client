@@ -9,6 +9,8 @@ import { FaPowerOff } from "react-icons/fa";
 import { getUserPreferences } from "../store/reducers/userPreferencesReducer";
 import { fetchLog } from "../store/reducers/activityLogReducer";
 import { initTimer, setPreferences } from "../dataToMainProcess";
+import DashPreferences from "./DashPreferences";
+import UpdatePreferences from "./UpdatePreferences";
 import { logout } from "../store/reducers/userReducer";
 
 class MasterDashboard extends React.Component {
@@ -58,7 +60,7 @@ class MasterDashboard extends React.Component {
         viewSelection = <DailyDashboard activityLog={this.props.activityLog} />;
       }
       return (
-        <>
+        <div>
           <div id="dash-nav">
             <FaPowerOff className="icon" onClick={this.handleClick} />
             <button onClick={this.handleSwitch} value="daily">
@@ -79,7 +81,8 @@ class MasterDashboard extends React.Component {
               </div>
             </div>
           </div>
-        </>
+          <DashPreferences toggleUpdatePage={this.toggleUpdatePage} />
+        </div>
       );
     }
   }
