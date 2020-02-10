@@ -486,42 +486,75 @@ ipcMain.on("set-preferences", (event, arg) => {
   currentUserSettings.set("userPreferences", arg);
 });
 
-//soemthjing else
-ipcMain.on("save-preferences", (event, arg) => {
-  const posturePref = getSetting("posture");
-  const movePref = getSetting("movement");
-  const visionPref = getSetting("vision");
-  const hydrationPref = getSetting("hydration");
-  const mindfulPref = getSetting("mindfulness");
+//update timer for posture
+ipcMain.on("updateTimer1", (event) => {
   const now = new Date().getTime();
-
-  pstTime.trigger = now + posturePref.frequency;
+  const posturePref = getSetting("posture");
+  if (!posturePref.active) {
+    pstTime.trigger = now - 60000
+  } else {
+    pstTime.trigger = now + posturePref.frequency;
+  }
   pstTime.frequency = posturePref.frequency;
   pstTime.duration = posturePref.duration;
   pstTime.active = posturePref.active;
+})
 
-  moveTime.trigger = now + movePref.frequency;
+//update timer for movement
+ipcMain.on("updateTimer2", (event) => {
+  const now = new Date().getTime();
+  const movePref = getSetting("movement");
+  if (!movePref.active) {
+    moveTime.trigger = now - 60000
+  } else {
+    moveTime.trigger = now + movePref.frequency;
+  }
   moveTime.frequency = movePref.frequency;
   moveTime.duration = movePref.duration;
   moveTime.active = movePref.active;
+})
 
-  visionTime.trigger = now + visionPref.frequency;
+//update timer for vision
+ipcMain.on("updateTimer3", (event) => {
+  const now = new Date().getTime();
+  const visionPref = getSetting("vision");
+  if (!visionPref.active) {
+    visionTime.trigger = now - 60000
+  } else {
+    visionTime.trigger = now + visionPref.frequency;
+  }
   visionTime.frequency = visionPref.frequency;
   visionTime.duration = visionPref.duration;
   visionTime.active = visionPref.active;
+})
 
-  hydroTime.trigger = now + hydrationPref.frequency;
+//update timer for hydration
+ipcMain.on("updateTimer4", (event) => {
+  const now = new Date().getTime();
+  const hydrationPref = getSetting("hydration");
+  if (!hydrationPref.active) {
+    hydroTime.trigger = now - 60000
+  } else {
+    hydroTime.trigger = now + hydrationPref.frequency;
+  }
   hydroTime.frequency = hydrationPref.frequency;
   hydroTime.duration = hydrationPref.duration;
   hydroTime.active = hydrationPref.active;
+})
 
-  mindTime.trigger = now + mindfulPref.frequency;
+//update timer for mindfulness
+ipcMain.on("updateTimer5", (event) => {
+  const now = new Date().getTime();
+  const mindfulPref = getSetting("mindfulness");
+  if (!mindfulPref.active) {
+    mindTime.trigger = now - 60000
+  } else {
+    mindTime.trigger = now + mindfulPref.frequency;
+  }
   mindTime.frequency = mindfulPref.frequency;
   mindTime.duration = mindfulPref.duration;
   mindTime.active = mindfulPref.active;
-
-  event.reply("preferences-saved", currentUserSettings.get());
-});
+})
 
 ipcMain.on("clear-timer", (event, arg) => {
   clearInterval(masterTimer);

@@ -5,7 +5,7 @@ body {
   font-family: "Avenir";
   color: #c9c4c4;
   background-color: #484545;
-  font-size: 18px;
+  font-size: 14pt;
 }
 
 a {
@@ -36,7 +36,7 @@ button {
   border-radius: 15px;
   border: none;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 11pt;
   background-color: #738a98;
   box-shadow: 2px 4px 6px #3f3f3f;
   color: #c9c4c4;
@@ -54,6 +54,12 @@ input {
   padding-left: 10px;
   color: #535353;
   background-color: #cacaca;
+}
+
+.min-input {
+  width: 30px;
+  display: inline;
+  white-space: nowrap;
 }
 
 .login {
@@ -92,26 +98,25 @@ input {
   background-attachment: fixed;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
   overflow: scroll;
 }
 
 .main-container {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   width: 100%;
   height: auto;
   top: 70px;
 }
 
 .card {
-  /* background-color: #5d5955; */
+  background-color: #5d5955;
   display: flex;
   flex-direction: column;
   width: 90%;
   height: 450px;
-  overflow: none;
+  overflow: scroll;
   align-items: center;
   justify-content: flex-start;
   padding-top: 20px;
@@ -123,32 +128,131 @@ input {
 
 #activities-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: auto;
+  width: 430px;
   height: auto;
   overflow: scroll;
+  scroll-behavior: auto;
   padding: 15px;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: x mandatory;
 }
-
-/* #activities-container::-webkit-scrollbar {
-  width: 0px;
-} */
 
 .activity-card {
   display: flex;
+  flex: none;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   background-color: #919191;
   width: 400px;
-  height: auto;
-  margin-bottom: 20px;
+  height: 320px;
+  margin-bottom: 0;
+  margin-right: 80px;
   padding-left: 20px;
   padding-right: 20px;
   box-shadow: 2px 4px 6px #414141;
   border-radius: 15px;
   scroll-snap-align: start;
+}
+
+.activity-card p {
+  font-size: 12pt;
+}
+
+#preferences {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 400px;
+}
+
+.single-prefs {
+  display: flex;
+  flex-direction: row;
+  width: 400px;
+  align-items: center;
+  justify-items: left;
+}
+
+.pref-line-item {
+  /* display: inline; */
+  width: 200px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.pref-line-item h3 {
+  margin-left: 10px;
+}
+
+/* SWITCH */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  flex: none;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin-right: 10px;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #9cb5c3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #9cb5c3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

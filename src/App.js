@@ -8,13 +8,8 @@ import Hello from "./components/Hello";
 import NewUser from "./components/NewUser";
 import NewUserPrefs from "./components/NewUserPrefs";
 import UpdatePreferences from "./components/UpdatePreferences";
-import { fetchActivities } from "./store/reducers/activities";
 
 class App extends React.Component {
-
-  componentDidMount() {
-    this.props.fetchActivities();
-  }
 
   render() {
     return (
@@ -43,8 +38,4 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = dispatch => ({
-  fetchActivities: () => dispatch(fetchActivities())
-})
-
-export default withRouter(connect(mapState, mapDispatch)(App));
+export default withRouter(connect(mapState)(App));
