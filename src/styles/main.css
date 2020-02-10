@@ -134,7 +134,7 @@ input {
   width: 430px;
   height: auto;
   overflow: scroll;
-  scroll-behavior: auto;
+  overflow-y: hidden;
   padding: 15px;
   scroll-snap-type: x mandatory;
 }
@@ -353,6 +353,7 @@ input:checked + .slider:before {
   flex-direction: column;
   flex: none;
   width: 90%;
+  min-width: 370px;
   height: auto;
   overflow: none;
   align-items: flex-start;
