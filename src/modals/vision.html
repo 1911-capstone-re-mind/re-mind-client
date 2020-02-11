@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Vision</title>
-    <!-- <link rel="stylesheet" type="text/css" href="css/app.css"> -->
+    <link rel="stylesheet" type="text/css" href="../styles/modal.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div id="vision">
+    <div class="main-container" id="vision">
       <div id="prompt">
-        <p>You've been looking at screens for a while. It's time to rest your eyes. Are you ready?</p>
-        <button id="yes" type="button">Yes, I'll take a break</button>
-        <button id="no" type="button">No, skip this one</button>
-        <button id="delay" type="button">Snooze (3 minutes)</button>
+        <p>
+          You've been looking at screens for a while. It's time to rest your
+          eyes. Are you ready?
+        </p>
+        <button class="buttons" id="yes" type="button">
+          <i class="material-icons">check_circle_outline</i>
+        </button>
+        <button id="no" type="button">X</button>
+        <button class="buttons" id="delay" type="button">
+          <i class="material-icons">notifications_paused</i>
+        </button>
       </div>
     </div>
   </body>
-    <script>
-      require('./vision.js')
-    </script>
+  <script>
+    require("./vision.js");
+  </script>
 </html>

@@ -226,7 +226,7 @@ function sendNotification(title, message) {
 function openMindModal() {
   mindWindow = new BrowserWindow({
     width: 400,
-    height: 400,
+    height: 250,
     frame: false,
     webPreferences: { nodeIntegration: true },
   });
@@ -258,7 +258,7 @@ function openMoveModal() {
 function openVisionModal() {
   visionWindow = new BrowserWindow({
     width: 400,
-    height: 400,
+    height: 250,
     frame: false,
     webPreferences: { nodeIntegration: true },
   });
@@ -462,7 +462,9 @@ ipcMain.on('set-preferences', (event, arg) => {
 });
 
 //update timer for posture
+
 ipcMain.on('updateTimer1', event => {
+
   const now = new Date().getTime();
   const posturePref = getSetting('posture');
   if (!posturePref.active) {
@@ -476,7 +478,9 @@ ipcMain.on('updateTimer1', event => {
 });
 
 //update timer for movement
+
 ipcMain.on('updateTimer2', event => {
+
   const now = new Date().getTime();
   const movePref = getSetting('movement');
   if (!movePref.active) {
@@ -490,7 +494,9 @@ ipcMain.on('updateTimer2', event => {
 });
 
 //update timer for vision
+
 ipcMain.on('updateTimer3', event => {
+
   const now = new Date().getTime();
   const visionPref = getSetting('vision');
   if (!visionPref.active) {
@@ -504,7 +510,9 @@ ipcMain.on('updateTimer3', event => {
 });
 
 //update timer for hydration
+
 ipcMain.on('updateTimer4', event => {
+
   const now = new Date().getTime();
   const hydrationPref = getSetting('hydration');
   if (!hydrationPref.active) {
@@ -518,7 +526,9 @@ ipcMain.on('updateTimer4', event => {
 });
 
 //update timer for mindfulness
+
 ipcMain.on('updateTimer5', event => {
+
   const now = new Date().getTime();
   const mindfulPref = getSetting('mindfulness');
   if (!mindfulPref.active) {
