@@ -1,5 +1,5 @@
 const electron = require("electron");
-const app = electron.app;
+const { app, session } = require("electron");
 const BrowserWindow = electron.BrowserWindow;
 
 const ipcMain = electron.ipcMain;
@@ -58,7 +58,6 @@ function createWindow() {
     },
     resizable: false
   });
-  //mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
@@ -298,6 +297,54 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+// save session to electron storage cookies store
+ipcMain.on("get-cookies", async (event, arg) => {
+  try {
+    //get the sessions from db Sessions table
+    const dbSessionsInfo = (await axios.get("http://localhost:8080/auth/me"))
+      .data;
+    //get sessions from electron cookies store
+    const cookies = await session.defaultSession.cookies.get({});
+    if (cookies.length > 0) {
+      //compare sessions on eletron store with db
+      //get matching session
+      const [matchedCookie] = dbSessionsInfo.filter(
+        session => session.sid === cookies[0].value
+      );
+      let id = matchedCookie.user.toString();
+      const user = await axios.post("http://localhost:8080/auth/auto-login", {
+        id
+      });
+      event.reply("cookies-received", user);
+    }
+  } catch (error) {
+    console.log("Error trying to auto-login\n", error);
+  }
+});
+
+ipcMain.on("clear-session", async (event, arg) => {
+  // remove all pre-existing sessions
+  session.defaultSession.clearStorageData();
+});
+// below code executes after a successful login OR signup
+ipcMain.on("successful-login-signup", async (event, info) => {
+  try {
+    const sessionCookie = {
+      url: "http://localhost/",
+      name: info.user,
+      value: info.sessionId,
+      expirationDate: 12096000000 // =two weeks
+    };
+    // remove all pre-existing sessions
+    session.defaultSession.clearStorageData();
+    //save session for new login
+    await session.defaultSession.cookies.set(sessionCookie);
+  } catch (error) {
+    console.log("cookie error:", error);
+  }
+});
+
 // MINDFULNESS EVENTS
 ipcMain.on("mindfulness-accepted", event => {
   event.reply("mindfulness-start-counter", mindTime.duration);
@@ -322,7 +369,7 @@ ipcMain.on("mindfulness-rejected", () => {
 
 ipcMain.on("mindfulness-delayed", () => {
   mindWindow.close();
-  mindTime.setDelay(15000);
+  mindTime.setDelay(60000 * 3);
 });
 // END MINDFULNESS EVENTS
 //movement IPC
@@ -349,7 +396,7 @@ ipcMain.on("movement-rejected", () => {
 
 ipcMain.on("movement-delayed", () => {
   moveWindow.close();
-  moveTime.setDelay(60000 * 5);
+  moveTime.setDelay(60000 * 3);
 });
 //end movement IPC
 
@@ -374,7 +421,7 @@ ipcMain.on("vision-rejected", () => {
 
 ipcMain.on("vision-delayed", () => {
   visionWindow.close();
-  visionTime.setDelay(60000 * 5);
+  visionTime.setDelay(60000 * 3);
 });
 //end vision IPC
 

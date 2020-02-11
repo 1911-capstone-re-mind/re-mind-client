@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { updateSingleUserPreference } from "../store/reducers/userPreferencesReducer";
 import { setPreferences, updateTimer } from "../dataToMainProcess";
 import {
-  millisecondsToHrMinSec,
+  millisecondsToHrMin,
+  millisecondsToMinSec,
   validateTimes
 } from "../utils/timeCalculations";
 import { FiEdit2, FiSave } from "react-icons/fi";
@@ -15,7 +16,6 @@ class PreferenceField extends Component {
     this.state = {
       frequencyHours: 0,
       frequencyMinutes: 0,
-      frequencySeconds: 0,
       durationMinutes: 0,
       durationSeconds: 0,
       active: false,
@@ -29,28 +29,22 @@ class PreferenceField extends Component {
   }
 
   componentDidMount() {
-    const [hours, minutes, seconds] = millisecondsToHrMinSec(
+    const [hours, minutes] = millisecondsToHrMin(
       this.props.userPreferences[this.props.activityIndex - 1].frequency
     );
     let durationMinutes;
     let durationSeconds;
-    let durationHours;
     if (this.props.activityIndex === 1 || this.props.activityIndex === 4) {
       durationMinutes = null;
       durationSeconds = null;
     } else {
-      [
-        durationHours,
-        durationMinutes,
-        durationSeconds
-      ] = millisecondsToHrMinSec(
+      [durationMinutes, durationSeconds] = millisecondsToMinSec(
         this.props.userPreferences[this.props.activityIndex - 1].duration
       );
     }
     this.setState({
       frequencyHours: hours,
       frequencyMinutes: minutes,
-      frequencySeconds: seconds,
       durationMinutes: durationMinutes,
       durationSeconds: durationSeconds,
       active: this.props.userPreferences[this.props.activityIndex - 1].active,
@@ -60,28 +54,22 @@ class PreferenceField extends Component {
 
   cancelChanges() {
     this.props.chooseEditActivity(0);
-    const { hours, minutes, seconds } = millisecondsToHrMinSec(
+    const [hours, minutes] = millisecondsToHrMin(
       this.props.userPreferences[this.props.activityIndex - 1].frequency
     );
     let durationMinutes;
     let durationSeconds;
-    let durationHours;
     if (this.props.activityIndex === 1 || this.props.activityIndex === 4) {
       durationMinutes = null;
       durationSeconds = null;
     } else {
-      [
-        durationHours,
-        durationMinutes,
-        durationSeconds
-      ] = millisecondsToHrMinSec(
+      [durationMinutes, durationSeconds] = millisecondsToMinSec(
         this.props.userPreferences[this.props.activityIndex - 1].duration
       );
     }
     this.setState({
       frequencyHours: hours,
       frequencyMinutes: minutes,
-      frequencySeconds: seconds,
       durationMinutes: durationMinutes,
       durationSeconds: durationSeconds,
       active: this.props.userPreferences[this.props.activityIndex - 1].active,
@@ -98,7 +86,6 @@ class PreferenceField extends Component {
         !validateTimes(
           this.state.frequencyHours,
           this.state.frequencyMinutes,
-          this.state.frequencySeconds,
           this.state.durationMinutes,
           this.state.durationSeconds,
           this.props.activityIndex
@@ -112,8 +99,7 @@ class PreferenceField extends Component {
           activityId: this.props.activityIndex,
           frequency:
             this.state.frequencyHours * 3600000 +
-            this.state.frequencyMinutes * 60000 +
-            this.state.frequencySeconds * 1000,
+            this.state.frequencyMinutes * 60000,
           duration:
             this.props.activityIndex === 1 || this.props.activityIndex === 4
               ? null
@@ -131,28 +117,22 @@ class PreferenceField extends Component {
         error: ""
       }));
     } catch (err) {
-      const { hours, minutes, seconds } = millisecondsToHrMinSec(
+      const [hours, minutes] = millisecondsToHrMin(
         this.props.userPreferences[this.props.activityIndex - 1].frequency
       );
       let durationMinutes;
       let durationSeconds;
-      let durationHours;
       if (this.props.activityIndex === 1 || this.props.activityIndex === 4) {
         durationMinutes = null;
         durationSeconds = null;
       } else {
-        [
-          durationHours,
-          durationMinutes,
-          durationSeconds
-        ] = millisecondsToHrMinSec(
+        [durationMinutes, durationSeconds] = millisecondsToMinSec(
           this.props.userPreferences[this.props.activityIndex - 1].duration
         );
       }
       this.setState(() => ({
         frequencyHours: hours,
         frequencyMinutes: minutes,
-        frequencySeconds: seconds,
         durationMinutes: durationMinutes,
         durationSeconds: durationSeconds,
         active: this.props.userPreferences[this.props.activityIndex - 1].active,
@@ -236,17 +216,6 @@ class PreferenceField extends Component {
           }
         />
         <label>minutes</label>
-        <input
-          className="min-input"
-          onChange={this.handleChange}
-          type="number"
-          name="frequencySeconds"
-          value={this.state.frequencySeconds}
-          disabled={
-            this.props.currentActivityInEdit !== this.props.activityIndex
-          }
-        />
-        <label>seconds</label>
         {this.props.userPreferences[this.props.activityIndex - 1].duration !==
           null && (
           <>
