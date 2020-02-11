@@ -8,8 +8,13 @@ import Hello from "./components/Hello";
 import NewUser from "./components/NewUser";
 import NewUserPrefs from "./components/NewUserPrefs";
 import UpdatePreferences from "./components/UpdatePreferences";
+const { ipcRenderer } = window.require('electron')
 
 class App extends React.Component {
+
+  componentDidMount() {
+    ipcRenderer.send('get-cookies')
+  }
 
   render() {
     return (
