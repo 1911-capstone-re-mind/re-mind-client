@@ -69,7 +69,6 @@ function createWindow() {
   );
 
   mainWindow.on("closed", () => {
-    saveLog();
     mainWindow = null;
     clearInterval(masterTimer);
     clearInterval(syncTimer);
@@ -288,6 +287,7 @@ function openVisionModal() {
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
+  saveLog();
   if (process.platform !== "darwin") {
     app.quit();
   }
