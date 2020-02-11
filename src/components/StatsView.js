@@ -14,19 +14,21 @@ const StatsView = props => {
           day: "numeric"
         })}
       </h1>
-      <h2>All time stats</h2>
+      <h2>Today's stats</h2>
 
       {props.activityLog.length ? (
         <div id="stats-view">
           <div className="stat-num">
             {props.activityLog
               .filter(log => log.user_preference.activity.name === "movement")
+              .filter(entry => entry.date === today.getDate())
               .reduce((total, entry) => total + entry.completed_sessions, 0)}
             <p> movement sessions</p>
           </div>
           <div className="stat-num">
             {props.activityLog
               .filter(log => log.user_preference.activity.name === "vision")
+              .filter(entry => entry.date === today.getDate())
               .reduce((total, entry) => total + entry.completed_sessions, 0)}
             <p> vision sessions</p>
           </div>
@@ -35,6 +37,7 @@ const StatsView = props => {
               .filter(
                 log => log.user_preference.activity.name === "mindfulness"
               )
+              .filter(entry => entry.date === today.getDate())
               .reduce((total, entry) => total + entry.completed_sessions, 0)}
             <p> mindfulness sessions</p>
           </div>
@@ -47,6 +50,7 @@ const StatsView = props => {
                     (log.user_preference.activity.name === "vision") +
                     (log.user_preference.activity.name === "movement")
                 )
+                .filter(entry => entry.date === today.getDate())
                 .reduce((total, entry) => {
                   return (
                     total +

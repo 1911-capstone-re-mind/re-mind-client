@@ -69,6 +69,7 @@ function createWindow() {
   );
 
   mainWindow.on("closed", () => {
+    saveLog();
     mainWindow = null;
     clearInterval(masterTimer);
     clearInterval(syncTimer);
@@ -129,7 +130,8 @@ function startTimer() {
     if (now >= pstTime.trigger && pstTime.active) {
       sendNotification(
         "Posture",
-        "How's your posture? Make sure you're sitting correctly"
+        "How's your posture? Make sure you're sitting correctly",
+        "posture"
       );
       pstTime.setNextNotif();
     }
@@ -137,7 +139,8 @@ function startTimer() {
     if (now >= hydroTime.trigger && hydroTime.active) {
       sendNotification(
         "Hydration",
-        "Have you been drinking water? Stay hydrated"
+        "Have you been drinking water? Stay hydrated",
+        "hydration"
       );
       hydroTime.setNextNotif();
     }
@@ -202,22 +205,35 @@ function startTimer() {
   }, 1000);
 }
 
+async function saveLog() {
+  const log = currentUserSettings.get("log");
+  let req = [];
+  for (let activity in log) {
+    req.push(log[activity]);
+  }
+  await axios.put("http://localhost:8080/api/activity-log/log/", req);
+}
+
 function startSyncTimer() {
   syncTimer = setInterval(async () => {
-    const log = currentUserSettings.get("log");
-    let req = [];
-    for (let activity in log) {
-      req.push(log[activity]);
-    }
-    await axios.put("http://localhost:8080/api/activity-log/log/", req);
+    saveLog();
   }, 60000 * 15);
 }
 
-function sendNotification(title, message) {
+function sendNotification(title, message, logName) {
   const notif = new Notification({
     title: title,
     body: message
   });
+  if (logName) {
+    let currentSessions = currentUserSettings.get(
+      `log.${logName}.completed_sessions`
+    );
+    currentUserSettings.set(
+      `log.${logName}.completed_sessions`,
+      currentSessions + 1
+    );
+  }
   notif.show();
 }
 
@@ -412,74 +428,74 @@ ipcMain.on("set-preferences", (event, arg) => {
 });
 
 //update timer for posture
-ipcMain.on("updateTimer1", (event) => {
+ipcMain.on("updateTimer1", event => {
   const now = new Date().getTime();
   const posturePref = getSetting("posture");
   if (!posturePref.active) {
-    pstTime.trigger = now - 60000
+    pstTime.trigger = now - 60000;
   } else {
     pstTime.trigger = now + posturePref.frequency;
   }
   pstTime.frequency = posturePref.frequency;
   pstTime.duration = posturePref.duration;
   pstTime.active = posturePref.active;
-})
+});
 
 //update timer for movement
-ipcMain.on("updateTimer2", (event) => {
+ipcMain.on("updateTimer2", event => {
   const now = new Date().getTime();
   const movePref = getSetting("movement");
   if (!movePref.active) {
-    moveTime.trigger = now - 60000
+    moveTime.trigger = now - 60000;
   } else {
     moveTime.trigger = now + movePref.frequency;
   }
   moveTime.frequency = movePref.frequency;
   moveTime.duration = movePref.duration;
   moveTime.active = movePref.active;
-})
+});
 
 //update timer for vision
-ipcMain.on("updateTimer3", (event) => {
+ipcMain.on("updateTimer3", event => {
   const now = new Date().getTime();
   const visionPref = getSetting("vision");
   if (!visionPref.active) {
-    visionTime.trigger = now - 60000
+    visionTime.trigger = now - 60000;
   } else {
     visionTime.trigger = now + visionPref.frequency;
   }
   visionTime.frequency = visionPref.frequency;
   visionTime.duration = visionPref.duration;
   visionTime.active = visionPref.active;
-})
+});
 
 //update timer for hydration
-ipcMain.on("updateTimer4", (event) => {
+ipcMain.on("updateTimer4", event => {
   const now = new Date().getTime();
   const hydrationPref = getSetting("hydration");
   if (!hydrationPref.active) {
-    hydroTime.trigger = now - 60000
+    hydroTime.trigger = now - 60000;
   } else {
     hydroTime.trigger = now + hydrationPref.frequency;
   }
   hydroTime.frequency = hydrationPref.frequency;
   hydroTime.duration = hydrationPref.duration;
   hydroTime.active = hydrationPref.active;
-})
+});
 
 //update timer for mindfulness
-ipcMain.on("updateTimer5", (event) => {
+ipcMain.on("updateTimer5", event => {
   const now = new Date().getTime();
   const mindfulPref = getSetting("mindfulness");
   if (!mindfulPref.active) {
-    mindTime.trigger = now - 60000
+    mindTime.trigger = now - 60000;
   } else {
     mindTime.trigger = now + mindfulPref.frequency;
   }
   mindTime.frequency = mindfulPref.frequency;
   mindTime.duration = mindfulPref.duration;
   mindTime.active = mindfulPref.active;
-})
+});
 
 ipcMain.on("clear-timer", (event, arg) => {
   clearInterval(masterTimer);
