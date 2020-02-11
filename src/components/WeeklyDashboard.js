@@ -29,66 +29,107 @@ class WeeklyDashboard extends React.Component {
     const dateRange = today.getDate() - 4;
     const month = today.getMonth() + 1;
 
-    const log = this.props.activityLog;
     const log2 = this.props.activityLog;
 
-    let filterdLog = log
+    const log = this.props.activityLog
       .filter(
         x =>
           (x.userPreferenceId === 2) +
           (x.userPreferenceId === 3) +
           (x.userPreferenceId === 5)
       )
-      .filter(entry => entry.month === month && entry.date >= dateRange);
-    console.log(filterdLog);
-    var result = [];
-    filterdLog.forEach(function(obj) {
-      var id = obj.userPreferenceId;
-      if (!this[id]) result.push((this[id] = obj));
-      else this[id].completed_sessions += obj.completed_sessions;
-    }, Object.create(null));
-    var result2 = [];
-    log2.forEach(function(obj) {
+      .filter(entry => entry.month === month && entry.date >= dateRange); //&& entry.date >= dateRange
+    const sessionsComplete = log.some(entry => entry.completed_sessions > 1);
+    console.log("log", log);
+
+    var sessionLog = [];
+    log.map(function(obj) {
       var id = obj.date;
-      if (!this[id]) result2.push((this[id] = obj));
+      if (!this[id]) sessionLog.push((this[id] = obj));
       else this[id].completed_sessions += obj.completed_sessions;
     }, Object.create(null));
+    console.log("sessionLog", sessionLog);
+
+    let totals = [];
+    log.map(function(entry) {
+      const obj = {
+        completed_sessions: entry.completed_sessions,
+        name: entry.user_preference.activity.name,
+        id: entry.user_preference.activity.id,
+        duration: entry.user_preference.duration
+      };
+      let id = entry.user_preference.activityId;
+      if (!this[id]) totals.push((this[id] = obj));
+      else this[id].completed_sessions += obj.completed_sessions;
+    }, Object.create(null));
+
+    console.log(totals);
 
     return (
       <div className="weekly-dashboard">
         <div className="dash-card-right">
           <h3>Sessions completed this week</h3>
-          <VictoryChart domainPadding={20}>
-            <VictoryAxis
-              tickValues={[1, 2, 3, 4, 5]}
-              tickFormat={["Mo", "Tu", "We", "Th", "Fr"]}
-            />
-            <VictoryAxis
-              dependentAxis
-              label="Sessions"
-              // tickFormat specifies how ticks should be displayed
-              tickFormat={t => `${t}`}
-            />
-            <VictoryBar
-              barRatio={0.8}
-              style={{ data: { fill: "blue" } }}
-              data={log2}
-              x="date"
-              // data accessor for y values
-              y="completed_sessions"
-            />
-          </VictoryChart>
+          {sessionsComplete ? (
+            <VictoryChart domainPadding={20}>
+              <VictoryAxis
+                style={{
+                  axis: { stroke: "#c9c4c4" },
+                  axisLabel: { fill: "#c9c4c4", fontFamily: "Avenir" },
+                  tickLabels: { fill: "#c9c4c4", fontFamily: "Avenir" },
+                  ticks: { stroke: "#c9c4c4" }
+                }}
+                tickValues={[1, 2, 3, 4, 5]}
+              />
+              <VictoryAxis
+                style={{
+                  axis: { stroke: "#c9c4c4" },
+                  axisLabel: { fill: "#c9c4c4", fontFamily: "Avenir" },
+                  tickLabels: { fill: "#c9c4c4", fontFamily: "Avenir" },
+                  ticks: { stroke: "#c9c4c4" }
+                }}
+                dependentAxis
+                // tickFormat specifies how ticks should be displayed
+                tickFormat={t => `${t}`}
+              />
+              <VictoryBar
+                style={{ data: { fill: "#ba7b64" } }}
+                data={sessionLog}
+                x={data => `${data.month}/${data.date}`}
+                // data accessor for y values
+                y={"completed_sessions"}
+              />
+            </VictoryChart>
+          ) : (
+            <div>
+              <p>No sessions completed yet.</p>
+            </div>
+          )}
         </div>
         <div className="dash-card-right">
-          <VictoryPie
-            colorScale={["orange", "cyan", "red"]}
-            data={result}
-            // data accessor for x values
-            x="user_preference.activity.name"
-            // data accessor for y values
-            y={d => (d.completed_sessions * d.user_preference.duration) / 60000}
-            width={500}
-          />
+          <h3>Minutes well spent</h3>
+          {sessionsComplete ? (
+            <VictoryPie
+              style={{ labels: { fill: "#c9c4c4", fontFamily: "Avenir" } }}
+              colorScale={["#738a98", "#9a8e67", "#636b95"]}
+              data={totals}
+              // data accessor for x values
+              labels={({ datum }) =>
+                datum.duration * datum.completed_sessions < 60000
+                  ? `${datum.name} - ${datum.completed_sessions *
+                      (datum.duration / 1000)} sec`
+                  : `${datum.name} - ${Math.floor(
+                      (datum.completed_sessions * datum.duration) / 60000
+                    )} mins`
+              }
+              // data accessor for y values
+              y={d => (d.completed_sessions * d.duration) / 60000}
+              width={500}
+            />
+          ) : (
+            <div>
+              <p>No minutes to report.</p>
+            </div>
+          )}
         </div>
       </div>
     );

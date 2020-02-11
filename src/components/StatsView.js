@@ -5,7 +5,7 @@ const StatsView = props => {
   const today = new Date();
 
   return (
-    <div className="dash-card-right">
+    <div className="stats">
       <h1>
         <FiBarChart2 size={20} />{" "}
         {today.toLocaleDateString(undefined, {
@@ -56,7 +56,7 @@ const StatsView = props => {
                   );
                 }, 0)
             )}
-            <p> total minutes well spent</p>
+            <p> total minutes</p>
           </div>
         </div>
       ) : (

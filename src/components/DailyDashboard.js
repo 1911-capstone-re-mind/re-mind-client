@@ -29,7 +29,7 @@ class DailyDashboard extends React.Component {
 
   render() {
     const today = new Date();
-    const log = this.props.activityLog.filter(d => d.date === 3); //today.getDate()
+    const log = this.props.activityLog.filter(d => d.date === today.getDate()); //today.getDate()
     const sessionsComplete = log.some(entry => entry.completed_sessions > 1);
     console.log(log);
     return (
@@ -109,11 +109,16 @@ class DailyDashboard extends React.Component {
               )}
               // data accessor for x values
               labels={({ datum }) =>
-                `${
-                  datum.user_preference.activity.name
-                } - ${(datum.completed_sessions *
-                  datum.user_preference.duration) /
-                  60000} mins`
+                datum.user_preference.duration < 60000
+                  ? `${
+                      datum.user_preference.activity.name
+                    } - ${datum.completed_sessions *
+                      (datum.user_preference.duration / 1000)} sec`
+                  : `${
+                      datum.user_preference.activity.name
+                    } - ${(datum.completed_sessions *
+                      datum.user_preference.duration) /
+                      60000} mins`
               }
               // data accessor for y values
               y={d =>
