@@ -14,10 +14,7 @@ const reducer = combineReducers({
   activityLog: activityLogReducer
 });
 
-const middleware = applyMiddleware(
-  thunkMiddleware,
-  createLogger({ collapsed: true })
-);
+const middleware = applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 
 const store = createStore(reducer, middleware);
 
