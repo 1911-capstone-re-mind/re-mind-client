@@ -56,7 +56,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    resizable: false
+    resizable: false,
+    icon: __dirname + "/styles/assets/re-mind-icon@2x.icns"
   });
   //mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
