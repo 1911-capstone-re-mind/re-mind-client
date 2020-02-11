@@ -20,24 +20,26 @@ class DashPreferences extends Component {
 
         {this.props.userPreferences.map(pref => {
           return (
-            <div className="dash-prefs" key={pref.activity.id}>
-              <div id={`activity-${pref.activity.id}`}/>
-              <p>
-                {pref.activity.name.slice(0, 1).toUpperCase() +
-                  pref.activity.name.slice(1)}{" "}
-                |
-                {pref.frequency < 60000
-                  ? ` Every ${pref.frequency / 1000} sec `
-                  : pref.frequency >= 60000
-                  ? ` Every ${pref.frequency / 60000} mins `
-                  : " No preference set "}
-                {pref.duration < 60000
-                  ? `| ${pref.duration / 1000} sec sessions`
-                  : pref.duration >= 60000
-                  ? `| ${pref.duration / 60000} min sessions `
-                  : " "}
-              </p>
-            </div>
+            pref.active && (
+              <div className="dash-prefs">
+                <div id={`activity-${pref.activity.id}`} />
+                <p>
+                  {pref.activity.name.slice(0, 1).toUpperCase() +
+                    pref.activity.name.slice(1)}{" "}
+                  |
+                  {pref.frequency < 60000
+                    ? ` Every ${pref.frequency / 1000} sec `
+                    : pref.frequency >= 60000
+                    ? ` Every ${pref.frequency / 60000} mins `
+                    : " No preference set "}
+                  {pref.duration < 60000 && pref.duration > 0
+                    ? `| ${pref.duration / 1000} sec sessions`
+                    : pref.duration >= 60000 && pref.duration > 0
+                    ? `| ${pref.duration / 60000} min sessions `
+                    : " "}
+                </p>
+              </div>
+            )
           );
         })}
       </div>
