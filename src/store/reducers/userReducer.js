@@ -26,7 +26,12 @@ export const auth = (data, method) => async dispatch => {
     //TO DO : Add Heroku hosted server address
     res = await axios.post(`http://localhost:8080/auth/${method}`, data);
   } catch (authError) {
-    throw new Error('Invalid Credentials')
+    if (authError.response.data === 'User already exists') {
+      throw new Error('User with that email already exists')
+    } else {
+      throw new Error('Invalid Credentials')
+
+    }
   }
 
   try {

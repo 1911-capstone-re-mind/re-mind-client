@@ -27,6 +27,8 @@ class SignUp extends React.Component {
       let errorMessage;
       if (err.message === 'Invalid Credentials') {
         errorMessage = 'Invalid Credentails. Please check your information.';
+      } else  if (err.message === 'User with that email already exists') {
+        errorMessage = 'A user with that email already exists.';
       } else {
         errorMessage = 'Network Error';
       }
