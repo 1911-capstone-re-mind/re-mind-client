@@ -4,7 +4,19 @@ body {
   background-color: #484545;
   font-size: 14pt;
 }
+.main-container {
+  height: 230px;
+  background: url("./assets/re-mind-dash-logo.svg");
+  background-repeat: no-repeat;
+  background-size: 200px;
+  background-position-x: -85px;
+  background-position-y: -40px;
+  background-attachment: fixed;
+  overflow-y: hidden;
+}
 .buttons {
+  display: flex;
+  justify-content: center;
   width: 120px;
   height: 40px;
   border-radius: 15px;
@@ -15,7 +27,7 @@ body {
   box-shadow: 2px 4px 6px #3f3f3f;
   font-family: "Avenir";
   color: #c9c4c4;
-  margin: none;
+  margin: 5px;
 }
 
 .counter {
@@ -27,6 +39,10 @@ body {
   color: #c9c4c4;
   font-size: 70pt;
   padding-top: 60px;
+}
+i.material-icons {
+  padding-top: 4px;
+  font-size: 30px;
 }
 
 #no {
@@ -41,7 +57,12 @@ body {
   box-shadow: 2px 4px 6px #3f3f3f;
   font-family: "Avenir";
   color: #c9c4c4;
+  border-radius: 3px;
 }
 #prompt {
-  margin-top: 40px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

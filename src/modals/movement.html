@@ -4,20 +4,24 @@
     <meta charset="UTF-8" />
     <title>Movement</title>
     <link rel="stylesheet" type="text/css" href="../styles/modal.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div id="movement">
+    <div class="main-container" id="movement">
       <div id="prompt">
-        <button id="no" type="button">X</button>
         <p>
           You've been sitting for a while. It's time to get up and strech your
           legs. Are you ready?
         </p>
         <button class="buttons" id="yes" type="button">
-          Yes, I'll get up
+          <i class="material-icons">check_circle_outline</i>
         </button>
+        <button id="no" type="button">X</button>
         <button class="buttons" id="delay" type="button">
-          Snooze (3 minutes)
+          <i class="material-icons">notifications_paused</i>
         </button>
       </div>
     </div>
