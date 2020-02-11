@@ -72,6 +72,15 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+    if (moveWindow) {
+      moveWindow.close();
+    }
+    if (visionWindow) {
+      visionWindow.close();
+    }
+    if (mindWindow) {
+      mindWindow.close();
+    }
     clearInterval(masterTimer);
     clearInterval(syncTimer);
   });
