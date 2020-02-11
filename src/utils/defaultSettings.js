@@ -76,7 +76,8 @@ module.exports = {
     id: null,
     email: "",
     firstName: "",
-    lastName: ""
+    lastName: "",
+    sessionId:""
   },
   log: {
     posture: {},
