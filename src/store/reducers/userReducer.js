@@ -26,7 +26,12 @@ export const auth = (data, method) => async dispatch => {
     //TO DO : Add Heroku hosted server address
     res = await axios.post(`http://localhost:8080/auth/${method}`, data);
   } catch (authError) {
-    return dispatch(getUser({ error: authError }));
+    if (authError.response.data === 'User already exists') {
+      throw new Error('User with that email already exists')
+    } else {
+      throw new Error('Invalid Credentials')
+
+    }
   }
 
   try {
@@ -35,8 +40,6 @@ export const auth = (data, method) => async dispatch => {
       const info = {user: res.data.user.email, sessionId: res.data.sessionId }
       ipcRenderer.send('successful-login-signup', info)
       history.push("/new-user");
-    } else if (method === "me") {
-
     } else {
       dispatch(getUser(res.data.user));
       const info = {user: res.data.user.email, sessionId: res.data.sessionId }
@@ -44,7 +47,7 @@ export const auth = (data, method) => async dispatch => {
       history.push("/dashboard");
     }
   } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr);
+    throw new Error('Invalid Credentials')
   }
 };
 

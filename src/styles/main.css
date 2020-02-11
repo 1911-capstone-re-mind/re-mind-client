@@ -96,6 +96,18 @@ input {
   justify-content: center;
 }
 
+.error-login {
+  position: absolute;
+  top: 340px;
+  color: red;
+}
+
+.error-signup {
+  position: absolute;
+  top: 385px;
+  color: red;
+}
+
 .center {
   display: flex;
   flex-direction: column;
