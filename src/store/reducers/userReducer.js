@@ -1,6 +1,7 @@
 import axios from "axios";
 import history from "../../history";
 import { clearTimer } from "../../dataToMainProcess";
+import store from '../index'
 const { ipcRenderer } = window.require('electron')
 
 // action types
@@ -14,24 +15,30 @@ const defaultUser = {};
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 
+ipcRenderer.on('cookies-received', (event, user) => {
+  store.dispatch(getUser(user.data))
+  history.push("/dashboard")
+})
 // thunk for getting user
 export const auth = (data, method) => async dispatch => {
   let res;
   try {
     //TO DO : Add Heroku hosted server address
     res = await axios.post(`http://localhost:8080/auth/${method}`, data);
-    console.log("TCL: res", res)
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
 
   try {
-    dispatch(getUser(res.data));
     if (method === "signup") {
+      dispatch(getUser(res.data.user));
+      const info = {user: res.data.user.email, sessionId: res.data.sessionId }
+      ipcRenderer.send('successful-signup', info)
       history.push("/new-user");
     } else if (method === "me") {
 
     } else {
+      dispatch(getUser(res.data.user));
       const info = {user: res.data.user.email, sessionId: res.data.sessionId }
       ipcRenderer.send('successful-login', info)
       history.push("/dashboard");
@@ -47,6 +54,7 @@ export const logout = () => async dispatch => {
     await axios.post(`http://localhost:8080/auth/logout`);
     dispatch(removeUser());
     clearTimer();
+    ipcRenderer.send('clear-session')
     history.push("/");
   } catch (err) {
     console.error(err);
