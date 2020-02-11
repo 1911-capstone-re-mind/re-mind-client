@@ -469,7 +469,7 @@ input:checked + .slider:before {
 }
 
 .update-card {
-  width: 100%;
+  width: 400px;
   position: relative;
   background-color: #757474;
   margin: 20px;

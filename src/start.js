@@ -56,7 +56,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    resizable: false
+    resizable: false,
+    icon: __dirname + "/styles/assets/re-mind-icon@2x.icns"
   });
 
   mainWindow.loadURL(
@@ -239,7 +240,7 @@ function sendNotification(title, message, logName) {
 function openMindModal() {
   mindWindow = new BrowserWindow({
     width: 400,
-    height: 400,
+    height: 250,
     frame: false,
     webPreferences: { nodeIntegration: true }
   });
@@ -271,7 +272,7 @@ function openMoveModal() {
 function openVisionModal() {
   visionWindow = new BrowserWindow({
     width: 400,
-    height: 400,
+    height: 250,
     frame: false,
     webPreferences: { nodeIntegration: true }
   });
