@@ -4,7 +4,7 @@ body {
   background-color: #484545;
   font-size: 14pt;
 }
-button {
+.buttons {
   width: 120px;
   height: 40px;
   border-radius: 15px;
@@ -13,8 +13,9 @@ button {
   font-size: 11pt;
   background-color: #738a98;
   box-shadow: 2px 4px 6px #3f3f3f;
+  font-family: "Avenir";
   color: #c9c4c4;
-  margin: 10px;
+  margin: none;
 }
 
 .counter {
@@ -26,4 +27,21 @@ button {
   color: #c9c4c4;
   font-size: 70pt;
   padding-top: 60px;
+}
+
+#no {
+  border: none;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  justify-content: flex-end;
+  text-transform: uppercase;
+  font-size: 11pt;
+  background-color: #738a98;
+  box-shadow: 2px 4px 6px #3f3f3f;
+  font-family: "Avenir";
+  color: #c9c4c4;
+}
+#prompt {
+  margin-top: 40px;
 }
