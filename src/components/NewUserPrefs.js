@@ -4,8 +4,8 @@ import { updateUserPreferences } from "../store/reducers/userPreferencesReducer"
 import history from "../history";
 
 class NewUserPrefs extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       preferences: [
         {
@@ -83,7 +83,6 @@ class NewUserPrefs extends React.Component {
                   return (
                     <div key={activity.activityId}>
                       <div className="single-prefs">
-                        {/* <label htmlFor={`${activity.id}-enable`}>Enable</label> */}
                         <div className="pref-line-item">
                           <label className="switch">
                             <input
@@ -93,7 +92,7 @@ class NewUserPrefs extends React.Component {
                               id={activity.activityId}
                               value={activity.name}
                             />
-                            <span class="slider round"></span>
+                            <span className="slider round"></span>
                           </label>
                           <h3>
                             {activity.name.slice(0, 1).toUpperCase() +

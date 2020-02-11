@@ -1,16 +1,16 @@
-const electron = require("electron");
-const app = electron.app;
+const electron = require('electron');
+const { app, session } = require('electron');
 const BrowserWindow = electron.BrowserWindow;
 
 const ipcMain = electron.ipcMain;
 const Notification = electron.Notification;
-const Store = require("electron-store");
-const Scheduler = require("./utils/scheduler");
-const axios = require("axios");
+const Store = require('electron-store');
+const Scheduler = require('./utils/scheduler');
+const axios = require('axios');
 
-const path = require("path");
-const url = require("url");
-const defaults = require("./utils/defaultSettings");
+const path = require('path');
+const url = require('url');
+const defaults = require('./utils/defaultSettings');
 let currentUserSettings = new Store({ defaults });
 
 //init timers
@@ -37,13 +37,13 @@ const date = new Date().getDate();
 // get settings from local storage for schedulers
 const getSetting = settingName => {
   let preferences = {};
-  currentUserSettings.get("userPreferences").forEach(pref => {
+  currentUserSettings.get('userPreferences').forEach(pref => {
     if (pref.activity.name === settingName) {
-      preferences["name"] = pref.activity.name;
-      preferences["userPreferenceId"] = pref.id;
-      preferences["frequency"] = pref.frequency;
-      preferences["duration"] = pref.duration;
-      preferences["active"] = pref.active;
+      preferences['name'] = pref.activity.name;
+      preferences['userPreferenceId'] = pref.id;
+      preferences['frequency'] = pref.frequency;
+      preferences['duration'] = pref.duration;
+      preferences['active'] = pref.active;
     }
   });
   return preferences;
@@ -51,25 +51,28 @@ const getSetting = settingName => {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1200,
     height: 600,
+    x: 300,
+    y: 200,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
     },
     resizable: false,
     icon: __dirname + "/styles/assets/re-mind-icon@2x.icns"
+
   });
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
-        pathname: path.join(__dirname, "/../public/index.html"),
-        protocol: "file:",
-        slashes: true
+        pathname: path.join(__dirname, '/../public/index.html'),
+        protocol: 'file:',
+        slashes: true,
       })
   );
 
-  mainWindow.on("closed", () => {
+  mainWindow.on('closed', () => {
     mainWindow = null;
     clearInterval(masterTimer);
     clearInterval(syncTimer);
@@ -83,11 +86,11 @@ function startTimer() {
   let mindHeadsUp = false;
 
   //frequency and duration preferences for user
-  const posturePref = getSetting("posture");
-  const movePref = getSetting("movement");
-  const visionPref = getSetting("vision");
-  const hydrationPref = getSetting("hydration");
-  const mindfulPref = getSetting("mindfulness");
+  const posturePref = getSetting('posture');
+  const movePref = getSetting('movement');
+  const visionPref = getSetting('vision');
+  const hydrationPref = getSetting('hydration');
+  const mindfulPref = getSetting('mindfulness');
 
   //scheduler objects that track when to trigger a notificaiton
   const now = new Date().getTime();
@@ -129,7 +132,7 @@ function startTimer() {
     //notifications that don't require pop up windows
     if (now >= pstTime.trigger && pstTime.active) {
       sendNotification(
-        "Posture",
+        'Posture',
         "How's your posture? Make sure you're sitting correctly"
       );
       pstTime.setNextNotif();
@@ -137,8 +140,8 @@ function startTimer() {
 
     if (now >= hydroTime.trigger && hydroTime.active) {
       sendNotification(
-        "Hydration",
-        "Have you been drinking water? Stay hydrated"
+        'Hydration',
+        'Have you been drinking water? Stay hydrated'
       );
       hydroTime.setNextNotif();
     }
@@ -155,7 +158,7 @@ function startTimer() {
       !moveHeadsUp
     ) {
       sendNotification(
-        "Movement Break",
+        'Movement Break',
         "It's almost time to stretch your legs"
       );
       moveHeadsUp = true;
@@ -177,7 +180,7 @@ function startTimer() {
       !visionHeadsUp
     ) {
       sendNotification(
-        "Vision Break",
+        'Vision Break',
         "It's almost time to look away from your screen"
       );
       visionHeadsUp = true;
@@ -195,7 +198,7 @@ function startTimer() {
       !mindHeadsUp
     ) {
       sendNotification(
-        "Mindfulness Break",
+        'Mindfulness Break',
         "It's almost time to calm your mind"
       );
       mindHeadsUp = true;
@@ -205,19 +208,19 @@ function startTimer() {
 
 function startSyncTimer() {
   syncTimer = setInterval(async () => {
-    const log = currentUserSettings.get("log");
+    const log = currentUserSettings.get('log');
     let req = [];
     for (let activity in log) {
       req.push(log[activity]);
     }
-    await axios.put("http://localhost:8080/api/activity-log/log/", req);
+    await axios.put('http://localhost:8080/api/activity-log/log/', req);
   }, 60000 * 15);
 }
 
 function sendNotification(title, message) {
   const notif = new Notification({
     title: title,
-    body: message
+    body: message,
   });
   notif.show();
 }
@@ -227,13 +230,13 @@ function openMindModal() {
     width: 400,
     height: 250,
     frame: false,
-    webPreferences: { nodeIntegration: true }
+    webPreferences: { nodeIntegration: true },
   });
-  mindWindow.on("closed", () => {
+  mindWindow.on('closed', () => {
     mindWindow = null;
   });
 
-  var theUrl = path.join(__dirname, "/modals/mindfulness.html");
+  var theUrl = path.join(__dirname, '/modals/mindfulness.html');
 
   mindWindow.loadFile(theUrl);
 }
@@ -243,13 +246,13 @@ function openMoveModal() {
     width: 400,
     height: 250,
     frame: false,
-    webPreferences: { nodeIntegration: true }
+    webPreferences: { nodeIntegration: true },
   });
-  moveWindow.on("closed", () => {
+  moveWindow.on('closed', () => {
     moveWindow = null;
   });
 
-  var theUrl = path.join(__dirname, "/modals/movement.html");
+  var theUrl = path.join(__dirname, '/modals/movement.html');
 
   moveWindow.loadFile(theUrl);
 }
@@ -259,163 +262,213 @@ function openVisionModal() {
     width: 400,
     height: 250,
     frame: false,
-    webPreferences: { nodeIntegration: true }
+    webPreferences: { nodeIntegration: true },
   });
-  visionWindow.on("closed", () => {
+  visionWindow.on('closed', () => {
     visionWindow = null;
   });
 
-  var theUrl = path.join(__dirname, "/modals/vision.html");
+  var theUrl = path.join(__dirname, '/modals/vision.html');
 
   visionWindow.loadFile(theUrl);
 }
 
-app.on("ready", createWindow);
+app.on('ready', createWindow);
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on("activate", () => {
+app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
 });
-// MINDFULNESS EVENTS
-ipcMain.on("mindfulness-accepted", event => {
-  event.reply("mindfulness-start-counter", mindTime.duration);
+
+// save session to electron storage cookies store
+ipcMain.on('get-cookies', async (event, arg) => {
+  try {
+    //get the sessions from db Sessions table
+    const dbSessionsInfo = (await axios.get('http://localhost:8080/auth/me'))
+      .data;
+    //get sessions from electron cookies store
+    const cookies = await session.defaultSession.cookies.get({});
+    if (cookies.length > 0) {
+      //compare sessions on eletron store with db
+      //get matching session
+      const [matchedCookie] = dbSessionsInfo.filter(
+        session => session.sid === cookies[0].value
+      );
+      let id = matchedCookie.user.toString();
+      const user = await axios.post('http://localhost:8080/auth/auto-login', {
+        id,
+      });
+      event.reply('cookies-received', user);
+    }
+  } catch (error) {
+    console.log('Error trying to auto-login\n', error);
+  }
 });
 
-ipcMain.on("mindfulness-finished", () => {
+ipcMain.on('clear-session', async (event, arg) => {
+  // remove all pre-existing sessions
+  session.defaultSession.clearStorageData();
+});
+// below code executes after a successful login OR signup
+ipcMain.on('successful-login-signup', async (event, info) => {
+  try {
+    const sessionCookie = {
+      url: 'http://localhost/',
+      name: info.user,
+      value: info.sessionId,
+      expirationDate: 12096000000, // =two weeks
+    };
+    // remove all pre-existing sessions
+    session.defaultSession.clearStorageData();
+    //save session for new login
+    await session.defaultSession.cookies.set(sessionCookie);
+  } catch (error) {
+    console.log('cookie error:', error);
+  }
+});
+
+// MINDFULNESS EVENTS
+ipcMain.on('mindfulness-accepted', event => {
+  event.reply('mindfulness-start-counter', mindTime.duration);
+});
+
+ipcMain.on('mindfulness-finished', () => {
   mindWindow.close();
   let currentSessions = currentUserSettings.get(
-    "log.mindfulness.completed_sessions"
+    'log.mindfulness.completed_sessions'
   );
   currentUserSettings.set(
-    "log.mindfulness.completed_sessions",
+    'log.mindfulness.completed_sessions',
     currentSessions + 1
   );
   mindTime.restart();
 });
 
-ipcMain.on("mindfulness-rejected", () => {
+ipcMain.on('mindfulness-rejected', () => {
   mindWindow.close();
   mindTime.restart();
 });
 
-ipcMain.on("mindfulness-delayed", () => {
+ipcMain.on('mindfulness-delayed', () => {
   mindWindow.close();
   mindTime.setDelay(60000 * 3);
 });
 // END MINDFULNESS EVENTS
 //movement IPC
-ipcMain.on("movement-accepted", event => {
-  event.reply("movement-start-counter", moveTime.duration);
+ipcMain.on('movement-accepted', event => {
+  event.reply('movement-start-counter', moveTime.duration);
 });
 
-ipcMain.on("movement-finished", () => {
+ipcMain.on('movement-finished', () => {
   moveWindow.close();
   let currentSessions = currentUserSettings.get(
-    "log.movement.completed_sessions"
+    'log.movement.completed_sessions'
   );
   currentUserSettings.set(
-    "log.movement.completed_sessions",
+    'log.movement.completed_sessions',
     currentSessions + 1
   );
   moveTime.restart();
 });
 
-ipcMain.on("movement-rejected", () => {
+ipcMain.on('movement-rejected', () => {
   moveWindow.close();
   moveTime.restart();
 });
 
-ipcMain.on("movement-delayed", () => {
+ipcMain.on('movement-delayed', () => {
   moveWindow.close();
   moveTime.setDelay(60000 * 3);
 });
 //end movement IPC
 
 //vision IPC
-ipcMain.on("vision-accepted", event => {
-  event.reply("vision-start-counter", visionTime.duration);
+ipcMain.on('vision-accepted', event => {
+  event.reply('vision-start-counter', visionTime.duration);
 });
 
-ipcMain.on("vision-finished", () => {
+ipcMain.on('vision-finished', () => {
   visionWindow.close();
   let currentSessions = currentUserSettings.get(
-    "log.vision.completed_sessions"
+    'log.vision.completed_sessions'
   );
-  currentUserSettings.set("log.vision.completed_sessions", currentSessions + 1);
+  currentUserSettings.set('log.vision.completed_sessions', currentSessions + 1);
   visionTime.restart();
 });
 
-ipcMain.on("vision-rejected", () => {
+ipcMain.on('vision-rejected', () => {
   visionWindow.close();
   visionTime.restart();
 });
 
-ipcMain.on("vision-delayed", () => {
+ipcMain.on('vision-delayed', () => {
   visionWindow.close();
   visionTime.setDelay(60000 * 3);
 });
 //end vision IPC
 
-ipcMain.on("get-preferences", (event, arg) => {
+ipcMain.on('get-preferences', (event, arg) => {
   // make axios call to grab info for user
   // compare to the local store preferences (date modified?)
   // send back whichever is the more recent.
-  event.reply("set-preferences", currentUserSettings.get());
+  event.reply('set-preferences', currentUserSettings.get());
 });
 
-ipcMain.on("main-app-init", (event, arg) => {
+ipcMain.on('main-app-init', (event, arg) => {
   // start the timer
   startTimer();
   startSyncTimer();
 
-  const posturePref = getSetting("posture");
-  const movePref = getSetting("movement");
-  const visionPref = getSetting("vision");
-  const hydrationPref = getSetting("hydration");
-  const mindfulPref = getSetting("mindfulness");
+  const posturePref = getSetting('posture');
+  const movePref = getSetting('movement');
+  const visionPref = getSetting('vision');
+  const hydrationPref = getSetting('hydration');
+  const mindfulPref = getSetting('mindfulness');
 
   const activities = [
     posturePref,
     movePref,
     visionPref,
     hydrationPref,
-    mindfulPref
+    mindfulPref,
   ];
   // clear previous log
-  currentUserSettings.delete("log");
+  currentUserSettings.delete('log');
   // initialize the log with null values
   activities.forEach(activity => {
     currentUserSettings.set(`log.${activity.name}`, {
       userPreferenceId: activity.userPreferenceId,
       month: month,
       date: date,
-      completed_sessions: 0
+      completed_sessions: 0,
     });
   });
 });
 
 // called on main app mount
-ipcMain.on("save-log", (event, arg) => {
+ipcMain.on('save-log', (event, arg) => {
   // set the user's activity log  in loca storage with the server activity log
-  currentUserSettings.set("activityBackLog", arg);
-  event.reply("log-saved", currentUserSettings.get());
+  currentUserSettings.set('activityBackLog', arg);
+  event.reply('log-saved', currentUserSettings.get());
 });
 
-ipcMain.on("set-preferences", (event, arg) => {
-  currentUserSettings.set("userPreferences", arg);
+ipcMain.on('set-preferences', (event, arg) => {
+  currentUserSettings.set('userPreferences', arg);
 });
 
 //update timer for posture
-ipcMain.on("updateTimer1", event => {
+
+ipcMain.on('updateTimer1', event => {
+
   const now = new Date().getTime();
-  const posturePref = getSetting("posture");
+  const posturePref = getSetting('posture');
   if (!posturePref.active) {
     pstTime.trigger = now - 60000;
   } else {
@@ -427,9 +480,11 @@ ipcMain.on("updateTimer1", event => {
 });
 
 //update timer for movement
-ipcMain.on("updateTimer2", event => {
+
+ipcMain.on('updateTimer2', event => {
+
   const now = new Date().getTime();
-  const movePref = getSetting("movement");
+  const movePref = getSetting('movement');
   if (!movePref.active) {
     moveTime.trigger = now - 60000;
   } else {
@@ -441,9 +496,11 @@ ipcMain.on("updateTimer2", event => {
 });
 
 //update timer for vision
-ipcMain.on("updateTimer3", event => {
+
+ipcMain.on('updateTimer3', event => {
+
   const now = new Date().getTime();
-  const visionPref = getSetting("vision");
+  const visionPref = getSetting('vision');
   if (!visionPref.active) {
     visionTime.trigger = now - 60000;
   } else {
@@ -455,9 +512,11 @@ ipcMain.on("updateTimer3", event => {
 });
 
 //update timer for hydration
-ipcMain.on("updateTimer4", event => {
+
+ipcMain.on('updateTimer4', event => {
+
   const now = new Date().getTime();
-  const hydrationPref = getSetting("hydration");
+  const hydrationPref = getSetting('hydration');
   if (!hydrationPref.active) {
     hydroTime.trigger = now - 60000;
   } else {
@@ -469,9 +528,11 @@ ipcMain.on("updateTimer4", event => {
 });
 
 //update timer for mindfulness
-ipcMain.on("updateTimer5", event => {
+
+ipcMain.on('updateTimer5', event => {
+
   const now = new Date().getTime();
-  const mindfulPref = getSetting("mindfulness");
+  const mindfulPref = getSetting('mindfulness');
   if (!mindfulPref.active) {
     mindTime.trigger = now - 60000;
   } else {
@@ -482,7 +543,7 @@ ipcMain.on("updateTimer5", event => {
   mindTime.active = mindfulPref.active;
 });
 
-ipcMain.on("clear-timer", (event, arg) => {
+ipcMain.on('clear-timer', (event, arg) => {
   clearInterval(masterTimer);
   clearInterval(syncTimer);
 });

@@ -20,8 +20,8 @@ class DashPreferences extends Component {
 
         {this.props.userPreferences.map(pref => {
           return (
-            <div className="dash-prefs">
-              <div id={`activity-${pref.activity.id}`} />
+            <div className="dash-prefs" key={pref.activity.id}>
+              <div id={`activity-${pref.activity.id}`}/>
               <p>
                 {pref.activity.name.slice(0, 1).toUpperCase() +
                   pref.activity.name.slice(1)}{" "}
