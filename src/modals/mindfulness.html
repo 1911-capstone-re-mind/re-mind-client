@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Mindfulness</title>
-    <!-- <link rel="stylesheet" type="text/css" href="css/app.css"> -->
+    <link rel="stylesheet" type="text/css" href="../styles/modal.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div id="mindfulness">
+    <div class="main-container" id="mindfulness">
       <div id="prompt">
-        <p>A lot happened today. It's time to relax and your mind and destress. Are you ready?</p>
-        <button id="yes" type="button">Yes, I'll take some time to relax</button>
-        <button id="no" type="button">No, skip this one</button>
-        <button id="delay" type="button">Snooze (3 minutes)</button>
+        <p>
+          A lot happened today. It's time to relax and your mind and destress.
+          Are you ready?
+        </p>
+        <button class="buttons" id="yes" type="button">
+          <i class="material-icons">check_circle_outline</i>
+        </button>
+        <button id="no" type="button">X</button>
+        <button class="buttons" id="delay" type="button">
+          <i class="material-icons">notifications_paused</i>
+        </button>
       </div>
     </div>
   </body>
-    <script>
-      require('./mindfulness.js')
-    </script>
+  <script>
+    require("./mindfulness.js");
+  </script>
 </html>
