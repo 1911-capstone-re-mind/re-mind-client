@@ -1,7 +1,6 @@
 // imports createReducer from ./reducers/index.js
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
-import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from "redux-thunk";
 import userReducer from "./reducers/userReducer";
 import activitiesReducer from "./reducers/activities";
@@ -15,9 +14,7 @@ const reducer = combineReducers({
   activityLog: activityLogReducer
 });
 
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-)
+const middleware = applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 
 const store = createStore(reducer, middleware);
 

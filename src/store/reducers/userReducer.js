@@ -33,14 +33,14 @@ export const auth = (data, method) => async dispatch => {
     if (method === "signup") {
       dispatch(getUser(res.data.user));
       const info = {user: res.data.user.email, sessionId: res.data.sessionId }
-      ipcRenderer.send('successful-signup', info)
+      ipcRenderer.send('successful-login-signup', info)
       history.push("/new-user");
     } else if (method === "me") {
 
     } else {
       dispatch(getUser(res.data.user));
       const info = {user: res.data.user.email, sessionId: res.data.sessionId }
-      ipcRenderer.send('successful-login', info)
+      ipcRenderer.send('successful-login-signup', info)
       history.push("/dashboard");
     }
   } catch (dispatchOrHistoryErr) {

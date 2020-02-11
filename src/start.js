@@ -75,7 +75,7 @@ function createWindow() {
     clearInterval(masterTimer);
     clearInterval(syncTimer);
   });
-
+}
 
 function startTimer() {
   // 30 seconds heads up triggers for modals
@@ -314,8 +314,8 @@ ipcMain.on('clear-session', async (event, arg) => {
   // remove all pre-existing sessions
   session.defaultSession.clearStorageData();
 });
-// ||'successful-signup'
-ipcMain.on('successful-login' || 'successful-signup', async (event, info) => {
+// below code executes after a successful login OR signup
+ipcMain.on('successful-login-signup', async (event, info) => {
   try {
     const sessionCookie = {
       url: 'http://localhost/',
