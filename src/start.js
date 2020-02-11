@@ -58,6 +58,7 @@ function createWindow() {
     },
     resizable: false
   });
+
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
