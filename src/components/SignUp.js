@@ -57,8 +57,8 @@ class SignUp extends React.Component {
               <button type="submit">Sign Up</button>
             </div>
           </form>
-          {this.state.error ? <div>{this.state.error}</div> : null}
           <Link to="/login">Already a member? Login.</Link>
+          {this.state.error ? <div className="error-signup">{this.state.error}</div> : null}
         </div>
       </div>
     );

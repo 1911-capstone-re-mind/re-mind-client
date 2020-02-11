@@ -48,10 +48,10 @@ class Login extends React.Component {
               <button type="submit">Login</button>
             </div>
           </form>
-          {this.state.error ? <div>{this.state.error}</div> : null}
           <div>
             <Link to="/signup">Don't have an account? Sign up.</Link>
           </div>
+          {this.state.error ? <div className="error-login">{this.state.error}</div> : null}
         </div>
       </div>
     );
