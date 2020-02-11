@@ -306,7 +306,7 @@ ipcMain.on("mindfulness-rejected", () => {
 
 ipcMain.on("mindfulness-delayed", () => {
   mindWindow.close();
-  mindTime.setDelay(15000);
+  mindTime.setDelay(60000 * 3);
 });
 // END MINDFULNESS EVENTS
 //movement IPC
@@ -333,7 +333,7 @@ ipcMain.on("movement-rejected", () => {
 
 ipcMain.on("movement-delayed", () => {
   moveWindow.close();
-  moveTime.setDelay(60000 * 5);
+  moveTime.setDelay(60000 * 3);
 });
 //end movement IPC
 
@@ -358,7 +358,7 @@ ipcMain.on("vision-rejected", () => {
 
 ipcMain.on("vision-delayed", () => {
   visionWindow.close();
-  visionTime.setDelay(60000 * 5);
+  visionTime.setDelay(60000 * 3);
 });
 //end vision IPC
 
