@@ -6,15 +6,30 @@ import { auth } from "../store/reducers/userReducer";
 class Login extends React.Component {
   constructor() {
     super();
+    this.state = {
+      error: ''
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-    const formName = evt.target.name;
-    const email = evt.target.email.value;
-    const password = evt.target.password.value;
-    this.props.auth({ email, password }, formName);
+  async handleSubmit(evt) {
+    try {
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const email = evt.target.email.value;
+      const password = evt.target.password.value;
+      await this.props.auth({ email, password }, formName);
+    } catch (err) {
+      let errorMessage;
+      if (err.message === 'Invalid Credentials') {
+        errorMessage = 'Invalid Credentials. Please try again.';
+      } else {
+        errorMessage = 'Network Error'
+      }
+      this.setState({
+        error: errorMessage
+      })
+    }
   }
 
   render() {
@@ -32,11 +47,8 @@ class Login extends React.Component {
             <div>
               <button type="submit">Login</button>
             </div>
-            {/* {error && error.response && <div> {error.response.data} </div>} */}
           </form>
-          {/* <button id="google" onClick={() => window.open("https://google.com")}>
-          Login with Google
-        </button> */}
+          {this.state.error ? <div>{this.state.error}</div> : null}
           <div>
             <Link to="/signup">Don't have an account? Sign up.</Link>
           </div>

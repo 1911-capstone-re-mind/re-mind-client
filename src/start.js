@@ -60,7 +60,6 @@ function createWindow() {
     },
     resizable: true,
   });
-  mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({

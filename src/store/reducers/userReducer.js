@@ -26,7 +26,7 @@ export const auth = (data, method) => async dispatch => {
     //TO DO : Add Heroku hosted server address
     res = await axios.post(`http://localhost:8080/auth/${method}`, data);
   } catch (authError) {
-    return dispatch(getUser({ error: authError }));
+    throw new Error('Invalid Credentials')
   }
 
   try {
@@ -42,7 +42,7 @@ export const auth = (data, method) => async dispatch => {
       history.push("/dashboard");
     }
   } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr);
+    throw new Error('Invalid Credentials')
   }
 };
 
