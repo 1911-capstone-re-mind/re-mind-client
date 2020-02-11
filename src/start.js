@@ -227,10 +227,10 @@ function openMindModal() {
   mindWindow = new BrowserWindow({
     width: 400,
     height: 400,
-    frame: false,
     webPreferences: { nodeIntegration: true },
   });
   mindWindow.on('closed', () => {
+    mindTime.restart();
     mindWindow = null;
   });
 
@@ -243,10 +243,10 @@ function openMoveModal() {
   moveWindow = new BrowserWindow({
     width: 400,
     height: 250,
-    frame: false,
     webPreferences: { nodeIntegration: true },
   });
   moveWindow.on('closed', () => {
+    moveTime.restart();
     moveWindow = null;
   });
 
@@ -259,10 +259,10 @@ function openVisionModal() {
   visionWindow = new BrowserWindow({
     width: 400,
     height: 400,
-    frame: false,
     webPreferences: { nodeIntegration: true },
   });
   visionWindow.on('closed', () => {
+    visionTime.restart();
     visionWindow = null;
   });
 
