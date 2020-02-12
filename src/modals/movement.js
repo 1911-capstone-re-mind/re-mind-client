@@ -15,11 +15,9 @@ const movement = document.getElementById("movement");
 yes.addEventListener("click", () => {
   ipcRenderer.send("movement-accepted");
 });
-
 no.addEventListener("click", () => {
   ipcRenderer.send("movement-rejected");
 });
-
 delay.addEventListener("click", () => {
   ipcRenderer.send("movement-delayed");
 });

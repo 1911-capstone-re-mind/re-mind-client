@@ -3,31 +3,65 @@ body {
   color: #c9c4c4;
   background-color: #484545;
   font-size: 14pt;
+  margin: 0;
 }
 .main-container {
-  height: 230px;
-  background: url("./assets/re-mind-dash-logo.svg");
-  background-repeat: no-repeat;
-  background-size: 200px;
-  background-position-x: -85px;
-  background-position-y: -40px;
-  background-attachment: fixed;
-  overflow-y: hidden;
-}
-.buttons {
+  height: 200px;
   display: flex;
   justify-content: center;
-  width: 120px;
-  height: 40px;
-  border-radius: 15px;
+  background: url("./assets/re-mind-dash-logo.svg");
+  background-repeat: no-repeat;
+  background-size: 250px;
+  background-position-x: -100px;
+  background-position-y: -50px;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+#prompt {
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+#no {
   border: none;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  justify-content: flex-end;
   text-transform: uppercase;
   font-size: 11pt;
-  background-color: #738a98;
-  box-shadow: 2px 4px 6px #3f3f3f;
   font-family: "Avenir";
   color: #c9c4c4;
-  margin: 5px;
+  border-radius: 3px;
+}
+
+#no:hover {
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 10pt;
+  background-color: #738a98;
+  font-family: "Avenir";
+  color: #c9c4c4;
+  margin: 7px;
+}
+
+.buttons:hover {
+  cursor: pointer;
 }
 
 .counter {
@@ -42,27 +76,11 @@ body {
 }
 i.material-icons {
   padding-top: 4px;
-  font-size: 30px;
+  font-size: 25px;
 }
 
-#no {
-  border: none;
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  justify-content: flex-end;
-  text-transform: uppercase;
-  font-size: 11pt;
-  background-color: #738a98;
-  box-shadow: 2px 4px 6px #3f3f3f;
-  font-family: "Avenir";
-  color: #c9c4c4;
-  border-radius: 3px;
-}
-#prompt {
-  margin: 20px;
+.responses {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  width: auto;
 }

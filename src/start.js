@@ -226,7 +226,7 @@ async function saveLog() {
 function startSyncTimer() {
   syncTimer = setInterval(async () => {
     saveLog();
-  }, 60000 * 15);
+  }, 60000 * 1);
 }
 
 function sendNotification(title, message, logName) {
@@ -250,9 +250,10 @@ function openMindModal() {
   mindWindow = new BrowserWindow({
     width: 400,
     height: 250,
-    webPreferences: { nodeIntegration: true },
+    frame: false,
+    webPreferences: { nodeIntegration: true }
   });
-  mindWindow.on('closed', () => {
+  mindWindow.on("closed", () => {
     mindTime.restart();
     mindWindow = null;
   });
@@ -266,9 +267,10 @@ function openMoveModal() {
   moveWindow = new BrowserWindow({
     width: 400,
     height: 250,
-    webPreferences: { nodeIntegration: true },
+    frame: false,
+    webPreferences: { nodeIntegration: true }
   });
-  moveWindow.on('closed', () => {
+  moveWindow.on("closed", () => {
     moveTime.restart();
     moveWindow = null;
   });
@@ -282,9 +284,10 @@ function openVisionModal() {
   visionWindow = new BrowserWindow({
     width: 400,
     height: 250,
-    webPreferences: { nodeIntegration: true },
+    frame: false,
+    webPreferences: { nodeIntegration: true }
   });
-  visionWindow.on('closed', () => {
+  visionWindow.on("closed", () => {
     visionTime.restart();
     visionWindow = null;
   });

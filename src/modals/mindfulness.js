@@ -16,11 +16,9 @@ const mindfulness = document.getElementById("mindfulness");
 yes.addEventListener("click", () => {
   ipcRenderer.send("mindfulness-accepted");
 });
-
 no.addEventListener("click", () => {
   ipcRenderer.send("mindfulness-rejected");
 });
-
 delay.addEventListener("click", () => {
   ipcRenderer.send("mindfulness-delayed");
 });

@@ -373,7 +373,7 @@ input:checked + .slider:before {
   flex-direction: column;
   flex: none;
   width: 40%;
-  height: 310px;
+  height: auto;
   overflow: none;
   align-items: flex-start;
   justify-content: flex-start;
