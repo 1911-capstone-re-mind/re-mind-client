@@ -1,4 +1,13 @@
-const { app, BrowserWindow, ipcMain, Menu, nativeImage, Notification, Tray, session} = require('electron')
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  nativeImage,
+  Notification,
+  Tray,
+  session
+} = require("electron");
 const Store = require("electron-store");
 const axios = require("axios");
 const path = require("path");
@@ -18,9 +27,12 @@ let moveWindow;
 let visionWindow;
 
 // init tray
-let tray = null
-let trayImage = nativeImage.createFromPath(path.join(__dirname, "../public/tray-icon.png"))
-let contextMenu = null
+let tray = null;
+let image = nativeImage.createFromPath(
+  path.join(__dirname, "../public/tray-icon@2x.png")
+);
+let trayImage = image.resize({ width: 22, height: 26, quality: "best" });
+let contextMenu = null;
 
 // init scheduler variables
 let pstTime;
@@ -60,9 +72,9 @@ function createWindow() {
     show: false
   });
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
-  })
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
+  });
 
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
@@ -88,10 +100,10 @@ function createWindow() {
     clearInterval(syncTimer);
   });
   // minimize window to system tray
-  mainWindow.on('minimize',(event) => {
-    event.preventDefault()
-    mainWindow.hide()
-})
+  mainWindow.on("minimize", event => {
+    event.preventDefault();
+    mainWindow.hide();
+  });
 }
 
 function startTimer() {
@@ -306,28 +318,28 @@ function openVisionModal() {
   visionWindow.loadFile(theUrl);
 }
 
-app.on('ready', () => {
-  tray = new Tray(trayImage)
+app.on("ready", () => {
+  tray = new Tray(trayImage);
   let menu = [
-    { label: `Next break coming up...`},
-    { label: 'Pause for 1 hour', click: () => pauseOneHour()},
-    { type: 'separator'},
-    { label: 'Start at Login', type: 'checkbox', },
-    { type: 'separator'},
-    { role: 'quit' },
-  ]
+    { label: `Next break coming up...` },
+    { label: "Pause for 1 hour", click: () => pauseOneHour() },
+    { type: "separator" },
+    { label: "Start at Login", type: "checkbox" },
+    { type: "separator" },
+    { role: "quit" }
+  ];
   contextMenu = Menu.buildFromTemplate(menu);
   tray.setContextMenu(contextMenu);
-  tray.setToolTip('re:mind to relax your mind :)')
-})
+  tray.setToolTip("re:mind to relax your mind :)");
+});
 
 const pauseOneHour = () => {
-  pstTime.trigger += 60 * 60 * 1000
-  moveTime.trigger += 60 * 60 * 1000
-  visionTime.trigger += 60 * 60 * 1000
-  hydroTime.trigger += 60 * 60 * 1000
-  mindTime.trigger += 60 * 60 * 1000
-}
+  pstTime.trigger += 60 * 60 * 1000;
+  moveTime.trigger += 60 * 60 * 1000;
+  visionTime.trigger += 60 * 60 * 1000;
+  hydroTime.trigger += 60 * 60 * 1000;
+  mindTime.trigger += 60 * 60 * 1000;
+};
 
 app.on("ready", createWindow);
 
