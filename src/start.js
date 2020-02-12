@@ -1,18 +1,12 @@
-const electron = require("electron");
-const { app, session } = require("electron");
-const BrowserWindow = electron.BrowserWindow;
-
-const ipcMain = electron.ipcMain;
-const Notification = electron.Notification;
+const { app, BrowserWindow, ipcMain, Menu, nativeImage, Notification, Tray, session} = require('electron')
 const Store = require("electron-store");
-const Scheduler = require("./utils/scheduler");
 const axios = require("axios");
-
 const path = require("path");
 const url = require("url");
+
 const defaults = require("./utils/defaultSettings");
 let currentUserSettings = new Store({ defaults });
-
+const Scheduler = require("./utils/scheduler");
 //init timers
 let masterTimer;
 let syncTimer;
@@ -22,6 +16,11 @@ let mainWindow;
 let mindWindow;
 let moveWindow;
 let visionWindow;
+
+// init tray
+let tray = null
+let trayImage = nativeImage.createFromPath(path.join(__dirname, "../public/tray-icon.png"))
+let contextMenu = null
 
 // init scheduler variables
 let pstTime;
@@ -57,8 +56,13 @@ function createWindow() {
       nodeIntegration: true
     },
     resizable: false,
-    icon: __dirname + "/styles/assets/re-mind-icon@2x.icns"
+    icon: __dirname + "/styles/assets/re-mind-icon@2x.icns",
+    show: false
   });
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
 
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
@@ -83,6 +87,11 @@ function createWindow() {
     clearInterval(masterTimer);
     clearInterval(syncTimer);
   });
+  // minimize window to system tray
+  mainWindow.on('minimize',(event) => {
+    event.preventDefault()
+    mainWindow.hide()
+})
 }
 
 function startTimer() {
@@ -250,7 +259,8 @@ function openMindModal() {
   mindWindow = new BrowserWindow({
     width: 400,
     height: 250,
-    webPreferences: { nodeIntegration: true },
+    frame: false,
+    webPreferences: { nodeIntegration: true }
   });
   mindWindow.on('closed', () => {
     mindTime.restart();
@@ -266,7 +276,8 @@ function openMoveModal() {
   moveWindow = new BrowserWindow({
     width: 400,
     height: 250,
-    webPreferences: { nodeIntegration: true },
+    frame: false,
+    webPreferences: { nodeIntegration: true }
   });
   moveWindow.on('closed', () => {
     moveTime.restart();
@@ -282,7 +293,8 @@ function openVisionModal() {
   visionWindow = new BrowserWindow({
     width: 400,
     height: 250,
-    webPreferences: { nodeIntegration: true },
+    frame: false,
+    webPreferences: { nodeIntegration: true }
   });
   visionWindow.on('closed', () => {
     visionTime.restart();
@@ -292,6 +304,29 @@ function openVisionModal() {
   var theUrl = path.join(__dirname, "/modals/vision.html");
 
   visionWindow.loadFile(theUrl);
+}
+
+app.on('ready', () => {
+  tray = new Tray(trayImage)
+  let menu = [
+    { label: `Next break coming up...`},
+    { label: 'Pause for 1 hour', click: () => pauseOneHour()},
+    { type: 'separator'},
+    { label: 'Start at Login', type: 'checkbox', },
+    { type: 'separator'},
+    { role: 'quit' },
+  ]
+  contextMenu = Menu.buildFromTemplate(menu);
+  tray.setContextMenu(contextMenu);
+  tray.setToolTip('re:mind to relax your mind :)')
+})
+
+const pauseOneHour = () => {
+  pstTime.trigger += 60 * 60 * 1000
+  moveTime.trigger += 60 * 60 * 1000
+  visionTime.trigger += 60 * 60 * 1000
+  hydroTime.trigger += 60 * 60 * 1000
+  mindTime.trigger += 60 * 60 * 1000
 }
 
 app.on("ready", createWindow);
