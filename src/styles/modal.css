@@ -41,6 +41,7 @@ body {
 
 #no:hover {
   cursor: pointer;
+  color: #988e67;
 }
 
 .buttons {
@@ -83,4 +84,11 @@ i.material-icons {
   display: flex;
   flex-direction: row;
   width: auto;
+}
+
+p {
+  margin-left: 20px;
+  margin-top: 43px;
+  margin-right: 20px;
+  text-align: center;
 }
