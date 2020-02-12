@@ -49,7 +49,7 @@ class DailyDashboard extends React.Component {
                 tickFormat={[
                   "Posture",
                   "Movement",
-                  "Eye Strain",
+                  "Vision",
                   "Hydration",
                   "Mindfulness"
                 ]}
