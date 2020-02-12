@@ -7,8 +7,7 @@ import {
   millisecondsToMinSec,
   validateTimes
 } from "../utils/timeCalculations";
-import { FiEdit2, FiSave } from "react-icons/fi";
-import { MdDoNotDisturb } from "react-icons/md";
+import { FiEdit2 } from "react-icons/fi";
 
 class PreferenceField extends Component {
   constructor(props) {
@@ -265,14 +264,14 @@ class PreferenceField extends Component {
               disabled={this.props.saveInProgress}
               onClick={this.saveChanges}
             >
-              <FiSave /> Save
+              Save
             </button>
             <button
               type="button"
               disabled={this.props.saveInProgress}
               onClick={this.cancelChanges}
             >
-              <MdDoNotDisturb /> Cancel
+             Cancel
             </button>
           </div>
         )}

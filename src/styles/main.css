@@ -356,6 +356,7 @@ input:checked + .slider:before {
 
 #dash-nav button:hover {
   cursor: pointer;
+  color: #988e67;
 }
 
 #dash-nav .icon {
@@ -365,6 +366,7 @@ input:checked + .slider:before {
 
 #dash-nav .icon:hover {
   cursor: pointer;
+  color: #988e67;
 }
 
 .dash-card-left {
@@ -507,4 +509,12 @@ input:checked + .slider:before {
 
 .close-window:hover {
   cursor: pointer;
+}
+
+svg:hover {
+  color: #988e67;
+}
+
+button:hover {
+  color: white;
 }
