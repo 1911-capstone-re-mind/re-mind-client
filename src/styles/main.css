@@ -130,7 +130,6 @@ input {
   background-attachment: fixed;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
 }
 
 .main-container {
@@ -367,11 +366,20 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
+#dash-right-container {
+  background-color: transparent;
+  width: 54%;
+  position: absolute;
+  right: 0;
+}
+
 .dash-card-left {
   background-color: #5d5955;
   display: flex;
   flex-direction: column;
   flex: none;
+  position: fixed;
+  left: 0;
   width: 40%;
   height: auto;
   overflow: none;

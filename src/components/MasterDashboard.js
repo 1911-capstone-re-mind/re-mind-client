@@ -73,7 +73,7 @@ class MasterDashboard extends React.Component {
               <div className="dash-card-left">
                 <DashPreferences toggleUpdatePage={this.toggleUpdatePage} />
               </div>
-              <div>
+              <div id="dash-right-container">
                 <StatsView activityLog={this.props.activityLog} />
                 {viewSelection}
               </div>

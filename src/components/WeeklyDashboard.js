@@ -121,6 +121,7 @@ class WeeklyDashboard extends React.Component {
                       (datum.completed_sessions * datum.duration) / 60000
                     )} mins`
               }
+              labelRadius={({ innerRadius }) => innerRadius + 70}
               // data accessor for y values
               y={d => (d.completed_sessions * d.duration) / 60000}
               width={500}

@@ -109,17 +109,19 @@ class DailyDashboard extends React.Component {
               )}
               // data accessor for x values
               labels={({ datum }) =>
-                datum.user_preference.duration < 60000
+                datum.completed_sessions * datum.user_preference.duration <
+                60000
                   ? `${
                       datum.user_preference.activity.name
                     } - ${datum.completed_sessions *
                       (datum.user_preference.duration / 1000)} sec`
-                  : `${
-                      datum.user_preference.activity.name
-                    } - ${(datum.completed_sessions *
-                      datum.user_preference.duration) /
-                      60000} mins`
+                  : `${datum.user_preference.activity.name} - ${Math.floor(
+                      (datum.completed_sessions *
+                        datum.user_preference.duration) /
+                        60000
+                    )} mins`
               }
+              labelRadius={({ innerRadius }) => innerRadius + 70}
               // data accessor for y values
               y={d =>
                 (d.completed_sessions * d.user_preference.duration) / 60000
