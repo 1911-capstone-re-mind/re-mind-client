@@ -3,6 +3,7 @@ body {
   color: #c9c4c4;
   background-color: #484545;
   font-size: 14pt;
+  margin: 0;
 }
 .main-container {
   height: 230px;
