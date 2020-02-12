@@ -75,6 +75,15 @@ function createWindow() {
 
   mainWindow.on("closed", () => {
     mainWindow = null;
+    if (moveWindow) {
+      moveWindow.close();
+    }
+    if (visionWindow) {
+      visionWindow.close();
+    }
+    if (mindWindow) {
+      mindWindow.close();
+    }
     clearInterval(masterTimer);
     clearInterval(syncTimer);
   });
@@ -253,7 +262,8 @@ function openMindModal() {
     frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  mindWindow.on("closed", () => {
+  mindWindow.on('closed', () => {
+    mindTime.restart();
     mindWindow = null;
   });
 
@@ -269,7 +279,8 @@ function openMoveModal() {
     frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  moveWindow.on("closed", () => {
+  moveWindow.on('closed', () => {
+    moveTime.restart();
     moveWindow = null;
   });
 
@@ -285,7 +296,8 @@ function openVisionModal() {
     frame: false,
     webPreferences: { nodeIntegration: true }
   });
-  visionWindow.on("closed", () => {
+  visionWindow.on('closed', () => {
+    visionTime.restart();
     visionWindow = null;
   });
 

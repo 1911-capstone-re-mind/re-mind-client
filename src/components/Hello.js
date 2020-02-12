@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 class Hello extends React.Component {
   constructor(props) {
     super(props)
-    console.log("TCL: Hello -> constructor -> props", props)
   }
 
   render() {

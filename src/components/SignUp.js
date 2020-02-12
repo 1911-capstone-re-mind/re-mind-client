@@ -6,17 +6,36 @@ import { auth } from "../store/reducers/userReducer";
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      error: ''
+    }
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-    const formName = evt.target.name;
-    const email = evt.target.email.value;
-    const password = evt.target.password.value;
-    const firstName = evt.target.firstName.value;
-    const lastName = evt.target.lastName.value;
-    this.props.auth({ email, password, firstName, lastName }, formName);
+  async handleSubmit(evt) {
+    try {
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const email = evt.target.email.value;
+      const password = evt.target.password.value;
+      const firstName = evt.target.firstName.value;
+      const lastName = evt.target.lastName.value;
+      await this.props.auth({ email, password, firstName, lastName }, formName);
+    } catch (err) {
+      let errorMessage;
+      if (err.message === 'Invalid Credentials') {
+        errorMessage = 'Invalid Credentails. Please check your information.';
+      } else  if (err.message === 'User with that email already exists') {
+        errorMessage = 'A user with that email already exists.';
+      } else {
+        errorMessage = 'Network Error';
+      }
+      this.setState({
+        error: errorMessage
+      })
+    }
   }
 
   render() {
@@ -39,12 +58,9 @@ class SignUp extends React.Component {
             <div>
               <button type="submit">Sign Up</button>
             </div>
-            {/* {error && error.response && <div> {error.response.data} </div>} */}
           </form>
-          {/* <button id="google" href="/auth/google">
-          Sign Up with Google
-        </button> */}
           <Link to="/login">Already a member? Login.</Link>
+          {this.state.error ? <div className="error-signup">{this.state.error}</div> : null}
         </div>
       </div>
     );
