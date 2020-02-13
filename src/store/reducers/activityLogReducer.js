@@ -14,7 +14,7 @@ export const fetchLog = userId => {
   return async dispatch => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/activity-log/${userId}`
+        `http://remind-dbserver.herokuapp.com/api/activity-log/${userId}`
       );
       dispatch(getLog(res.data));
       saveLog(res.data);

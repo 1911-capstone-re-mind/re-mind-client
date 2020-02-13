@@ -13,7 +13,7 @@ export const getUserPreferences = userId => {
   return async dispatch => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/activities/${userId}`
+        `http://remind-dbserver.herokuapp.com/api/activities/${userId}`
       );
       dispatch(getPrefs(res.data));
     } catch (error) {
@@ -26,7 +26,7 @@ export const updateUserPreferences = (activities, userId) => {
   return async dispatch => {
     try {
       const res = await axios.put(
-        `http://localhost:8080/api/activities/prefs/${userId}`,
+        `http://remind-dbserver.herokuapp.com/api/activities/prefs/${userId}`,
         {
           activities,
           userId
@@ -43,7 +43,7 @@ export const updateSingleUserPreference = (activity, userId) => {
 return async dispatch => {
   try {
     const res = await axios.put(
-      `http://localhost:8080/api/activities/prefs/${userId}/${activity.activityId}`,
+      `http://remind-dbserver.herokuapp.com/api/activities/prefs/${userId}/${activity.activityId}`,
       {
         activity,
         userId

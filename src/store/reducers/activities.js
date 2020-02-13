@@ -14,7 +14,7 @@ export const fetchActivities = () => {
   return async dispatch => {
     try {
       //TO DO: add Heroku deployed DB address
-      const res = await axios.get("http://localhost:8080/api/activities");
+      const res = await axios.get("http://remind-dbserver.herokuapp.com/api/activities");
       dispatch(setActivities(res.data));
     } catch (error) {
       console.log(error);

@@ -1,68 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Welcome to re:mind - your workplace wellness app
 
-## Available Scripts
+**Note: This project must run with re:mind server (https://github.com/1911-capstone-re-mind/re-mind-server)**
 
-In the project directory, you can run:
+## re:minders to stay healthy
 
-### `yarn start`
+re:mind is a desktop workplace wellness app that gives you notifications to:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* Check your posture throughout the day
+* Get up from your chair and move around
+* Look away from your computer screen to prevent eye strain
+* Stay hydrated throughout the day
+* Take some time to de-stress
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<image alt="main page" src="./readmeImages/main.png" width="300px">
 
-### `yarn test`
+This project was built using [Electron](https://www.electronjs.org), a framework that allows you to create desktop applications with web technologies. Other technologies include React.js, Redux.js, and HTML/CSS.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `yarn build`
+* Upon sign up, users can enable any number of notificaitons they would like to receive.
+* Users can edit the time intervals between notifications and duration for the breaks (if applicable).
+* When it's time for a break, users will either receive a notification for posture and hydration checks, or a pop up window that users can interact with for movement, vision, and mindfulness breaks.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<image alt="posture notification" src="./readmeImages/posture_notif.png" width="300px"><br/>
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<image alt="movement notification" src="./readmeImages/movement_notif.png" width="300px">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Upon starting movement, vision, and mindfulness breaks, the pop up window will change to a timer that keeps track of how much time is left in a break.
 
-### `yarn eject`
+<image alt="movement countdown" src="./readmeImages/movement_countdown.png" width="300px">
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* A dashboard will show information about a user's breaks and notifications.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<image alt="dashboard" src="./readmeImages/dashboard.png" width="300px">
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Installation and Setup Instructions
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**Note: To run this app, you must also clone and follow the installation instructions for [re:mind server](https://github.com/1911-capstone-re-mind/re-mind-server)**
 
-## Learn More
+Clone this repository. You must have node and npm installed globally on your machine.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Installation:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`npm install`
 
-### Code Splitting
+Start application:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+`npm run start`
 
-### Analyzing the Bundle Size
+## Project Information
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+This was a two and a half week capstone project for four students at [Fullstack Academy](https://www.fullstackacademy.com) in Chicago. The goal of this project was to challenge ourselves creating an ambitious application using the skills we have learned so far.
 
-### Making a Progressive Web App
+This project allowed us to utilize our skills in the web technologies we learned and apply them in a new way. Since operating systems can have many multiple processes unlike a web application, careful design of the application architexture was very important from the beginning. We had to make sure that the many different components of our application communicated together in a reliable way. We also had the opportunity to use the resources of our machine's operating system to store files and send notifications to the user.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Communication between difference processes was one of the most difficult challenges fo this project. Since we created timers to keep track of reminders and allowed user input, we had to carefully come up with a fail-safe design for the application to prevent race conditions and unexpected behaviors.
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Another challenge we faced was splitting up the client and server into different locations (desktop client and remote server). Since the two were not served from the same location, we had to think about how to configure the server endpoints and client requests to ensure reliable communication.

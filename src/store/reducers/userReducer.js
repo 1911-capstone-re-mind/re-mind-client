@@ -24,7 +24,7 @@ export const auth = (data, method) => async dispatch => {
   let res;
   try {
     //TO DO : Add Heroku hosted server address
-    res = await axios.post(`http://localhost:8080/auth/${method}`, data);
+    res = await axios.post(`http://remind-dbserver.herokuapp.com/auth/${method}`, data);
   } catch (authError) {
     if (authError.response.data === 'User already exists') {
       throw new Error('User with that email already exists')
@@ -54,7 +54,7 @@ export const auth = (data, method) => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     //TO DO : Add Heroku hosted server address
-    await axios.post(`http://localhost:8080/auth/logout`);
+    await axios.post(`http://remind-dbserver.herokuapp.com/auth/logout`);
     dispatch(removeUser());
     clearTimer();
     ipcRenderer.send('clear-session')
