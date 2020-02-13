@@ -220,7 +220,7 @@ async function saveLog() {
   for (let activity in log) {
     req.push(log[activity]);
   }
-  await axios.put("http://localhost:8080/api/activity-log/log/", req);
+  await axios.put("http://remind-dbserver.herokuapp.com/api/activity-log/log/", req);
 }
 
 function startSyncTimer() {
@@ -313,7 +313,7 @@ app.on("activate", () => {
 ipcMain.on("get-cookies", async (event, arg) => {
   try {
     //get the sessions from db Sessions table
-    const dbSessionsInfo = (await axios.get("http://localhost:8080/auth/me"))
+    const dbSessionsInfo = (await axios.get("http://remind-dbserver.herokuapp.com/auth/me"))
       .data;
     //get sessions from electron cookies store
     const cookies = await session.defaultSession.cookies.get({});
@@ -324,7 +324,7 @@ ipcMain.on("get-cookies", async (event, arg) => {
         session => session.sid === cookies[0].value
       );
       let id = matchedCookie.user.toString();
-      const user = await axios.post("http://localhost:8080/auth/auto-login", {
+      const user = await axios.post("http://remind-dbserver.herokuapp.com/auth/auto-login", {
         id
       });
       event.reply("cookies-received", user);
@@ -342,7 +342,7 @@ ipcMain.on("clear-session", async (event, arg) => {
 ipcMain.on("successful-login-signup", async (event, info) => {
   try {
     const sessionCookie = {
-      url: "http://localhost/",
+      url: "http://remind-dbserver.herokuapp.com/",
       name: info.user,
       value: info.sessionId,
       expirationDate: 12096000000 // =two weeks
