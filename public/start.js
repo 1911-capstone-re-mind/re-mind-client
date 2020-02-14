@@ -29,7 +29,7 @@ let visionWindow;
 // init tray
 let tray = null;
 let image = nativeImage.createFromPath(
-  path.join(__dirname, "..build/tray-icon@2x.png")
+  path.join(__dirname, "tray-icon@2x.png")
 );
 let trayImage = image.resize({ width: 22, height: 26, quality: "best" });
 let contextMenu = null;
@@ -68,7 +68,7 @@ function createWindow() {
       nodeIntegration: true
     },
     resizable: false,
-    icon: __dirname + "..build/re-mind-icon@2x.icns",
+    icon: __dirname + "re-mind-icon@2x.icns",
     show: false
   });
 
@@ -79,7 +79,7 @@ function createWindow() {
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
       url.format({
-        pathname: path.join(__dirname, "..build/index.html"),
+        pathname: path.join(__dirname, "index.html"),
         protocol: "file:",
         slashes: true
       })
@@ -279,7 +279,7 @@ function openMindModal() {
     mindWindow = null;
   });
 
-  var theUrl = path.join(__dirname, "..build//modals/mindfulness.html");
+  var theUrl = path.join(__dirname, "modals/mindfulness.html");
 
   mindWindow.loadFile(theUrl);
 }
@@ -296,7 +296,7 @@ function openMoveModal() {
     moveWindow = null;
   });
 
-  var theUrl = path.join(__dirname, "..build//modals/movement.html");
+  var theUrl = path.join(__dirname, "/modals/movement.html");
 
   moveWindow.loadFile(theUrl);
 }
@@ -313,7 +313,7 @@ function openVisionModal() {
     visionWindow = null;
   });
 
-  var theUrl = path.join(__dirname, "..build//modals/vision.html");
+  var theUrl = path.join(__dirname, "/modals/vision.html");
 
   visionWindow.loadFile(theUrl);
 }
