@@ -36,7 +36,7 @@
     "electron-start": "node src/start-react",
     "react-start": "BROWSER=none react-scripts start",
     "pack": "build --dir",
-    "dist": "electron-builder -mw",
+    "dist": "yarn build && electron-builder",
     "postinstall": "install-app-deps"
   },
   "build": {
@@ -46,10 +46,7 @@
     "asar": false,
     "files": [
       "build/**/*"
-    ],
-    "directories": {
-      "buildResources": "build"
-    }
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
