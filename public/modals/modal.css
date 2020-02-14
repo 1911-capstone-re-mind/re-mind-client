@@ -9,7 +9,7 @@ body {
   height: 200px;
   display: flex;
   justify-content: center;
-  background: url("./assets/re-mind-dash-logo.svg");
+  background: url("./re-mind-dash-logo.svg");
   background-repeat: no-repeat;
   background-size: 250px;
   background-position-x: -100px;

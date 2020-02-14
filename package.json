@@ -9,7 +9,6 @@
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "date-fns": "2.9.0",
-    "electron": "^7.1.10",
     "electron-store": "5.1.0",
     "foreman": "^3.0.1",
     "history": "^4.10.1",
@@ -27,7 +26,7 @@
     "victory": "^34.0.1"
   },
   "homepage": "./",
-  "main": "src/start.js",
+  "main": "public/start.js",
   "scripts": {
     "start": "NODE_ENV='dev' nf start -p 3000",
     "build": "react-scripts build",
@@ -37,14 +36,15 @@
     "electron-start": "node src/start-react",
     "react-start": "BROWSER=none react-scripts start",
     "pack": "build --dir",
-    "dist": "npm run build && build",
+    "dist": "electron-builder -mw",
     "postinstall": "install-app-deps"
   },
   "build": {
     "appId": "com.electron.electron-with-create-react-app",
-    "win": {
-      "iconUrl": "https://cdn2.iconfinder.com/data/icons/designer-skills/128/react-256.png"
-    },
+    "productName": "remind",
+    "files": [
+      "build/**/*"
+    ],
     "directories": {
       "buildResources": "public"
     }
@@ -65,7 +65,7 @@
     ]
   },
   "devDependencies": {
-    "electron-builder": "^22.3.2",
-    "electron-packager": "^14.2.1"
+    "electron": "^8.0.1",
+    "electron-builder": "^22.3.2"
   }
 }
