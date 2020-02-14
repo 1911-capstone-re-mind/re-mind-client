@@ -42,6 +42,7 @@
   "build": {
     "appId": "com.electron.electron-with-create-react-app",
     "productName": "remind",
+    "asar": false,
     "files": [
       "build/**/*"
     ],
