@@ -42,6 +42,7 @@
   "build": {
     "appId": "com.electron.remind",
     "productName": "remind",
+    "extends": null,
     "asar": false,
     "files": [
       "build/**/*"
