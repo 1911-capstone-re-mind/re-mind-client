@@ -48,7 +48,7 @@
       "build/**/*"
     ],
     "directories": {
-      "buildResources": "build/assets"
+      "buildResources": "build"
     }
   },
   "eslintConfig": {
