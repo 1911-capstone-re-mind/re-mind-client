@@ -247,7 +247,7 @@ async function saveLog() {
 function startSyncTimer() {
   syncTimer = setInterval(async () => {
     saveLog();
-  }, 60000 * 1);
+  }, 60000 * 2);
 }
 
 function sendNotification(title, message, logName) {
@@ -494,6 +494,7 @@ ipcMain.on("main-app-init", (event, arg) => {
   // start the timer
   startTimer();
   startSyncTimer();
+  const today = new Date().getDate();
 
   const posturePref = getSetting("posture");
   const movePref = getSetting("movement");
@@ -508,17 +509,19 @@ ipcMain.on("main-app-init", (event, arg) => {
     hydrationPref,
     mindfulPref
   ];
-  // clear previous log
-  currentUserSettings.delete("log");
-  // initialize the log with null values
-  activities.forEach(activity => {
-    currentUserSettings.set(`log.${activity.name}`, {
-      userPreferenceId: activity.userPreferenceId,
-      month: month,
-      date: date,
-      completed_sessions: 0
+  if (currentUserSettings.get("log").posture.date !== today) {
+    // clear previous log
+    currentUserSettings.delete("log");
+    // initialize the log with null values
+    activities.forEach(activity => {
+      currentUserSettings.set(`log.${activity.name}`, {
+        userPreferenceId: activity.userPreferenceId,
+        month: month,
+        date: date,
+        completed_sessions: 0
+      });
     });
-  });
+  }
 });
 
 // called on main app mount

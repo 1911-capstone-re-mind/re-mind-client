@@ -101,12 +101,14 @@ class DailyDashboard extends React.Component {
             <VictoryPie
               style={{ labels: { fill: "#c9c4c4", fontFamily: "Avenir" } }}
               colorScale={["#738a98", "#9a8e67", "#636b95"]}
-              data={log.filter(
-                x =>
-                  (x.user_preference.activityId === 2) +
-                  (x.user_preference.activityId === 3) +
-                  (x.user_preference.activityId === 5)
-              )}
+              data={log
+                .filter(
+                  x =>
+                    (x.user_preference.activityId === 2) +
+                    (x.user_preference.activityId === 3) +
+                    (x.user_preference.activityId === 5)
+                )
+                .filter(entry => entry.completed_sessions > 0)}
               // data accessor for x values
               labels={({ datum }) =>
                 datum.completed_sessions * datum.user_preference.duration <
