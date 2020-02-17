@@ -14,7 +14,7 @@ re:mind is a desktop workplace wellness app that gives you notifications to:
 
 <image alt="main page" src="./readmeImages/main.png" width="300px">
 
-This project was built using [Electron](https://www.electronjs.org), a framework that allows you to create desktop applications with web technologies. Other technologies include React.js, Redux.js, and HTML/CSS.
+This project was built using [Electron](https://www.electronjs.org), a framework that allows you to create desktop applications with web technologies. Other technologies include React.js, Redux.js, and HTML/CSS. Re:mind server was built with Express.js and PostgreSQL.
 
 ## Features
 
@@ -34,9 +34,13 @@ This project was built using [Electron](https://www.electronjs.org), a framework
 
 <image alt="dashboard" src="./readmeImages/dashboard.png" width="300px">
 
-## Installation and Setup Instructions
+## Download And Installation
 
-**Note: To run this app, you must also clone and follow the installation instructions for [re:mind server](https://github.com/1911-capstone-re-mind/re-mind-server)**
+Please go [here](https://drive.google.com/drive/u/0/folders/1xe70x3y9t4lIF8oBOLPZfPCGqrMJmhoC) to download the appropriate installer for your machine. Once it is downloaded, open the file and follow the directions.
+
+## Running From Source
+
+**Note: This will run re:mind client. If you would like to run re:mind server as well, you must also clone and follow the installation instructions for [re:mind server](https://github.com/1911-capstone-re-mind/re-mind-server). You must also change the URL of the api routes on re:mind client to match the port you are running re:mind server on.**
 
 Clone this repository. You must have node and npm installed globally on your machine.
 
@@ -51,9 +55,3 @@ Start application:
 ## Project Information
 
 This was a two and a half week capstone project for four students at [Fullstack Academy](https://www.fullstackacademy.com) in Chicago. The goal of this project was to challenge ourselves creating an ambitious application using the skills we have learned so far.
-
-This project allowed us to utilize our skills in the web technologies we learned and apply them in a new way. Since operating systems can have many multiple processes unlike a web application, careful design of the application architexture was very important from the beginning. We had to make sure that the many different components of our application communicated together in a reliable way. We also had the opportunity to use the resources of our machine's operating system to store files and send notifications to the user.
-
-Communication between difference processes was one of the most difficult challenges fo this project. Since we created timers to keep track of reminders and allowed user input, we had to carefully come up with a fail-safe design for the application to prevent race conditions and unexpected behaviors.
-
-Another challenge we faced was splitting up the client and server into different locations (desktop client and remote server). Since the two were not served from the same location, we had to think about how to configure the server endpoints and client requests to ensure reliable communication.
