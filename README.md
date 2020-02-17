@@ -40,7 +40,7 @@ Please go [here](https://drive.google.com/drive/u/0/folders/1xe70x3y9t4lIF8oBOLP
 
 ## Running From Source
 
-**Note: This will run re:mind client. If you would like to run re:mind server as well, you must also clone and follow the installation instructions for [re:mind server](https://github.com/1911-capstone-re-mind/re-mind-server). You must also change the URL of the api routes on re:mind client to match the port you are running re:mind server on**
+**Note: This will run re:mind client. If you would like to run re:mind server as well, you must also clone and follow the installation instructions for [re:mind server](https://github.com/1911-capstone-re-mind/re-mind-server). You must also change the URL of the api routes on re:mind client to match the port you are running re:mind server on.**
 
 Clone this repository. You must have node and npm installed globally on your machine.
 
