@@ -23,6 +23,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "serialize-javascript": "3.0.0",
     "uuid": "3.4.0",
     "victory": "^34.0.1"
   },
