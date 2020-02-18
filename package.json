@@ -36,7 +36,7 @@
     "electron-start": "node src/start-react",
     "react-start": "BROWSER=none react-scripts start",
     "pack": "build --dir",
-    "dist": "yarn build && electron-builder",
+    "dist": "yarn build && electron-builder -mw",
     "postinstall": "install-app-deps"
   },
   "build": {
