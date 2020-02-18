@@ -1,7 +1,7 @@
 import axios from "axios";
 import { saveLog } from "../../dataToMainProcess";
 
-const { ipcRenderer } = window.require("electron");
+const { ipcRenderer } = require("electron");
 
 // action types
 const GET_LOG = "GET_LOG";
