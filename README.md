@@ -1,6 +1,6 @@
 # Welcome to re:mind - your workplace wellness app
 
-**Note: This project must run with re:mind server (https://github.com/1911-capstone-re-mind/re-mind-server)**
+**Note: This project was built with re:mind server (https://github.com/1911-capstone-re-mind/re-mind-server)**
 
 ## re:minders to stay healthy
 
