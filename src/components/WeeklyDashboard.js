@@ -48,7 +48,18 @@ class WeeklyDashboard extends React.Component {
       if (!this[id]) sessionLog.push((this[id] = obj));
       else this[id].completed_sessions += obj.completed_sessions;
     }, Object.create(null));
-    console.log("sessionLog", sessionLog);
+    const sortSessions = sessionLog.sort(function(a, b) {
+      const dateA = a.date;
+      const dateB = b.date;
+      let comparison = 0;
+      if (dateA > dateB) {
+        comparison = 1;
+      } else if (dateA < dateB) {
+        comparison = -1;
+      }
+      return comparison;
+    });
+    console.log("sessionLog", sortSessions);
 
     let totals = [];
     log.map(function(entry) {
@@ -94,7 +105,9 @@ class WeeklyDashboard extends React.Component {
               <VictoryBar
                 style={{ data: { fill: "#ba7b64" } }}
                 data={sessionLog}
-                x={data => `${data.month}/${data.date}`}
+                x={data => {
+                  return `${data.month}/${data.date}`;
+                }}
                 // data accessor for y values
                 y={"completed_sessions"}
               />
@@ -111,7 +124,7 @@ class WeeklyDashboard extends React.Component {
             <VictoryPie
               style={{ labels: { fill: "#c9c4c4", fontFamily: "Avenir" } }}
               colorScale={["#738a98", "#9a8e67", "#636b95"]}
-              data={totals}
+              data={totals.filter(entry => entry.completed_sessions > 0)}
               // data accessor for x values
               labels={({ datum }) =>
                 datum.duration * datum.completed_sessions < 60000
