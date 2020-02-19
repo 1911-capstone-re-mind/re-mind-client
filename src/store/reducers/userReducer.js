@@ -2,7 +2,7 @@ import axios from "axios";
 import history from "../../history";
 import { clearTimer } from "../../dataToMainProcess";
 import store from '../index'
-const { ipcRenderer } = window.require('electron')
+const { ipcRenderer } = require('electron')
 
 // action types
 const GET_USER = "GET_USER";

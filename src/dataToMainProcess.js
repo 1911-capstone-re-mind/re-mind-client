@@ -1,6 +1,6 @@
 //functions and set up for communicating from render process to main process
 
-const { ipcRenderer } = window.require("electron");
+const { ipcRenderer } = require("electron");
 
 //change user notificaition settings
 export const sendSettingsToMain = settings => {
