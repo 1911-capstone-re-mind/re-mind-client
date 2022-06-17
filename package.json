@@ -9,7 +9,7 @@
     "axios": "^0.19.2",
     "cors": "^2.8.5",
     "date-fns": "2.9.0",
-    "electron": "^7.1.10",
+    "electron": "^15.5.5",
     "electron-store": "5.1.0",
     "foreman": "^3.0.1",
     "history": "^4.10.1",
